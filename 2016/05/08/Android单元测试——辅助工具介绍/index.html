@@ -94,7 +94,7 @@
     </p>
   <p class="article-time">
     <time datetime="2016-05-08T13:30:31.000Z" itemprop="datePublished">2016-05-08</time>
-    Update date:<time datetime="2016-05-08T13:47:20.392Z" itemprop="dateModified">2016-05-08</time>
+    更新日期:<time datetime="2016-05-08T14:08:32.638Z" itemprop="dateModified">2016-05-08</time>
     
   </p>
 </header>
@@ -128,32 +128,32 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apply plugin : &apos;com.android.application&apos;</span><br><span class="line">apply plugin: &apos;jacoco&apos;</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">buildTypes &#123;</span><br><span class="line">    release &#123;</span><br><span class="line">        minifyEnabled false</span><br><span class="line">        proguardFiles getDefaultProguardFile (&apos;proguard-android.txt&apos; ), &apos;proguard-rules.pro&apos;</span><br><span class="line">    &#125;</span><br><span class="line">    debug &#123;</span><br><span class="line">        testCoverageEnabled true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>添加完代码之后，打开右侧的Gradle面板运行connectedAndroidTest任务（1）， 或在Terminal控制台输入 gradlew connectedAndroidTest，回车（2）</p>
-<p><img src="file:///F:/单元测试/截图/1Gradle面板方式运行.png" alt="Gradle面板方式运行"><br>（1）Gradle面板方式运行  </p>
-<p><img src="file:///F:/单元测试/截图/2Terminal控制台方式运行.png" alt="Terminal控制台方式运行"><br>（2）Terminal控制台方式运行</p>
-<p>在\app\build\reports\androidTests\connected\index.html：<br><img src="file:///F:/单元测试/截图/3androidTest测试报告.png" alt="androidTest测试报告"></p>
-<p>在\app\build\reports\coverage\debug \index.html：<br><img src="file:///F:/单元测试/截图/4androidTest覆盖率报告.png" alt="androidTest覆盖率报告"></p>
+<p><img src="file:imgs/Android单元测试——辅助工具介绍/1Gradle面板方式运行.png" alt="Gradle面板方式运行"><br>（1）Gradle面板方式运行  </p>
+<p><img src="file:imgs/Android单元测试——辅助工具介绍/2Terminal控制台方式运行.png" alt="Terminal控制台方式运行"><br>（2）Terminal控制台方式运行</p>
+<p>在\app\build\reports\androidTests\connected\index.html：<br><img src="file:imgs/Android单元测试——辅助工具介绍/3androidTest测试报告.png" alt="androidTest测试报告"></p>
+<p>在\app\build\reports\coverage\debug \index.html：<br><img src="file:imgs/Android单元测试——辅助工具介绍/4androidTest覆盖率报告.png" alt="androidTest覆盖率报告"></p>
 <p>androidTest包下未添加测试案例，所以Test Summary测试条数为0，覆盖率也都为0。可自行添加案例测试</p>
 <ul>
 <li><strong>对于test包下，如果使用jacoco生成覆盖率将会麻烦一点点</strong></li>
 </ul>
 <p>需要在gradle中自定义task,代码如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">task jacocoTestReport( type : JacocoReport, dependsOn : &quot;testDebugUnitTest&quot;) &#123;</span><br><span class="line">    group = &quot;Reporting&quot;</span><br><span class="line"></span><br><span class="line">    description = &quot;Generate Jacoco coverage reports&quot;</span><br><span class="line"></span><br><span class="line">    // exclude auto-generated classes and tests</span><br><span class="line">    def fileFilter = [ &apos;**/R.class&apos;, &apos;**/R$*.class&apos; ,</span><br><span class="line">                      &apos;**/BuildConfig.*&apos; , &apos;**/Manifest*.*&apos; ,</span><br><span class="line">                      &apos;android/**/*.*&apos; ]</span><br><span class="line">    def debugTree = fileTree( dir:</span><br><span class="line">            &quot; $&#123; project. buildDir &#125;/intermediates/classes/debug&quot; ,</span><br><span class="line">            excludes : fileFilter)</span><br><span class="line">    def mainSrc = &quot;$&#123; project .projectDir &#125; /src/main/java&quot;</span><br><span class="line"></span><br><span class="line">    sourceDirectories = files([mainSrc])</span><br><span class="line">    classDirectories = files([debugTree])</span><br><span class="line">    additionalSourceDirs = files([</span><br><span class="line">            &quot; $&#123; buildDir&#125; /generated/source/buildConfig/debug&quot; ,</span><br><span class="line">            &quot; $&#123; buildDir&#125; /generated/source/r/debug&quot;</span><br><span class="line">    ])</span><br><span class="line">    executionData = fileTree( dir: project .projectDir , includes:</span><br><span class="line">            [&apos;**/*.exec&apos; , &apos;**/*.ec&apos;])</span><br><span class="line"></span><br><span class="line">    reports &#123;</span><br><span class="line">        xml . enabled = true</span><br><span class="line">        xml . destination = &quot; $&#123;buildDir &#125; /jacocoTestReport.xml&quot;</span><br><span class="line">        csv . enabled = false</span><br><span class="line">        html . enabled = true</span><br><span class="line">        html . destination = &quot; $&#123;buildDir &#125; /reports/jacoco&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>添加task之后在右侧gradle面板中会发现，多了jacocoTestReport任务：<br><img src="file:///F:/单元测试/截图/5jacocoTask.png" alt="jacocoTask"></p>
-<p>在\app\build\reports\tests\debug\index.html：<br><img src="file:///F:/单元测试/截图/6test报告.png" alt="test报告"></p>
-<p>在\app\build\reports\jacoco\index.html：<br><img src="file:///F:/单元测试/截图/7覆盖率报告.png" alt="test覆盖率报告"></p>
+<p>添加task之后在右侧gradle面板中会发现，多了jacocoTestReport任务：<br><img src="file:imgs/Android单元测试——辅助工具介绍/5jacocoTask.png" alt="jacocoTask"></p>
+<p>在\app\build\reports\tests\debug\index.html：<br><img src="file:imgs/Android单元测试——辅助工具介绍/6test报告.png" alt="test报告"></p>
+<p>在\app\build\reports\jacoco\index.html：<br><img src="file:imgs/Android单元测试——辅助工具介绍/7覆盖率报告.png" alt="test覆盖率报告"></p>
 <font color="#EE6AA7"><strong>那么问题来了：<font color="#1C86EE">如果同时编写了androidTest与test单元测试代码，能否使用jacoco生成一份综合的代码覆盖率测试报告呢？</font>此处应有思考。</strong></font>
 
-<p>####IntelliJ IDEA：<br>目前，只有test才支持此方式，操作步骤请看下图:<br><img src="file:///F:/单元测试/截图/8控制台运行方式.png" alt="test控制台运行方式"><br>Tracing模式会增加消耗,但测量会更精确，但一般使用Sampling就足够。</p>
-<p>生成报告：<br><img src="file:///F:/单元测试/截图/9test控制台运行结果.png" alt="test控制台运行结果"></p>
+<p>####IntelliJ IDEA：<br>目前，只有test才支持此方式，操作步骤请看下图:<br><img src="file:imgs/Android单元测试——辅助工具介绍/8控制台运行方式.png" alt="test控制台运行方式"><br>Tracing模式会增加消耗,但测量会更精确，但一般使用Sampling就足够。</p>
+<p>生成报告：<br><img src="file:imgs/Android单元测试——辅助工具介绍/9test控制台运行结果.png" alt="test控制台运行结果"></p>
 <hr>
 <font color="#EE6AA7"><strong>jacoco 与 IntelliJ IDEA:</strong></font>
 
 <p>两者各有优缺点，最明显的不同是，jacoco生成的是html报告，如果使用Jenkins自动构建测试，应该使用jacoco；而 IntelliJ IDEA,其实也是采用jacoco检测覆盖率的，但其在面板中显示，较为直观，推荐在编写调试案例时使用。分不同情况使用不同的覆盖率工具，两者可以相互取长补短。</p>
 <hr>
 <p>###<span id="jump2"><font color="#1C86EE">二.静态代码检测工具：FindBugs</font></span><br> <strong>what：</strong>静态代码分析是指无需运行被测代码，仅通过分析或检查源程序的语法、结构、过程、接口等来检查程序的正确性，找出代码隐藏的错误和缺陷，如参数不匹配，有歧义的嵌套语句，错误的递归，非法计算，可能出现的空指针引用等等。</p>
-<p><strong>安装</strong>：AndroidStudio-&gt;Settigns-&gt;Plugins-&gt;Browse repositories-&gt;search “findBUgs-IDEA” 安装重启AndroidStudio即可。<br><img src="file:///F:/单元测试/截图/11findBugs安装.png" alt="findBugs安装"></p>
-<p>安装完之后，工程右键选择&gt;FindBugs&gt;Analyze Module Files，即可开始检测代码。<br><img src="file:///F:/单元测试/截图/12findBugs代码检测.png" alt="findBugs代码检测"></p>
-<p>若部分错误不想扫描，可右键工程-&gt;Open Module Settings里设置：<br><img src="file:///F:/单元测试/截图/13findBugs筛选、.png" alt="findBugs筛选"></p>
+<p><strong>安装</strong>：AndroidStudio-&gt;Settigns-&gt;Plugins-&gt;Browse repositories-&gt;search “findBUgs-IDEA” 安装重启AndroidStudio即可。<br><img src="file:imgs/Android单元测试——辅助工具介绍/11findBugs安装.png" alt="findBugs安装"></p>
+<p>安装完之后，工程右键选择&gt;FindBugs&gt;Analyze Module Files，即可开始检测代码。<br><img src="file:imgs/Android单元测试——辅助工具介绍/12findBugs代码检测.png" alt="findBugs代码检测"></p>
+<p>若部分错误不想扫描，可右键工程-&gt;Open Module Settings里设置：<br><img src="file:imgs/Android单元测试——辅助工具介绍/13findBugs筛选、.png" alt="findBugs筛选"></p>
 <p><strong>扫描结果分析：</strong><br>该工程扫描出两种类型的错误Bad practice（坏的实践：不建议的写法，建议修改为约定俗成的写法）和Dodgy Code(危险代码： 具有潜在危险的代码，可能运行期产生错误)，并给出了详细的说明。此工程的代码量较少，且编码风格也较好，所以查出来的bug较少，FindBugs关于FindBugs更多信息，可查看<a href="http://www.myexception.cn/database/1920915.html" target="_blank" rel="external"><strong>一些你不知道的事，findbugs的配置跟使用</strong></a>。</p>
 <p><font color="#EE6AA7"><strong>需要注意的是，</strong></font>虽然FindBugs能够对代码进行静态检测，但并不是FindBugs查找出来的bug就一定存在问题，也并不是所有潜在的bug，FidBugs都能查找出来，还需要开发者结合具体代码进行判断。</p>
 <p><a href="http://qa.blog.163.com/blog/static/190147002201342382422899/" target="_blank" rel="external"><strong>为啥不用静态代码检查工具呢?</strong></a> 静态代码检查从入门到放弃。</p>
@@ -164,7 +164,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class ErrorRule implements MethodRule &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public Statement apply( final Statement base, final FrameworkMethod method , Object target) &#123;</span><br><span class="line">        return new Statement() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void evaluate () throws Throwable &#123;</span><br><span class="line">                /***starting(method);***/</span><br><span class="line">                ShadowLog. stream = System. out ;//此处是使用Robolectric框架的方法，将该测试案例的log输出到控制台，方便查看log</span><br><span class="line">                try &#123;</span><br><span class="line">                    base.evaluate() ;</span><br><span class="line">                    /***succeeded(method);***/</span><br><span class="line">                &#125; catch (Throwable t) &#123;</span><br><span class="line">                    /***failed(t, method);***/</span><br><span class="line">                    try &#123;</span><br><span class="line">                        System. err .print(&quot;@&quot; + method.getName() + &quot;---&gt;&quot; + method .getAnnotation(Purpose . class).desc()) ;</span><br><span class="line">                    &#125; catch (NullPointerException e) &#123;</span><br><span class="line"></span><br><span class="line">                    &#125; finally &#123;</span><br><span class="line"></span><br><span class="line">                        throw t;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                &#125; finally &#123;</span><br><span class="line">                    /***finished(method);***/</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>3).在测试类中调用Purpose、ErrorRule</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@RunWith (RobolectricGradleTestRunner. class)</span><br><span class="line">@Config (constants = BuildConfig. class)</span><br><span class="line">public class MainActivityTest &#123;</span><br><span class="line"></span><br><span class="line">    @Rule</span><br><span class="line">    public ErrorRule rule = new ErrorRule();</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    @Purpose( desc = &quot;when onCreate, the menu shoule be &apos;First menu item&apos; and &apos;Second menu item&apos;. &quot;)</span><br><span class="line">    public void onCreateShouldInflateTheMenu () &#123;</span><br><span class="line">        Activity activity = Robolectric. setupActivity(MainActivity. class) ;</span><br><span class="line"></span><br><span class="line">        final Menu menu = shadowOf(activity).getOptionsMenu() ;</span><br><span class="line">        assertEquals(menu.findItem(R.id. item1).getTitle() , &quot;first menu item&quot;) ;</span><br><span class="line">        assertEquals(menu.findItem(R.id. item2).getTitle() , &quot;Second menu item&quot;) ;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>4).运行结果：<br><img src="file:///F:/单元测试/截图/运行结果.png" alt="运行结果" title="运行结果"></p>
+<p>4).运行结果：<br><img src="file:imgs/Android单元测试——辅助工具介绍/运行结果.png" alt="运行结果" title="运行结果"></p>
 
     </div>
     <footer>
@@ -177,7 +177,7 @@
         
   
   <div class="tags">
-    <a href="/tags/单元测试-android/">单元测试 android</a>
+    <a href="/tags/单元测试/">单元测试</a>, <a href="/tags/android/">android</a>
   </div>
 
 		<div class="bdsharebuttonbox">
@@ -257,14 +257,14 @@ with(document)0[
     <aside id="sidebar" class="alignright">
   <div class="search">
   <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="search" name="q" results="0" placeholder="搜索">
     <input type="hidden" name="q" value="site:yoursite.com">
   </form>
 </div>
 
   
 <div class="widget tag">
-  <h3 class="title">Categories</h3>
+  <h3 class="title">分类</h3>
   <ul class="entry">
   
     <li><a href="/categories/白盒测试/">白盒测试</a><small>1</small></li>
@@ -277,9 +277,9 @@ with(document)0[
 
   
 <div class="widget tagcloud">
-  <h3 class="title">Tag Cloud</h3>
+  <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/单元测试-android/" style="font-size: 10px;">单元测试 android</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a>
+    <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/单元测试/" style="font-size: 10px;">单元测试</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a>
   </div>
 </div>
 
