@@ -15,16 +15,18 @@
 	})();
 	</script>
   
-  <title>程序媛妹妹的编程之路 | You&#39;s blog</title>
+  <title>Android客户端如何规避服务端数据格式错误导致的crash问题 | You&#39;s blog</title>
   <meta name="author" content="yoyo_zyx">
   
-  <meta name="description" content="吖喔是一名毕业半年多的测试开发工程师，迄今已工作一年多，均在同一家公司。作为一名程序媛，免不了与互联网打交道，也因此见识到了很多程序世界的佼佼者，但基本性别男。受到很多程序猿哥哥的启发，吖喔决定开始写写程序媛妹妹眼中的代码世界，希望对同行女性朋友有所帮助，也欢迎男性朋友拍砖。    
-处女作，想和大">
+  <meta name="description" content="一、背景
+场景如下：应用新增了一个功能，升级了版本，客户端静默升级后，从桌面打开应用竟然出现了直接闪退、奔溃的现象！
+测试：不能忍，无论如何，这是不允许存在的现象，怎么可以出现如此严重的bug！
+服务端开发：这是由于新增的数据字段，没有被赋予正确格式的原因导致，测试只要在服务端推送数据时修改为正确的">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="程序媛妹妹的编程之路"/>
+  <meta property="og:title" content="Android客户端如何规避服务端数据格式错误导致的crash问题"/>
   <meta property="og:site_name" content="You&#39;s blog"/>
 
   
@@ -82,40 +84,68 @@
   <div class="post-content">
     <header class="article-info clearfix">
   <h1 itemprop="name">
-	程序媛妹妹的编程之路
+	Android客户端如何规避服务端数据格式错误导致的crash问题
   </h1>
   <p class="article-author">By
     
       <a href="http://yoursite.com" title="yoyo_zyx">yoyo_zyx</a>
     </p>
   <p class="article-time">
-    <time datetime="2016-03-03T15:37:54.000Z" itemprop="datePublished">2016-03-03</time>
-    更新日期:<time datetime="2016-05-08T13:36:17.671Z" itemprop="dateModified">2016-05-08</time>
+    <time datetime="2016-09-03T07:57:39.000Z" itemprop="datePublished">2016-09-03</time>
+    更新日期:<time datetime="2016-09-03T08:26:54.706Z" itemprop="dateModified">2016-09-03</time>
     
   </p>
 </header>
     <div class="entry">
 		
-        <p>吖喔是一名毕业半年多的测试开发工程师，迄今已工作一年多，均在同一家公司。作为一名程序媛，免不了与互联网打交道，也因此见识到了很多程序世界的佼佼者，但基本性别男。受到很多程序猿哥哥的启发，吖喔决定开始写写程序媛妹妹眼中的代码世界，希望对同行女性朋友有所帮助，也欢迎男性朋友拍砖。    </p>
-<p>处女作，想和大家简单地聊聊我的<strong>编程之路</strong>。    </p>
-<p><strong>为什么选择“软件工程”作为本科专业？</strong><br>或许和现在的很多女同学不同，2011年6月，吖喔参加了高考，传说中在考场上发生的事情真真实实地发生在吖喔身上了——华丽丽地在考场上晕倒了。尴尬的分数，加上志愿没填好，就这样迎来了与软件工程的四年Dating。最开始，我是拒绝的。听说这个专业很难，而且没什么女生读，更没有多少学得好的女生。  </p>
-<p><strong>有没想过转专业？</strong><br>大学转专业，除非你有钱有势，不然就只能凭实力。吖喔那时想，前者是天生的，而当我属于后者的时候，我估计会喜欢上这个专业吧，怎么舍得离开呢？so,我接受了命运的安排，或许这就是最好的安排。  </p>
-<p><strong>什么时候开始编程的，起步难不难？</strong><br>可以说，吖喔大学前两年都是在挣扎中度过的。那时，看到那么多师兄师姐都从事非本专业的工作，我想我也会是那样子的。对于本专业，只带着凭实力不挂的心。什么C语言、C++、Java、汇编……听说有点难啊，对于女生来说，那更是难上加难。然后，我就相信了。几乎没有怎么认真实践过，编程作业经常都是绞尽脑汁还是做不出来。从大三开始，慢慢地有一些团队合作的课程，吖喔再也不是一个人了（不要问我，不是人是什么）。本着不坑队友的原则，吖喔从此踏上编程的不归路。最开始，真的连做梦都在思考着，这个程序要如何编写。带着排斥心理，怀着对代码的敬畏之心，只能说，编程真的好难啊，臣妾做不到。    </p>
-<p><strong>目前的主要工作是什么？</strong><br>主要从Android自动化测试，包括编写不同类型的自动化测试脚本，如基本功能、多语言、多语言翻译；编写一些简单的apk测试工具，如，流量统计工具、实现手机间互打电话发短信等交互的通信工具、WiFi上传下载速率、蓝牙工具……</p>
-<p><strong>想对准备报考或者正在学习软件工程专业的师弟师妹们说些什么？</strong><br>这是一篇迟到了半年多的文章，在毕业之际，便有同学邀请我写一篇文章聊一聊我的大学，那时工作较忙，同时写文章对于程序员来说，一直都是软肋，也就拖到了现在。工作了一年多，越来越发现，编程并没有想象得那么难，反而很有趣。也发现，一切的兴趣源于成就感。只有真正地去了解，才知道编程到底难不难。我想，如果当初上大学之前，要是有一个前辈告诉我，编程是如何地有趣，将不可能变成可能，甚至我们可能改变生活，改变世界；而不是从网上搜索关键字“软件工程”，然后得到的结果就是，软件工程很难，学起来很辛苦，太累了，女生不适合编程……那么，我想我会在一开始就认真学习，编写更多的程序，赢在起跑线上，而不是一直都在挣扎。</p>
+        <p><strong>一、背景</strong></p>
+<p>场景如下：<br>应用新增了一个功能，升级了版本，客户端静默升级后，从桌面打开应用竟然出现了直接闪退、奔溃的现象！</p>
+<p>测试：不能忍，无论如何，这是不允许存在的现象，怎么可以出现如此严重的bug！</p>
+<p>服务端开发：这是由于新增的数据字段，没有被赋予正确格式的原因导致，测试只要在服务端推送数据时修改为正确的格式即可解决。</p>
+<p>测试：服务端并没有约定说一定要填入那种格式的数据，我填入“非法数据”时，并没有被拒绝。我不管你们是怎么实现的，总之，不应该在引入新功能的时候发生如此严重的必现bug。</p>
+<p>服务端开发：那在客户端那边加个try catch，规避这种crash的严重问题。</p>
+<p>客户端开发：客户端不像服务端，不是所有的问题都是用try catch来解决就可以了，加try catch严重影响了效率问题。就不能在服务端那边控制一下，只传特定格式的数据吗？</p>
+<p><strong>二、分析</strong></p>
+<p>服务端发送给客户端的数据，由于不是指定格式的数据，导致客户端解析时出现问题，导致应用奔溃。<br>测试认为服务端传入的数据应该可以是任意的，而客户端必须要有容错机制，一定不能出现这种严重的crash问题。<br>而服务端为什么不控制一下，数据只能设置为指定格式数据，否则弹出非法数据警告提示呢？对服务端理解尚浅，不理解其中的原理，暂且就认为这是有一定道理的吧。<br>那么，我们就来探讨一下，如何从客户端出发，添加数据的容错机制吧。</p>
+<p>前面开发建议，添加try catch，若接收到的数据为非法数据，则返回默认值。的确，这是解决问题的一种方案，至少，它能确保，不会因为数据格式问题导致crash的不能忍问题。<br>然而，try catch却要付出时间的代价。若代码中大量使用try catch来解决问题，一是代码不够简洁，二是若数据格式确实是非法的，则增加时间消耗。</p>
+<p> 为什么不考虑在做数据格式转换之前，先做一个数据格式检查，若为指定格式才对数据进行转换呢？这样一来，至少在代码简洁度上是更加有保障的。</p>
+<p>为了对比以上两种方法的效率问题，我们用数据说话！</p>
+<p><strong>三、论证</strong></p>
+<p><strong>1. 目的：</strong></p>
+<p>对比try catch机制与先检查格式再转换的执行效率</p>
+<p><strong>2. 准备：</strong></p>
+<p>A. 利用junit单元测试来测试代码块的执行时间，由于代码的执行都是闪速的，而junit测试也包含了一些初始化的准备时间，为了更加精确地统计代码的执行时间，采用循环100次取平均值及纳秒级别的时间差来做测试。<br>B. 从所在项目的情况来看，最主要问题存在于转化为long型时出错上，下一步的案例均基于long型数据的转化来设计，且基本上为项目中常用到的一些情况进行对比。</p>
+<p><strong>3. 测试案例编写：</strong></p>
+<p>A. 直接得到的非法字符串转化为long型</p>
+<p><img src="/imgs/Android规避crash问题/1.jpg" alt="非法字符串强制转换"></p>
+<p>B. 从SharedPrefrence中获取字段非long型强制转化为long型</p>
+<p><img src="/imgs/Android规避crash问题/2.jpg" alt="获取字段后强制转换"></p>
+<p>C. 直接得到的纯数字String转化为long型</p>
+<p><img src="/imgs/Android规避crash问题/3.jpg" alt="纯数字转换"></p>
+<p><strong>4. 结果对比：</strong></p>
+<p>将上步中的案例执行多次，进行耗时对比，为避免偶然性，进行了多次比较，以下随机截取了5次执行结果：从结果可以看出，虽然每次的执行耗时都略有不同，但相同的是：不管是在正确格式情况下还是非法数据强制转化，tryCatch的耗时都比通过正则表达式先判断数据格式再转换，平均多耗时1ms左右（执行100次的情况下），即执行1次约多耗时0.01ms                                                                              </p>
+<p><img src="/imgs/Android规避crash问题/4.jpg" alt="结果1"></p>
+<p><img src="/imgs/Android规避crash问题/5.jpg" alt="结果2"></p>
+<p><img src="/imgs/Android规避crash问题/6.jpg" alt="结果3"></p>
+<p><img src="/imgs/Android规避crash问题/7.jpg" alt="结果4"></p>
+<p><img src="/imgs/Android规避crash问题/8.jpg" alt="结果5"></p>
+<p><strong>四、结论</strong></p>
+<p>从第三部分的论证过程可以看出，先通过正则表达式判断后再做数据处理稍微比tryCatch方式高效率，虽然0.01ms是一个几乎可以忽略不计的时间，但编码是一种习惯、优秀也是一种习惯，不只是简单地用tryCatch来规避crash问题，而是找到问题的本质，并择优采取更合适的方式解决问题，这样不是更好吗？同时，尽可能避免tryCatch的使用，在一定程度上也能够提高代码的简洁度。</p>
+<p><strong>五、代码</strong></p>
+<p>文中涉及代码链接：<a href="https://github.com/AutoTestTools/UnitTest/blob/master/UnitPro/app/src/test/java/com/zyx/unitpro/TimeCostTest.java" target="_blank" rel="external">GitHub</a></p>
 
     </div>
     <footer>
         
   
   <div class="categories">
-    <a href="/categories/随笔/">随笔</a>
+    <a href="/categories/白盒测试/">白盒测试</a>
   </div>
 
         
   
   <div class="tags">
-    <a href="/tags/杂谈/">杂谈</a>
+    <a href="/tags/单元测试/">单元测试</a>, <a href="/tags/android/">android</a>
   </div>
 
 		<div class="bdsharebuttonbox">
@@ -163,8 +193,8 @@ with(document)0[
 
  <nav id="pagination" >
     
-    <a href="/2016/05/08/Android单元测试——辅助工具介绍/" class="alignleft prev" title="Android单元测试——辅助工具介绍">Android单元测试——辅助工具介绍</a>
     
+    <a href="/2016/05/08/Android单元测试——辅助工具介绍/" class="alignright next" title="Android单元测试——辅助工具介绍">Android单元测试——辅助工具介绍</a>
     
     <div class="clearfix"></div>
 </nav>
@@ -174,7 +204,7 @@ with(document)0[
 	
 	<section id="comment">
 		<!-- 多说评论框 start -->
-		<div class="ds-thread" data-thread-key="2016/03/03/程序媛妹妹的编程之路/" data-title="程序媛妹妹的编程之路" data-url="http://yoursite.com/2016/03/03/程序媛妹妹的编程之路/"></div>
+		<div class="ds-thread" data-thread-key="2016/09/03/Android客户端如何规避服务端数据格式错误导致的crash问题/" data-title="Android客户端如何规避服务端数据格式错误导致的crash问题" data-url="http://yoursite.com/2016/09/03/Android客户端如何规避服务端数据格式错误导致的crash问题/"></div>
 		<!-- 多说评论框 end -->
 		<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 		<script type="text/javascript">
