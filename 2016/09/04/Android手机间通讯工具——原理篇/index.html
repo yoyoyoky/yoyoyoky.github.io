@@ -15,18 +15,18 @@
 	})();
 	</script>
   
-  <title>Android客户端如何规避服务端数据格式错误导致的crash问题 | You&#39;s blog</title>
+  <title>Android手机间通讯工具——原理篇 | You&#39;s blog</title>
   <meta name="author" content="yoyo_zyx">
   
-  <meta name="description" content="一、背景
-场景如下：应用新增了一个功能，升级了版本，客户端静默升级后，从桌面打开应用竟然出现了直接闪退、奔溃的现象！
-测试：不能忍，无论如何，这是不允许存在的现象，怎么可以出现如此严重的bug！
-服务端开发：这是由于新增的数据字段，没有被赋予正确格式的原因导致，测试只要在服务端推送数据时修改为正确的">
+  <meta name="description" content="在移动端测试过程中，我们经常会涉及到设备间信息的传输，而在自动化测试热潮的席卷下，是否也有可能让设备之间的新消息交换实现自动化，进一步解放双手呢？
+当然，只有想不到的，没有做不到的。
+比如以下情景，你能想到多少种解决方案呢？
+手机A给手机B拨打了一个电话，要求手机B接收到电话时，求计算出从A拨出电话">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="Android客户端如何规避服务端数据格式错误导致的crash问题"/>
+  <meta property="og:title" content="Android手机间通讯工具——原理篇"/>
   <meta property="og:site_name" content="You&#39;s blog"/>
 
   
@@ -84,75 +84,66 @@
   <div class="post-content">
     <header class="article-info clearfix">
   <h1 itemprop="name">
-	Android客户端如何规避服务端数据格式错误导致的crash问题
+	Android手机间通讯工具——原理篇
   </h1>
   <p class="article-author">By
     
       <a href="http://yoursite.com" title="yoyo_zyx">yoyo_zyx</a>
     </p>
   <p class="article-time">
-    <time datetime="2016-09-03T07:57:39.000Z" itemprop="datePublished">2016-09-03</time>
-    更新日期:<time datetime="2016-09-03T08:53:29.647Z" itemprop="dateModified">2016-09-03</time>
+    <time datetime="2016-09-04T13:08:29.000Z" itemprop="datePublished">2016-09-04</time>
+    更新日期:<time datetime="2016-09-04T13:16:23.646Z" itemprop="dateModified">2016-09-04</time>
     
   </p>
 </header>
     <div class="entry">
 		
-        <p><strong>一、背景</strong></p>
-<p>场景如下：<br>应用新增了一个功能，升级了版本，客户端静默升级后，从桌面打开应用竟然出现了直接闪退、奔溃的现象！</p>
-<p>测试：不能忍，无论如何，这是不允许存在的现象，怎么可以出现如此严重的bug！</p>
-<p>服务端开发：这是由于新增的数据字段，没有被赋予正确格式的原因导致，测试只要在服务端推送数据时修改为正确的格式即可解决。</p>
-<p>测试：服务端并没有约定说一定要填入那种格式的数据，我填入“非法数据”时，并没有被拒绝。我不管你们是怎么实现的，总之，不应该在引入新功能的时候发生如此严重的必现bug。</p>
-<p>服务端开发：那在客户端那边加个try catch，规避这种crash的严重问题。</p>
-<p>客户端开发：客户端不像服务端，不是所有的问题都是用try catch来解决就可以了，加try catch严重影响了效率问题。就不能在服务端那边控制一下，只传特定格式的数据吗？</p>
-<p><strong>二、分析</strong></p>
-<p>服务端发送给客户端的数据，由于不是指定格式的数据，导致客户端解析时出现问题，导致应用奔溃。</p>
-<p>测试认为服务端传入的数据应该可以是任意的，而客户端必须要有容错机制，一定不能出现这种严重的crash问题。</p>
-<p>而服务端为什么不控制一下，数据只能设置为指定格式数据，否则弹出非法数据警告提示呢？对服务端理解尚浅，不理解其中的原理，暂且就认为这是有一定道理的吧。</p>
-<p>那么，我们就来探讨一下，如何从客户端出发，添加数据的容错机制吧。</p>
-<p>前面开发建议，添加try catch，若接收到的数据为非法数据，则返回默认值。的确，这是解决问题的一种方案，至少，它能确保，不会因为数据格式问题导致crash的不能忍问题。</p>
-<p>然而，try catch却要付出时间的代价。若代码中大量使用try catch来解决问题，一是代码不够简洁，二是若数据格式确实是非法的，则增加时间消耗。</p>
-<p> 为什么不考虑在做数据格式转换之前，先做一个数据格式检查，若为指定格式才对数据进行转换呢？这样一来，至少在代码简洁度上是更加有保障的。</p>
-<p>为了对比以上两种方法的效率问题，我们用数据说话！</p>
-<p><strong>三、论证</strong></p>
-<p><strong>1. 目的：</strong></p>
-<p>对比try catch机制与先检查格式再转换的执行效率</p>
-<p><strong>2. 准备：</strong></p>
-<p>A. 利用junit单元测试来测试代码块的执行时间，由于代码的执行都是闪速的，而junit测试也包含了一些初始化的准备时间，为了更加精确地统计代码的执行时间，采用循环100次取平均值及纳秒级别的时间差来做测试。</p>
-<p>B. 从所在项目的情况来看，最主要问题存在于转化为long型时出错上，下一步的案例均基于long型数据的转化来设计，且基本上为项目中常用到的一些情况进行对比。</p>
-<p><strong>3. 测试案例编写：</strong></p>
-<p>A. 直接得到的非法字符串转化为long型</p>
-<p><img src="/imgs/Android规避crash问题/1.jpg" alt="非法字符串强制转换"></p>
-<p>B. 从SharedPrefrence中获取字段非long型强制转化为long型</p>
-<p><img src="/imgs/Android规避crash问题/2.jpg" alt="获取字段后强制转换"></p>
-<p>C. 直接得到的纯数字String转化为long型</p>
-<p><img src="/imgs/Android规避crash问题/3.jpg" alt="纯数字转换"></p>
-<p><strong>4. 结果对比：</strong></p>
-<p>将上步中的案例执行多次，进行耗时对比，为避免偶然性，进行了多次比较，以下随机截取了5次执行结果：从结果可以看出，虽然每次的执行耗时都略有不同，但相同的是：不管是在正确格式情况下还是非法数据强制转化，tryCatch的耗时都比通过正则表达式先判断数据格式再转换，平均多耗时1ms左右（执行100次的情况下），即执行1次约多耗时0.01ms。</p>
-<p><img src="/imgs/Android规避crash问题/4.jpg" alt="结果1"></p>
-<p><img src="/imgs/Android规避crash问题/5.jpg" alt="结果2"></p>
-<p><img src="/imgs/Android规避crash问题/6.jpg" alt="结果3"></p>
-<p><img src="/imgs/Android规避crash问题/7.jpg" alt="结果4"></p>
-<p><img src="/imgs/Android规避crash问题/8.jpg" alt="结果5"></p>
-<p><strong>四、结论</strong></p>
-<p>从第三部分的论证过程可以看出，先通过正则表达式判断后再做数据处理稍微比tryCatch方式高效率，虽然0.01ms是一个几乎可以忽略不计的时间，但编码是一种习惯、优秀也是一种习惯，不只是简单地用tryCatch来规避crash问题，而是找到问题的本质，并择优采取更合适的方式解决问题，这样不是更好吗？同时，尽可能避免tryCatch的使用，在一定程度上也能够提高代码的简洁度。</p>
-<p><strong>五、代码</strong></p>
-<p>文中涉及代码链接：<a href="https://github.com/AutoTestTools/UnitTest/blob/master/UnitPro/app/src/test/java/com/zyx/unitpro/TimeCostTest.java" target="_blank" rel="external">GitHub</a></p>
+        <p>在移动端测试过程中，我们经常会涉及到设备间信息的传输，而在自动化测试热潮的席卷下，是否也有可能让设备之间的新消息交换实现自动化，进一步解放双手呢？</p>
+<p>当然，只有想不到的，没有做不到的。</p>
+<p>比如以下情景，你能想到多少种解决方案呢？</p>
+<p><strong>手机A给手机B拨打了一个电话，要求手机B接收到电话时，求计算出从A拨出电话到B接收到电话的时间延迟。</strong></p>
+<p><strong>方案一：</strong>人工检查，记录A拨打电话的时间T1，及B收到电话的时间T2，人工通过计算T1-T2得出结果。可精确到秒，精确度不高，且人力干预，成本最高。</p>
+<p><strong>方案二：</strong>自动化检查，A开启短信监听，A拨打电话时，自记录拨打时间T1；B接收到电话时，发送短信至A通知其已接收到电话的时间T2；A收到短信后提取时间T2，自动通过计算T1-T2得出结果。可精确到毫秒，但存在短信收发延时误差，且短信成本较高。</p>
+<p><strong>方案三：</strong>自动化检查，既然短信成本高，且经常存在延时误差，是否存在一种替代短信的方式呢？在QQ、微信等第三方社交应用风靡的当下，短信通讯早已逐渐被取代，这里当然也可以通过第三方应用来取代方案二中的短信通知。监听新消息的问题不大，开启Accessibility之后监听通知栏新消息的关键字即可（原理同微信红包助手）。但问题来了，测试前需要先登录账号，并互加好友都是必要条件。据了解，已存在的主流第三方社交应用，发送信息的API并没有开放，如果模拟人手操作，点开应用，找到对方账号，编写好信息内容，点击发送，这将又是一个不大简洁、便利的过程，且需要一定的耗时，影响结果准确性。</p>
+<p><strong>方案四：</strong>依然自动化检查，既然已有的第三方通讯工具调用都比较麻烦，我们是否能够编写自己的通讯工具呢？通过调用自定义的接口，实现信息传递，简化传递过程，减少信息发送过程的误差，增加结果准确性。答案当然是可以的。</p>
+<p>由以上四种递进方案中，可知<strong>方案四</strong>是最优的方案。那实现手机间通讯有什么方式呢？最主流的有 <strong>wifi</strong> 和 <strong>bluetooth</strong> 两种，这两种方式各有千秋，下面我们通过表格来对比两者的优缺点：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方式</th>
+<th style="text-align:center">精度</th>
+<th style="text-align:center">费用</th>
+<th style="text-align:center">稳定性</th>
+<th style="text-align:center">同时通讯设备数</th>
+<th style="text-align:center">服务端</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">wifi</td>
+<td style="text-align:center">ms</td>
+<td style="text-align:center">较低</td>
+<td style="text-align:center">较稳定</td>
+<td style="text-align:center">n</td>
+<td style="text-align:center">独立服务器</td>
+</tr>
+<tr>
+<td style="text-align:center">bluetooth</td>
+<td style="text-align:center">ms</td>
+<td style="text-align:center">免费</td>
+<td style="text-align:center">很稳定</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">客户端本身</td>
+</tr>
+</tbody>
+</table>
+<p>由上表可知，wifi最大的优点是支持多台设备同时通讯；而bluetooth相对于wifi，不需要付流量费，本身既可以当客户端又可以当服务端使用，无需额外的服务器，且连接非常稳定，几乎不会无故掉线；而wifi通讯则受网络稳定性影响较大。综上所述，若同时通讯设备数≥3，则只能选择wifi方式，其他情况选择bluetooth方式较为明智。</p>
+<p>本文仅先介绍Android手机间通讯工具的实现原理，源码可到<a href="https://github.com/AutoTestTools/IAMP" target="_blank" rel="external">GitHub</a>上获取，后续将增加源码解析篇，敬请期待。</p>
 
     </div>
     <footer>
         
-  
-  <div class="categories">
-    <a href="/categories/白盒测试/">白盒测试</a>
-  </div>
-
         
-  
-  <div class="tags">
-    <a href="/tags/单元测试/">单元测试</a>, <a href="/tags/android/">android</a>
-  </div>
-
 		<div class="bdsharebuttonbox">
 	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
 	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
@@ -198,10 +189,8 @@ with(document)0[
 
  <nav id="pagination" >
     
-    <a href="/2016/09/04/Android手机间通讯工具——原理篇/" class="alignleft prev" title="Android手机间通讯工具——原理篇">Android手机间通讯工具——原理篇</a>
     
-    
-    <a href="/2016/05/08/Android单元测试——辅助工具介绍/" class="alignright next" title="Android单元测试——辅助工具介绍">Android单元测试——辅助工具介绍</a>
+    <a href="/2016/09/03/Android客户端如何规避服务端数据格式错误导致的crash问题/" class="alignright next" title="Android客户端如何规避服务端数据格式错误导致的crash问题">Android客户端如何规避服务端数据格式错误导致的crash问题</a>
     
     <div class="clearfix"></div>
 </nav>
@@ -211,7 +200,7 @@ with(document)0[
 	
 	<section id="comment">
 		<!-- 多说评论框 start -->
-		<div class="ds-thread" data-thread-key="2016/09/03/Android客户端如何规避服务端数据格式错误导致的crash问题/" data-title="Android客户端如何规避服务端数据格式错误导致的crash问题" data-url="http://yoursite.com/2016/09/03/Android客户端如何规避服务端数据格式错误导致的crash问题/"></div>
+		<div class="ds-thread" data-thread-key="2016/09/04/Android手机间通讯工具——原理篇/" data-title="Android手机间通讯工具——原理篇" data-url="http://yoursite.com/2016/09/04/Android手机间通讯工具——原理篇/"></div>
 		<!-- 多说评论框 end -->
 		<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 		<script type="text/javascript">
