@@ -92,7 +92,7 @@
     </p>
   <p class="article-time">
     <time datetime="2016-09-04T13:08:29.000Z" itemprop="datePublished">2016-09-04</time>
-    更新日期:<time datetime="2016-09-04T13:29:23.775Z" itemprop="dateModified">2016-09-04</time>
+    Update date:<time datetime="2016-09-04T13:52:41.147Z" itemprop="dateModified">2016-09-04</time>
     
   </p>
 </header>
@@ -107,6 +107,7 @@
 <p><strong>方案三：</strong>自动化检查，既然短信成本高，且经常存在延时误差，是否存在一种替代短信的方式呢？在QQ、微信等第三方社交应用风靡的当下，短信通讯早已逐渐被取代，这里当然也可以通过第三方应用来取代方案二中的短信通知。监听新消息的问题不大，开启Accessibility之后监听通知栏新消息的关键字即可（原理同微信红包助手）。但问题来了，测试前需要先登录账号，并互加好友都是必要条件。据了解，已存在的主流第三方社交应用，发送信息的API并没有开放，如果模拟人手操作，点开应用，找到对方账号，编写好信息内容，点击发送，这将又是一个不大简洁、便利的过程，且需要一定的耗时，影响结果准确性。</p>
 <p><strong>方案四：</strong>依然自动化检查，既然已有的第三方通讯工具调用都比较麻烦，我们是否能够编写自己的通讯工具呢？通过调用自定义的接口，实现信息传递，简化传递过程，减少信息发送过程的误差，增加结果准确性。答案当然是可以的。</p>
 <p>由以上四种递进方案中，可知<strong>方案四</strong>是最优的方案。那实现手机间通讯有什么方式呢？最主流的有 <strong>wifi</strong> 和 <strong>bluetooth</strong> 两种，这两种方式各有千秋，下面我们通过表格来对比两者的优缺点：</p>
+<hr>
 <table>
 <thead>
 <tr>
@@ -137,6 +138,7 @@
 </tr>
 </tbody>
 </table>
+<hr>
 <p>由上表可知，wifi最大的优点是支持多台设备同时通讯；而bluetooth相对于wifi，不需要付流量费，本身既可以当客户端又可以当服务端使用，无需额外的服务器，且连接非常稳定，几乎不会无故掉线；而wifi通讯则受网络稳定性影响较大。综上所述，若同时通讯设备数≥3，则只能选择wifi方式，其他情况选择bluetooth方式较为明智。</p>
 <p>本文仅先介绍Android手机间通讯工具的实现原理，源码可到<a href="https://github.com/AutoTestTools/IAMP" target="_blank" rel="external">GitHub</a>上获取，后续将增加源码解析篇，敬请期待。</p>
 
@@ -231,14 +233,14 @@ with(document)0[
     <aside id="sidebar" class="alignright">
   <div class="search">
   <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="search" name="q" results="0" placeholder="Search">
     <input type="hidden" name="q" value="site:yoursite.com">
   </form>
 </div>
 
   
 <div class="widget tag">
-  <h3 class="title">分类</h3>
+  <h3 class="title">Categories</h3>
   <ul class="entry">
   
     <li><a href="/categories/测试小工具/">测试小工具</a><small>1</small></li>
@@ -253,7 +255,7 @@ with(document)0[
 
   
 <div class="widget tagcloud">
-  <h3 class="title">标签云</h3>
+  <h3 class="title">Tag Cloud</h3>
   <div class="entry">
     <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/单元测试/" style="font-size: 15px;">单元测试</a> <a href="/tags/小工具/" style="font-size: 10px;">小工具</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a> <a href="/tags/测试/" style="font-size: 10px;">测试</a>
   </div>
