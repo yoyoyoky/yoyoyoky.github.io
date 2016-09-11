@@ -15,18 +15,19 @@
 	})();
 	</script>
   
-  <title>Android手机间通讯工具——原理篇 | You&#39;s blog</title>
+  <title>流量统计小工具 | You&#39;s blog</title>
   <meta name="author" content="yoyo_zyx">
   
-  <meta name="description" content="在移动端测试过程中，我们经常会涉及到设备间信息的传输，而在自动化测试热潮的席卷下，是否也有可能让设备之间的新消息交换实现自动化，进一步解放双手呢？
-当然，只有想不到的，没有做不到的。
-比如以下情景，你能想到多少种解决方案呢？
-手机A给手机B拨打了一个电话，要求手机B接收到电话时，求计算出从A拨出电话">
+  <meta name="description" content="背景：
+《充电三小时偷跑23G流量》，《女子手机一夜跑50G流量》……
+定义：
+分为上传流量（发送）和下载流量（接收）。下载，就是浏览网页和上网会走信息流量，上传流量是将系统和软件的信息发给服务器。
+功能：1.纵向：版本信息、本次流量、流量查询（通过菜单选择切换）2.横向：系统、第三方、全部（通过底">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="Android手机间通讯工具——原理篇"/>
+  <meta property="og:title" content="流量统计小工具"/>
   <meta property="og:site_name" content="You&#39;s blog"/>
 
   
@@ -84,78 +85,54 @@
   <div class="post-content">
     <header class="article-info clearfix">
   <h1 itemprop="name">
-	Android手机间通讯工具——原理篇
+	流量统计小工具
   </h1>
   <p class="article-author">By
     
       <a href="http://yoursite.com" title="yoyo_zyx">yoyo_zyx</a>
     </p>
   <p class="article-time">
-    <time datetime="2016-09-04T13:08:29.000Z" itemprop="datePublished">2016-09-04</time>
-    更新日期:<time datetime="2016-09-11T06:21:30.461Z" itemprop="dateModified">2016-09-11</time>
+    <time datetime="2016-09-11T10:29:08.000Z" itemprop="datePublished">2016-09-11</time>
+    更新日期:<time datetime="2016-09-11T10:52:44.819Z" itemprop="dateModified">2016-09-11</time>
     
   </p>
 </header>
     <div class="entry">
 		
-        <p>在移动端测试过程中，我们经常会涉及到设备间信息的传输，而在自动化测试热潮的席卷下，是否也有可能让设备之间的新消息交换实现自动化，进一步解放双手呢？</p>
-<p>当然，只有想不到的，没有做不到的。</p>
-<p>比如以下情景，你能想到多少种解决方案呢？</p>
-<p><strong>手机A给手机B拨打了一个电话，要求手机B接收到电话时，求计算出从A拨出电话到B接收到电话的时间延迟。</strong></p>
-<p><strong>方案一：</strong>人工检查，记录A拨打电话的时间T1，及B收到电话的时间T2，人工通过计算T1-T2得出结果。可精确到秒，精确度不高，且人力干预，成本最高。</p>
-<p><strong>方案二：</strong>自动化检查，A开启短信监听，A拨打电话时，自记录拨打时间T1；B接收到电话时，发送短信至A通知其已接收到电话的时间T2；A收到短信后提取时间T2，自动通过计算T1-T2得出结果。可精确到毫秒，但存在短信收发延时误差，且短信成本较高。</p>
-<p><strong>方案三：</strong>自动化检查，既然短信成本高，且经常存在延时误差，是否存在一种替代短信的方式呢？在QQ、微信等第三方社交应用风靡的当下，短信通讯早已逐渐被取代，这里当然也可以通过第三方应用来取代方案二中的短信通知。监听新消息的问题不大，开启Accessibility之后监听通知栏新消息的关键字即可（原理同微信红包助手）。但问题来了，测试前需要先登录账号，并互加好友都是必要条件。据了解，已存在的主流第三方社交应用，发送信息的API并没有开放，如果模拟人手操作，点开应用，找到对方账号，编写好信息内容，点击发送，这将又是一个不大简洁、便利的过程，且需要一定的耗时，影响结果准确性。</p>
-<p><strong>方案四：</strong>依然自动化检查，既然已有的第三方通讯工具调用都比较麻烦，我们是否能够编写自己的通讯工具呢？通过调用自定义的接口，实现信息传递，简化传递过程，减少信息发送过程的误差，增加结果准确性。答案当然是可以的。</p>
-<p>由以上四种递进方案中，可知<strong>方案四</strong>是最优的方案。那实现手机间通讯有什么方式呢？最主流的有 <strong>wifi</strong> 和 <strong>bluetooth</strong> 两种，这两种方式各有千秋，下面我们通过表格来对比两者的优缺点：</p>
-<hr>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">方式</th>
-<th style="text-align:center">精度</th>
-<th style="text-align:center">费用</th>
-<th style="text-align:center">稳定性</th>
-<th style="text-align:center">同时通讯设备数</th>
-<th style="text-align:center">服务端</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">wifi</td>
-<td style="text-align:center">ms</td>
-<td style="text-align:center">较低</td>
-<td style="text-align:center">较稳定</td>
-<td style="text-align:center">n</td>
-<td style="text-align:center">独立服务器</td>
-</tr>
-<tr>
-<td style="text-align:center">bluetooth</td>
-<td style="text-align:center">ms</td>
-<td style="text-align:center">免费</td>
-<td style="text-align:center">很稳定</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">客户端本身</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<p>由上表可知，wifi最大的优点是支持多台设备同时通讯；而bluetooth相对于wifi，不需要付流量费，本身既可以当客户端又可以当服务端使用，无需额外的服务器，且连接非常稳定，几乎不会无故掉线；而wifi通讯则受网络稳定性影响较大。综上所述，若同时通讯设备数≥3，则只能选择wifi方式，其他情况选择bluetooth方式较为明智。</p>
-<p>以下为蓝牙及wifi实现方式的功能预览图：</p>
-<p><img src="/imgs/IAMP/IAMP.gif" alt="IAMP功能预览"></p>
-<p>本文仅先介绍Android手机间通讯工具的实现原理，源码可到<a href="https://github.com/AutoTestTools/IAMP" target="_blank" rel="external">GitHub</a>上获取，后续将增加源码解析篇，敬请期待。</p>
+        <p><strong>背景：</strong></p>
+<p>《充电三小时偷跑23G流量》，《女子手机一夜跑50G流量》……</p>
+<p><strong>定义：</strong></p>
+<p>分为上传流量（发送）和下载流量（接收）。下载，就是浏览网页和上网会走信息流量，上传流量是将系统和软件的信息发给服务器。</p>
+<p><strong>功能：</strong><br>1.纵向：版本信息、本次流量、流量查询（通过菜单选择切换）<br>2.横向：系统、第三方、全部（通过底部Tab选择切换）</p>
+<p><strong>关键类解析：</strong></p>
+<p><strong>1.apk信息相关类：</strong>PackageManager-&gt;PackageInfo-&gt;ApplicationInfo</p>
+<p>•安装，卸载应用</p>
+<p>•查询permission相关信息</p>
+<p>•查询Application相关信息(application，activity，receiver，service，provider及相应属性等）</p>
+<p>•查询已安装应用</p>
+<p>•增加，删除permission</p>
+<p>•清除用户数据、缓存，代码段等</p>
+<p>ApplicationInfo是从一个特定的应用得到的信息。这些信息是从相对应的Androdimanifest.xml的&lt; application&gt;标签中收集到的。</p>
+<p><strong>2.pm命令介绍：</strong>PackageManager的缩写，命令功能与该类相近</p>
+<p><strong>3.获取流量类：</strong>TrafficStats，可获取手机从开机至当前时间的上传、下载流量情况，可只获取Mobile流量，也可以获取Mobile与Wifi的总量</p>
+<p><strong>4.记录数据类：</strong>SQLiteDatabase，增删改查</p>
+<p><strong>5.广播：</strong>关机、重启、日期改变</p>
+<p><strong>6.上下文：</strong>Context<br>。有Application、Activity和Service三种类型。弹出Toast、启动Activity、启动Service、发送广播、操作数据库等等都需要用到Context。<br>特殊场景：比启动Activity，还有弹出Dialog。<br><a href="http://blog.csdn.net/guolin_blog/article/details/47028975" target="_blank" rel="external">参考传送门</a></p>
+<p><strong>7.功能预览：</strong></p>
+<p><strong>8.源码地址：</strong><a href="https://github.com/yoyoyoky/Tools/tree/master/flow_counter" target="_blank" rel="external">GitHub</a></p>
 
     </div>
     <footer>
         
   
   <div class="categories">
-    <a href="/categories/测试小工具/">测试小工具</a>
+    <a href="/categories/自动化测试/">自动化测试</a>
   </div>
 
         
   
   <div class="tags">
-    <a href="/tags/android/">android</a>, <a href="/tags/小工具/">小工具</a>, <a href="/tags/测试/">测试</a>
+    <a href="/tags/android/">android</a>, <a href="/tags/自动化/">自动化</a>
   </div>
 
 		<div class="bdsharebuttonbox">
@@ -203,10 +180,10 @@ with(document)0[
 
  <nav id="pagination" >
     
-    <a href="/2016/09/11/流量统计小工具/" class="alignleft prev" title="流量统计小工具">流量统计小工具</a>
+    <a href="/2016/09/11/浅读Android客户端源码流程/" class="alignleft prev" title="浅读Android客户端源码流程">浅读Android客户端源码流程</a>
     
     
-    <a href="/2016/09/03/Android客户端如何规避服务端数据格式错误导致的crash问题/" class="alignright next" title="Android客户端如何规避服务端数据格式错误导致的crash问题">Android客户端如何规避服务端数据格式错误导致的crash问题</a>
+    <a href="/2016/09/04/Android手机间通讯工具——原理篇/" class="alignright next" title="Android手机间通讯工具——原理篇">Android手机间通讯工具——原理篇</a>
     
     <div class="clearfix"></div>
 </nav>
@@ -216,7 +193,7 @@ with(document)0[
 	
 	<section id="comment">
 		<!-- 多说评论框 start -->
-		<div class="ds-thread" data-thread-key="2016/09/04/Android手机间通讯工具——原理篇/" data-title="Android手机间通讯工具——原理篇" data-url="http://yoursite.com/2016/09/04/Android手机间通讯工具——原理篇/"></div>
+		<div class="ds-thread" data-thread-key="2016/09/11/流量统计小工具/" data-title="流量统计小工具" data-url="http://yoursite.com/2016/09/11/流量统计小工具/"></div>
 		<!-- 多说评论框 end -->
 		<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 		<script type="text/javascript">

@@ -15,18 +15,18 @@
 	})();
 	</script>
   
-  <title>Android手机间通讯工具——原理篇 | You&#39;s blog</title>
+  <title>浅读Android客户端源码流程 | You&#39;s blog</title>
   <meta name="author" content="yoyo_zyx">
   
-  <meta name="description" content="在移动端测试过程中，我们经常会涉及到设备间信息的传输，而在自动化测试热潮的席卷下，是否也有可能让设备之间的新消息交换实现自动化，进一步解放双手呢？
-当然，只有想不到的，没有做不到的。
-比如以下情景，你能想到多少种解决方案呢？
-手机A给手机B拨打了一个电话，要求手机B接收到电话时，求计算出从A拨出电话">
+  <meta name="description" content="一、拉取源码常用git命令介绍
+1. 克隆项目至本地
+以GooleSamples中的todoapp为例，选择Clone with HTTPS方式复制克隆地址，不选择SSH方式的原因见 HTTPS和SSH的区别和使用。
+获取到https url后，在合适的位置，打开Git Bash窗口，输入命令”gi">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="Android手机间通讯工具——原理篇"/>
+  <meta property="og:title" content="浅读Android客户端源码流程"/>
   <meta property="og:site_name" content="You&#39;s blog"/>
 
   
@@ -84,78 +84,146 @@
   <div class="post-content">
     <header class="article-info clearfix">
   <h1 itemprop="name">
-	Android手机间通讯工具——原理篇
+	浅读Android客户端源码流程
   </h1>
   <p class="article-author">By
     
       <a href="http://yoursite.com" title="yoyo_zyx">yoyo_zyx</a>
     </p>
   <p class="article-time">
-    <time datetime="2016-09-04T13:08:29.000Z" itemprop="datePublished">2016-09-04</time>
-    更新日期:<time datetime="2016-09-11T06:21:30.461Z" itemprop="dateModified">2016-09-11</time>
+    <time datetime="2016-09-11T10:31:05.000Z" itemprop="datePublished">2016-09-11</time>
+    更新日期:<time datetime="2016-09-11T11:02:44.581Z" itemprop="dateModified">2016-09-11</time>
     
   </p>
 </header>
     <div class="entry">
 		
-        <p>在移动端测试过程中，我们经常会涉及到设备间信息的传输，而在自动化测试热潮的席卷下，是否也有可能让设备之间的新消息交换实现自动化，进一步解放双手呢？</p>
-<p>当然，只有想不到的，没有做不到的。</p>
-<p>比如以下情景，你能想到多少种解决方案呢？</p>
-<p><strong>手机A给手机B拨打了一个电话，要求手机B接收到电话时，求计算出从A拨出电话到B接收到电话的时间延迟。</strong></p>
-<p><strong>方案一：</strong>人工检查，记录A拨打电话的时间T1，及B收到电话的时间T2，人工通过计算T1-T2得出结果。可精确到秒，精确度不高，且人力干预，成本最高。</p>
-<p><strong>方案二：</strong>自动化检查，A开启短信监听，A拨打电话时，自记录拨打时间T1；B接收到电话时，发送短信至A通知其已接收到电话的时间T2；A收到短信后提取时间T2，自动通过计算T1-T2得出结果。可精确到毫秒，但存在短信收发延时误差，且短信成本较高。</p>
-<p><strong>方案三：</strong>自动化检查，既然短信成本高，且经常存在延时误差，是否存在一种替代短信的方式呢？在QQ、微信等第三方社交应用风靡的当下，短信通讯早已逐渐被取代，这里当然也可以通过第三方应用来取代方案二中的短信通知。监听新消息的问题不大，开启Accessibility之后监听通知栏新消息的关键字即可（原理同微信红包助手）。但问题来了，测试前需要先登录账号，并互加好友都是必要条件。据了解，已存在的主流第三方社交应用，发送信息的API并没有开放，如果模拟人手操作，点开应用，找到对方账号，编写好信息内容，点击发送，这将又是一个不大简洁、便利的过程，且需要一定的耗时，影响结果准确性。</p>
-<p><strong>方案四：</strong>依然自动化检查，既然已有的第三方通讯工具调用都比较麻烦，我们是否能够编写自己的通讯工具呢？通过调用自定义的接口，实现信息传递，简化传递过程，减少信息发送过程的误差，增加结果准确性。答案当然是可以的。</p>
-<p>由以上四种递进方案中，可知<strong>方案四</strong>是最优的方案。那实现手机间通讯有什么方式呢？最主流的有 <strong>wifi</strong> 和 <strong>bluetooth</strong> 两种，这两种方式各有千秋，下面我们通过表格来对比两者的优缺点：</p>
+        <p><strong>一、拉取源码常用git命令介绍</strong></p>
+<p><strong><em>1. 克隆项目至本地</em></strong></p>
+<p>以GooleSamples中的<a href="https://github.com/googlesamples/android-architecture" target="_blank" rel="external">todoapp</a>为例，选择Clone with HTTPS方式复制克隆地址，不选择SSH方式的原因见 HTTPS和SSH的区别和使用。</p>
+<p>获取到https url后，在合适的位置，打开Git Bash窗口，输入命令”git clone ‘https url’ “即可克隆指定项目到本地。</p>
+<p><img src="/imgs/源码流程/Clone.gif" alt="Clone">    </p>
 <hr>
+<p><strong>HTTPS和SSH的区别:</strong></p>
+<p>在管理Git项目上，可以通过https url或ssh url来克隆项目至本地。</p>
+<p>使用https url克隆对初学者较为方便，复制https url然后到Git Bash里面直接用clone命令克隆到本地即可，但每次fetch和push代码都需要输入账号和密码，这也是https方式的麻烦之处。</p>
+<p>而使用SSH url克隆却需要在克隆之前先配置和添加好SSH key，若想要使用SSH url克隆，必须是这个项目的拥有者。否则是无法添加SSH key的，另外ssh默认fetch和push代码都不需要输入账号和密码，也可以另外进行设置成需要输入的方式。</p>
+<p><strong>这就是最开始总是以为没有权限拉取项目源码的原因。</strong></p>
+<hr>
+<p><strong><em>2.常用git命令</em></strong></p>
 <table>
 <thead>
 <tr>
-<th style="text-align:center">方式</th>
-<th style="text-align:center">精度</th>
-<th style="text-align:center">费用</th>
-<th style="text-align:center">稳定性</th>
-<th style="text-align:center">同时通讯设备数</th>
-<th style="text-align:center">服务端</th>
+<th>命令</th>
+<th>功能</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">wifi</td>
-<td style="text-align:center">ms</td>
-<td style="text-align:center">较低</td>
-<td style="text-align:center">较稳定</td>
-<td style="text-align:center">n</td>
-<td style="text-align:center">独立服务器</td>
+<td>git branch -a</td>
+<td>查看远程仓库所有分支</td>
 </tr>
 <tr>
-<td style="text-align:center">bluetooth</td>
-<td style="text-align:center">ms</td>
-<td style="text-align:center">免费</td>
-<td style="text-align:center">很稳定</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">客户端本身</td>
+<td>git branch</td>
+<td>查看所有本地分支</td>
+</tr>
+<tr>
+<td>git branch -d + 分支名</td>
+<td>删除指定分支</td>
+</tr>
+<tr>
+<td>git checkout +分支名</td>
+<td>将当前本地分支切换至指定分支</td>
+</tr>
+<tr>
+<td>git checkout -b +分支名</td>
+<td>新建本地分支，相当于git branch +分支名 和 git checkout +分支名</td>
+</tr>
+<tr>
+<td>git checkout +文件路径</td>
+<td>还原指定文件与远程版本一致</td>
+</tr>
+<tr>
+<td>git status</td>
+<td>查看当前分支的本地修改情况</td>
+</tr>
+<tr>
+<td>git fetch</td>
+<td>从远程获取最新版本到本地，不会自动merge</td>
+</tr>
+<tr>
+<td>git pull</td>
+<td>从远程获取最新版本并合并到本地, 相当于git fetch 和 git merge</td>
+</tr>
+<tr>
+<td>git merge</td>
+<td>合并分支</td>
+</tr>
+<tr>
+<td>git add</td>
+<td>把当前目录下的所有文件加入暂存区域</td>
+</tr>
+<tr>
+<td>git commit -m “msg”</td>
+<td>添加代码提交信息，此时暂未上传到远程</td>
+</tr>
+<tr>
+<td>git commit -a -m “msg”</td>
+<td>将当前新增信息加入暂存区，并添加提交说明信息，相当于git add + git commit -m “msg”</td>
+</tr>
+<tr>
+<td>git push</td>
+<td>将本地新增内容上传到远程服务器</td>
+</tr>
+<tr>
+<td>git stash</td>
+<td>保存当前操作，不想commit当前操作，且需要切换分支时可以暂存当前操作。git stash save some_info，指定some_info为暂存信息添加备注</td>
+</tr>
+<tr>
+<td>git stash -list</td>
+<td>查看所有暂存的信息</td>
+</tr>
+<tr>
+<td>git stash pop stash@{num}</td>
+<td>恢复序号为num的暂存信息到本地，num可通过list命令查询，恢复完成后，list中就删除了该记录</td>
+</tr>
+<tr>
+<td>git stash clear</td>
+<td>清空所有暂存记录</td>
+</tr>
+<tr>
+<td></td>
 </tr>
 </tbody>
 </table>
-<hr>
-<p>由上表可知，wifi最大的优点是支持多台设备同时通讯；而bluetooth相对于wifi，不需要付流量费，本身既可以当客户端又可以当服务端使用，无需额外的服务器，且连接非常稳定，几乎不会无故掉线；而wifi通讯则受网络稳定性影响较大。综上所述，若同时通讯设备数≥3，则只能选择wifi方式，其他情况选择bluetooth方式较为明智。</p>
-<p>以下为蓝牙及wifi实现方式的功能预览图：</p>
-<p><img src="/imgs/IAMP/IAMP.gif" alt="IAMP功能预览"></p>
-<p>本文仅先介绍Android手机间通讯工具的实现原理，源码可到<a href="https://github.com/AutoTestTools/IAMP" target="_blank" rel="external">GitHub</a>上获取，后续将增加源码解析篇，敬请期待。</p>
+<p>此处仅罗列常用的简单命令，详细使用可以参考<a href="https://git-scm.com/book/zh/v2" target="_blank" rel="external">Git-Book</a>，不想使用命令也可以使用Git-GUI 或 source-tree 或 GitHub 等图形界面工具。</p>
+<p><strong>二.正确配置android工程</strong></p>
+<p>在Android Studio中Open上一节中clone下来的项目，可喜的是，此项目没有附带本地项目的依赖，所有依赖均可自动从远程仓库中compile。</p>
+<p>但有一些项目可能会依赖到一些本地库，就需要先将依赖的库配置好。</p>
+<p>为了演示需要，我将todoapp fork到了自己的<a href="https://github.com/yoyoyoky/android-architecture" target="_blank" rel="external">Github</a>账号上，并对添加了Logger的本地工程依赖。</p>
+<p><strong><em>如何配置步骤大致如下：</em></strong></p>
+<p>1.同上步，将该工程clone到本地，切换到todo-mvp-rxjava分支</p>
+<p>2.查看app下gradle依赖所依赖的本地project，及使用compile project配置的工程</p>
+<p>3.打开settings.gradle查看上步工程名所对应的路径配置</p>
+<p>4.根据本地依赖project路径配置好工程</p>
+<p><strong>三.android源码定位技巧</strong></p>
+<p>1.熟悉客户端大致功能点及了解源码的基本Acitivity和Fragment命名（命名即可）</p>
+<p>2.若能从功能点猜测出对应界面的Activity或Fragment，则直接定位到该类，从左侧Project选择或Ctrl+Shift+R搜索定位</p>
+<p>3.若对命名不熟悉，则可按照以下流程及方法定位</p>
+<p><img src="/imgs/源码流程/android代码定位流程.png" alt="android代码定位流程"></p>
 
     </div>
     <footer>
         
   
   <div class="categories">
-    <a href="/categories/测试小工具/">测试小工具</a>
+    <a href="/categories/白盒测试/">白盒测试</a>
   </div>
 
         
   
   <div class="tags">
-    <a href="/tags/android/">android</a>, <a href="/tags/小工具/">小工具</a>, <a href="/tags/测试/">测试</a>
+    <a href="/tags/单元测试/">单元测试</a>, <a href="/tags/android/">android</a>
   </div>
 
 		<div class="bdsharebuttonbox">
@@ -203,10 +271,8 @@ with(document)0[
 
  <nav id="pagination" >
     
-    <a href="/2016/09/11/流量统计小工具/" class="alignleft prev" title="流量统计小工具">流量统计小工具</a>
     
-    
-    <a href="/2016/09/03/Android客户端如何规避服务端数据格式错误导致的crash问题/" class="alignright next" title="Android客户端如何规避服务端数据格式错误导致的crash问题">Android客户端如何规避服务端数据格式错误导致的crash问题</a>
+    <a href="/2016/09/11/流量统计小工具/" class="alignright next" title="流量统计小工具">流量统计小工具</a>
     
     <div class="clearfix"></div>
 </nav>
@@ -216,7 +282,7 @@ with(document)0[
 	
 	<section id="comment">
 		<!-- 多说评论框 start -->
-		<div class="ds-thread" data-thread-key="2016/09/04/Android手机间通讯工具——原理篇/" data-title="Android手机间通讯工具——原理篇" data-url="http://yoursite.com/2016/09/04/Android手机间通讯工具——原理篇/"></div>
+		<div class="ds-thread" data-thread-key="2016/09/11/浅读Android客户端源码流程/" data-title="浅读Android客户端源码流程" data-url="http://yoursite.com/2016/09/11/浅读Android客户端源码流程/"></div>
 		<!-- 多说评论框 end -->
 		<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 		<script type="text/javascript">
