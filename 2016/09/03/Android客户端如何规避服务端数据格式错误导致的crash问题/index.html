@@ -1,112 +1,329 @@
+<!doctype html>
 
 
-<!DOCTYPE HTML>
-<html>
+
+  
+
+
+<html class="theme-next pisces use-motion">
 <head>
-  <meta charset="utf-8">
-  <script type="text/javascript" src="http://tajs.qq.com/stats?sId=44218032" charset="UTF-8"></script>
-  <script>
-	var _hmt = _hmt || [];
-	(function() {
-	  var hm = document.createElement("script");
-	  hm.src = "//hm.baidu.com/hm.js?7192fa361f5cabb11d8a22de41c1ba8f";
-	  var s = document.getElementsByTagName("script")[0]; 
-	  s.parentNode.insertBefore(hm, s);
-	})();
-	</script>
-  
-  <title>Android客户端如何规避服务端数据格式错误导致的crash问题 | You&#39;s blog</title>
-  <meta name="author" content="yoyo_zyx">
-  
-  <meta name="description" content="一、背景
-场景如下：应用新增了一个功能，升级了版本，客户端静默升级后，从桌面打开应用竟然出现了直接闪退、奔溃的现象！
-测试：不能忍，无论如何，这是不允许存在的现象，怎么可以出现如此严重的bug！
-服务端开发：这是由于新增的数据字段，没有被赋予正确格式的原因导致，测试只要在服务端推送数据时修改为正确的">
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  <meta property="og:title" content="Android客户端如何规避服务端数据格式错误导致的crash问题"/>
-  <meta property="og:site_name" content="You&#39;s blog"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
 
   
-    <meta property="og:image" content="undefined"/>
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
   
 
-  <link href="/imgs/favicon_icon.ico" rel="icon" type="image/x-ico">
-  <link rel="alternate" href="/atom.xml" title="You&#39;s blog" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-  <script src="//libs.baidu.com/jquery/1.8.0/jquery.min.js"></script>
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="单元测试,android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="阅读本文大约需要3分钟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android客户端如何规避服务端数据格式错误导致的crash问题">
+<meta property="og:url" content="http://yoursite.com/2016/09/03/Android客户端如何规避服务端数据格式错误导致的crash问题/index.html">
+<meta property="og:site_name" content="You's blog">
+<meta property="og:description" content="阅读本文大约需要3分钟">
+<meta property="og:image" content="http://yoursite.com/imgs/Android规避crash问题/1.jpg">
+<meta property="og:image" content="http://yoursite.com/imgs/Android规避crash问题/2.jpg">
+<meta property="og:image" content="http://yoursite.com/imgs/Android规避crash问题/3.jpg">
+<meta property="og:image" content="http://yoursite.com/imgs/Android规避crash问题/4.jpg">
+<meta property="og:image" content="http://yoursite.com/imgs/Android规避crash问题/5.jpg">
+<meta property="og:image" content="http://yoursite.com/imgs/Android规避crash问题/6.jpg">
+<meta property="og:image" content="http://yoursite.com/imgs/Android规避crash问题/7.jpg">
+<meta property="og:image" content="http://yoursite.com/imgs/Android规避crash问题/8.jpg">
+<meta property="og:updated_time" content="2016-09-18T12:47:47.069Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android客户端如何规避服务端数据格式错误导致的crash问题">
+<meta name="twitter:description" content="阅读本文大约需要3分钟">
+<meta name="twitter:image" content="http://yoursite.com/imgs/Android规避crash问题/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/03/Android客户端如何规避服务端数据格式错误导致的crash问题/"/>
+
+  <title> Android客户端如何规避服务端数据格式错误导致的crash问题 | You's blog </title>
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
-<body>
-  <header><div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/imgs/logo.png" alt="You&#39;s blog" title="You&#39;s blog"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name">You&#39;s blog</h1>
-				<h2 class="blog-motto"></h2>
-			</div>
-			<nav class="animated">
-				<ul>
-					
-						<li><a href="/">Home</a></li>
-					
-						<li><a href="/archives">Archives</a></li>
-					
-						<li><a href="/about">About</a></li>
-					
-					<li> <a href="/atom.xml">RSS</a> </li>
-				</ul>
-			</nav>			
-</div>
-</header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
+
+
+
+
+
+
+
+
+
+
   
-  <div class="post-content">
-    <header class="article-info clearfix">
-  <h1 itemprop="name">
-	Android客户端如何规避服务端数据格式错误导致的crash问题
-  </h1>
-  <p class="article-author">By
+  
     
-      <a href="http://yoursite.com" title="yoyo_zyx">yoyo_zyx</a>
-    </p>
-  <p class="article-time">
-    <time datetime="2016-09-03T07:57:39.000Z" itemprop="datePublished">2016-09-03</time>
-    Update date:<time datetime="2016-09-03T08:53:29.647Z" itemprop="dateModified">2016-09-03</time>
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">You's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-  </p>
-</header>
-    <div class="entry">
-		
-        <p><strong>一、背景</strong></p>
-<p>场景如下：<br>应用新增了一个功能，升级了版本，客户端静默升级后，从桌面打开应用竟然出现了直接闪退、奔溃的现象！</p>
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android客户端如何规避服务端数据格式错误导致的crash问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-03T15:57:39+08:00" content="2016-09-03">
+              2016-09-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/白盒测试/" itemprop="url" rel="index">
+                    <span itemprop="name">白盒测试</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote class="blockquote-center">阅读本文大约需要3分钟</blockquote>
+
+<a id="more"></a>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>场景如下：<br>应用新增了一个功能，升级了版本，客户端静默升级后，从桌面打开应用竟然出现了直接闪退、奔溃的现象！</p>
 <p>测试：不能忍，无论如何，这是不允许存在的现象，怎么可以出现如此严重的bug！</p>
 <p>服务端开发：这是由于新增的数据字段，没有被赋予正确格式的原因导致，测试只要在服务端推送数据时修改为正确的格式即可解决。</p>
 <p>测试：服务端并没有约定说一定要填入那种格式的数据，我填入“非法数据”时，并没有被拒绝。我不管你们是怎么实现的，总之，不应该在引入新功能的时候发生如此严重的必现bug。</p>
 <p>服务端开发：那在客户端那边加个try catch，规避这种crash的严重问题。</p>
 <p>客户端开发：客户端不像服务端，不是所有的问题都是用try catch来解决就可以了，加try catch严重影响了效率问题。就不能在服务端那边控制一下，只传特定格式的数据吗？</p>
-<p><strong>二、分析</strong></p>
-<p>服务端发送给客户端的数据，由于不是指定格式的数据，导致客户端解析时出现问题，导致应用奔溃。</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>服务端发送给客户端的数据，由于不是指定格式的数据，导致客户端解析时出现问题，导致应用奔溃。</p>
 <p>测试认为服务端传入的数据应该可以是任意的，而客户端必须要有容错机制，一定不能出现这种严重的crash问题。</p>
 <p>而服务端为什么不控制一下，数据只能设置为指定格式数据，否则弹出非法数据警告提示呢？对服务端理解尚浅，不理解其中的原理，暂且就认为这是有一定道理的吧。</p>
 <p>那么，我们就来探讨一下，如何从客户端出发，添加数据的容错机制吧。</p>
@@ -114,253 +331,316 @@
 <p>然而，try catch却要付出时间的代价。若代码中大量使用try catch来解决问题，一是代码不够简洁，二是若数据格式确实是非法的，则增加时间消耗。</p>
 <p> 为什么不考虑在做数据格式转换之前，先做一个数据格式检查，若为指定格式才对数据进行转换呢？这样一来，至少在代码简洁度上是更加有保障的。</p>
 <p>为了对比以上两种方法的效率问题，我们用数据说话！</p>
-<p><strong>三、论证</strong></p>
-<p><strong>1. 目的：</strong></p>
-<p>对比try catch机制与先检查格式再转换的执行效率</p>
-<p><strong>2. 准备：</strong></p>
-<p>A. 利用junit单元测试来测试代码块的执行时间，由于代码的执行都是闪速的，而junit测试也包含了一些初始化的准备时间，为了更加精确地统计代码的执行时间，采用循环100次取平均值及纳秒级别的时间差来做测试。</p>
+<h2 id="论证"><a href="#论证" class="headerlink" title="论证"></a>论证</h2><h3 id="目的："><a href="#目的：" class="headerlink" title="目的："></a>目的：</h3><p>对比try catch机制与先检查格式再转换的执行效率</p>
+<h3 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h3><p>A. 利用junit单元测试来测试代码块的执行时间，由于代码的执行都是闪速的，而junit测试也包含了一些初始化的准备时间，为了更加精确地统计代码的执行时间，采用循环100次取平均值及纳秒级别的时间差来做测试。</p>
 <p>B. 从所在项目的情况来看，最主要问题存在于转化为long型时出错上，下一步的案例均基于long型数据的转化来设计，且基本上为项目中常用到的一些情况进行对比。</p>
-<p><strong>3. 测试案例编写：</strong></p>
-<p>A. 直接得到的非法字符串转化为long型</p>
+<h3 id="测试案例编写："><a href="#测试案例编写：" class="headerlink" title="测试案例编写："></a>测试案例编写：</h3><p>A. 直接得到的非法字符串转化为long型</p>
 <p><img src="/imgs/Android规避crash问题/1.jpg" alt="非法字符串强制转换"></p>
 <p>B. 从SharedPrefrence中获取字段非long型强制转化为long型</p>
 <p><img src="/imgs/Android规避crash问题/2.jpg" alt="获取字段后强制转换"></p>
 <p>C. 直接得到的纯数字String转化为long型</p>
 <p><img src="/imgs/Android规避crash问题/3.jpg" alt="纯数字转换"></p>
-<p><strong>4. 结果对比：</strong></p>
-<p>将上步中的案例执行多次，进行耗时对比，为避免偶然性，进行了多次比较，以下随机截取了5次执行结果：从结果可以看出，虽然每次的执行耗时都略有不同，但相同的是：不管是在正确格式情况下还是非法数据强制转化，tryCatch的耗时都比通过正则表达式先判断数据格式再转换，平均多耗时1ms左右（执行100次的情况下），即执行1次约多耗时0.01ms。</p>
+<h3 id="结果对比："><a href="#结果对比：" class="headerlink" title="结果对比："></a>结果对比：</h3><p>将上步中的案例执行多次，进行耗时对比，为避免偶然性，进行了多次比较，以下随机截取了5次执行结果：从结果可以看出，虽然每次的执行耗时都略有不同，但相同的是：不管是在正确格式情况下还是非法数据强制转化，tryCatch的耗时都比通过正则表达式先判断数据格式再转换，平均多耗时1ms左右（执行100次的情况下），即执行1次约多耗时0.01ms。</p>
 <p><img src="/imgs/Android规避crash问题/4.jpg" alt="结果1"></p>
 <p><img src="/imgs/Android规避crash问题/5.jpg" alt="结果2"></p>
 <p><img src="/imgs/Android规避crash问题/6.jpg" alt="结果3"></p>
 <p><img src="/imgs/Android规避crash问题/7.jpg" alt="结果4"></p>
 <p><img src="/imgs/Android规避crash问题/8.jpg" alt="结果5"></p>
-<p><strong>四、结论</strong></p>
-<p>从第三部分的论证过程可以看出，先通过正则表达式判断后再做数据处理稍微比tryCatch方式高效率，虽然0.01ms是一个几乎可以忽略不计的时间，但编码是一种习惯、优秀也是一种习惯，不只是简单地用tryCatch来规避crash问题，而是找到问题的本质，并择优采取更合适的方式解决问题，这样不是更好吗？同时，尽可能避免tryCatch的使用，在一定程度上也能够提高代码的简洁度。</p>
-<p><strong>五、代码</strong></p>
-<p>文中涉及代码链接：<a href="https://github.com/AutoTestTools/UnitTest/blob/master/UnitPro/app/src/test/java/com/zyx/unitpro/TimeCostTest.java" target="_blank" rel="external">GitHub</a></p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>从第三部分的论证过程可以看出，先通过正则表达式判断后再做数据处理稍微比tryCatch方式高效率，虽然0.01ms是一个几乎可以忽略不计的时间，但编码是一种习惯、优秀也是一种习惯，不只是简单地用tryCatch来规避crash问题，而是找到问题的本质，并择优采取更合适的方式解决问题，这样不是更好吗？同时，尽可能避免tryCatch的使用，在一定程度上也能够提高代码的简洁度。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>文中涉及代码链接：<a href="https://github.com/yoyoyoky/UnitPro/blob/master/app/src/test/java/com/zyx/unitpro/TimeCostTest.java" target="_blank" rel="external">GitHub</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/单元测试/" rel="tag">#单元测试</a>
+          
+            <a href="/tags/android/" rel="tag">#android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/08/Android单元测试——辅助工具介绍/" rel="next" title="Android单元测试——辅助工具介绍">
+                <i class="fa fa-chevron-left"></i> Android单元测试——辅助工具介绍
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/04/Android手机间通讯工具——原理篇/" rel="prev" title="Android手机间通讯工具——原理篇">
+                Android手机间通讯工具——原理篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="yoyo_zyx" />
+          <p class="site-author-name" itemprop="name">yoyo_zyx</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论证"><span class="nav-number">3.</span> <span class="nav-text">论证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目的："><span class="nav-number">3.1.</span> <span class="nav-text">目的：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备："><span class="nav-number">3.2.</span> <span class="nav-text">准备：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试案例编写："><span class="nav-number">3.3.</span> <span class="nav-text">测试案例编写：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果对比："><span class="nav-number">3.4.</span> <span class="nav-text">结果对比：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">4.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">5.</span> <span class="nav-text">代码</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
 
     </div>
-    <footer>
-        
-  
-  <div class="categories">
-    <a href="/categories/白盒测试/">白盒测试</a>
-  </div>
+  </aside>
+
 
         
-  
-  <div class="tags">
-    <a href="/tags/单元测试/">单元测试</a>, <a href="/tags/android/">android</a>
-  </div>
+      </div>
+    </main>
 
-		<div class="bdsharebuttonbox">
-	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
-	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
-	<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
-	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
-	<a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
-	<a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
-	<a href="#" class="bds_more" data-cmd="more"></a>
-	<a href="#" class="bds_count" data-cmd="count"></a>
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yoyo_zyx</span>
 </div>
-<script>
-window._bd_share_config=
-{
-	"common":{
-		"bdSnsKey":{},
-		"bdText":"",
-		"bdMini":"2",
-		"bdMiniList":false,
-		"bdPic":"",
-		"bdStyle":"0",
-		"bdSize":"24"
-	},
-	"share":{},
-	"image":{
-		"viewList":["qzone","tsina","tqq","renren","weixin","fbook","twi"],
-		"viewText":"分享到：",
-		"viewSize":"24"
-	},
-	"selectShare":{
-		"bdContainerClass":null,
-		"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin","fbook","twi"]
-	}
-};
-with(document)0[
-	(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)
-];
-</script>    
-        <div class="clearfix"></div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
     </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
   </div>
-</article>
-
- <nav id="pagination" >
-    
-    <a href="/2016/09/04/Android手机间通讯工具——原理篇/" class="alignleft prev" title="Android手机间通讯工具——原理篇">Android手机间通讯工具——原理篇</a>
-    
-    
-    <a href="/2016/05/08/Android单元测试——辅助工具介绍/" class="alignright next" title="Android单元测试——辅助工具介绍">Android单元测试——辅助工具介绍</a>
-    
-    <div class="clearfix"></div>
-</nav>
-
-
-
-	
-	<section id="comment">
-		<!-- 多说评论框 start -->
-		<div class="ds-thread" data-thread-key="2016/09/03/Android客户端如何规避服务端数据格式错误导致的crash问题/" data-title="Android客户端如何规避服务端数据格式错误导致的crash问题" data-url="http://yoursite.com/2016/09/03/Android客户端如何规避服务端数据格式错误导致的crash问题/"></div>
-		<!-- 多说评论框 end -->
-		<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-		<script type="text/javascript">
-		var duoshuoQuery = {short_name:"yoyozyx"};
-		(function() {
-			var ds = document.createElement('script');
-			ds.type = 'text/javascript';ds.async = true;
-			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-			ds.charset = 'UTF-8';
-			(document.getElementsByTagName('head')[0] 
-			 || document.getElementsByTagName('body')[0]).appendChild(ds);
-		})();
-		</script>
-		<!-- 多说公共JS代码 end -->
-	</section>
-	
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="q" value="site:yoursite.com">
-  </form>
-</div>
 
   
-<div class="widget tag">
-  <h3 class="title">Categories</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/测试小工具/">测试小工具</a><small>1</small></li>
-  
-    <li><a href="/categories/白盒测试/">白盒测试</a><small>3</small></li>
-  
-    <li><a href="/categories/自动化测试/">自动化测试</a><small>1</small></li>
-  
-    <li><a href="/categories/随笔/">随笔</a><small>1</small></li>
-  
-  </ul>
-</div>
 
-
-  
-<div class="widget tagcloud">
-  <h3 class="title">Tag Cloud</h3>
-  <div class="entry">
-    <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/单元测试/" style="font-size: 15px;">单元测试</a> <a href="/tags/小工具/" style="font-size: 10px;">小工具</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a> <a href="/tags/测试/" style="font-size: 10px;">测试</a> <a href="/tags/自动化/" style="font-size: 10px;">自动化</a>
-  </div>
-</div>
-
-
-  <iframe width="100%" height="140" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=140&fansRow=2&ptype=1&speed=0&skin=5&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2471152864&verifier=7b0d1c10&dpc=1"></iframe>
-
-  <div class="widget tag">
-<h3 class="title">友情链接</h3>
-<ul class="entry">
-<li><a href="http://opiece.me" title="Chillax's Blog" target="_blank">Chillax</a></li>
-</ul>
-</div>
-</aside>
-    <div class="clearfix"></div>
-  </div>
-  <footer id="footer"><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
-	</div>
-	
-	
-	<section class="info">
-		<p> Better late than never. <br/>
-			A=x+y+z and zyx=z+y+z,so zyx = A.</p>
-	</section>
-	 
-	<div class="social-font clearfix">
-		
-		<a href="http://weibo.com/2471152864" target="_blank" title="weibo"></a>
-		
-		
-		
-		<a href="https://github.com/yoyoyoky" target="_blank" title="github"></a>
-		
-		
-		<a href="https://www.facebook.com/yoyo_zyx" target="_blank" title="facebook"></a>
-		
-		
-		
-		<a href="mailto:452782019@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
-		
-	</div>
-		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/huangjunhui/concise" target="_blank" title="Concise">Concise</a> © 2016 
-		
-		<a href="http://yoursite.com/about" target="_blank" title="yoyo_zyx">yoyo_zyx</a>
-		
-		</p>
-</div>
-</footer>
-  <script src="//libs.baidu.com/jquery/2.0.3/jquery.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
-<script src="/js/counter.js"></script>
-
-
-
-
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<div id="totop" style="position:fixed;bottom:100px;right:10px;cursor: pointer;">
-<a title="返回顶部"><img src="/imgs/scrollup.png"/></a>
-</div>
-<script src="/js/totop.js"></script>
-<!-- mathjax config similar to math.stackexchange -->
 
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
 
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>
-
-

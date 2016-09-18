@@ -1,112 +1,324 @@
+<!doctype html>
 
 
-<!DOCTYPE HTML>
-<html>
+
+  
+
+
+<html class="theme-next pisces use-motion">
 <head>
-  <meta charset="utf-8">
-  <script type="text/javascript" src="http://tajs.qq.com/stats?sId=44218032" charset="UTF-8"></script>
-  <script>
-	var _hmt = _hmt || [];
-	(function() {
-	  var hm = document.createElement("script");
-	  hm.src = "//hm.baidu.com/hm.js?7192fa361f5cabb11d8a22de41c1ba8f";
-	  var s = document.getElementsByTagName("script")[0]; 
-	  s.parentNode.insertBefore(hm, s);
-	})();
-	</script>
-  
-  <title>Android手机间通讯工具——原理篇 | You&#39;s blog</title>
-  <meta name="author" content="yoyo_zyx">
-  
-  <meta name="description" content="在移动端测试过程中，我们经常会涉及到设备间信息的传输，而在自动化测试热潮的席卷下，是否也有可能让设备之间的新消息交换实现自动化，进一步解放双手呢？
-当然，只有想不到的，没有做不到的。
-比如以下情景，你能想到多少种解决方案呢？
-手机A给手机B拨打了一个电话，要求手机B接收到电话时，求计算出从A拨出电话">
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  <meta property="og:title" content="Android手机间通讯工具——原理篇"/>
-  <meta property="og:site_name" content="You&#39;s blog"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
 
   
-    <meta property="og:image" content="undefined"/>
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
   
 
-  <link href="/imgs/favicon_icon.ico" rel="icon" type="image/x-ico">
-  <link rel="alternate" href="/atom.xml" title="You&#39;s blog" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-  <script src="//libs.baidu.com/jquery/1.8.0/jquery.min.js"></script>
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android,小工具,测试," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="阅读本文大约需要5分钟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android手机间通讯工具——原理篇">
+<meta property="og:url" content="http://yoursite.com/2016/09/04/Android手机间通讯工具——原理篇/index.html">
+<meta property="og:site_name" content="You's blog">
+<meta property="og:description" content="阅读本文大约需要5分钟">
+<meta property="og:image" content="http://yoursite.com/imgs/IAMP/IAMP.gif">
+<meta property="og:updated_time" content="2016-09-18T12:51:25.454Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android手机间通讯工具——原理篇">
+<meta name="twitter:description" content="阅读本文大约需要5分钟">
+<meta name="twitter:image" content="http://yoursite.com/imgs/IAMP/IAMP.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/04/Android手机间通讯工具——原理篇/"/>
+
+  <title> Android手机间通讯工具——原理篇 | You's blog </title>
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
-<body>
-  <header><div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/imgs/logo.png" alt="You&#39;s blog" title="You&#39;s blog"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name">You&#39;s blog</h1>
-				<h2 class="blog-motto"></h2>
-			</div>
-			<nav class="animated">
-				<ul>
-					
-						<li><a href="/">Home</a></li>
-					
-						<li><a href="/archives">Archives</a></li>
-					
-						<li><a href="/about">About</a></li>
-					
-					<li> <a href="/atom.xml">RSS</a> </li>
-				</ul>
-			</nav>			
-</div>
-</header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
+
+
+
+
+
+
+
+
+
+
   
-  <div class="post-content">
-    <header class="article-info clearfix">
-  <h1 itemprop="name">
-	Android手机间通讯工具——原理篇
-  </h1>
-  <p class="article-author">By
+  
     
-      <a href="http://yoursite.com" title="yoyo_zyx">yoyo_zyx</a>
-    </p>
-  <p class="article-time">
-    <time datetime="2016-09-04T13:08:29.000Z" itemprop="datePublished">2016-09-04</time>
-    Update date:<time datetime="2016-09-11T06:21:30.461Z" itemprop="dateModified">2016-09-11</time>
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">You's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-  </p>
-</header>
-    <div class="entry">
-		
-        <p>在移动端测试过程中，我们经常会涉及到设备间信息的传输，而在自动化测试热潮的席卷下，是否也有可能让设备之间的新消息交换实现自动化，进一步解放双手呢？</p>
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android手机间通讯工具——原理篇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-04T21:08:29+08:00" content="2016-09-04">
+              2016-09-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/测试小工具/" itemprop="url" rel="index">
+                    <span itemprop="name">测试小工具</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote class="blockquote-center">阅读本文大约需要5分钟</blockquote>
+
+<a id="more"></a>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在移动端测试过程中，我们经常会涉及到设备间信息的传输，而在自动化测试热潮的席卷下，是否也有可能让设备之间的新消息交换实现自动化，进一步解放双手呢？</p>
 <p>当然，只有想不到的，没有做不到的。</p>
 <p>比如以下情景，你能想到多少种解决方案呢？</p>
 <p><strong>手机A给手机B拨打了一个电话，要求手机B接收到电话时，求计算出从A拨出电话到B接收到电话的时间延迟。</strong></p>
-<p><strong>方案一：</strong>人工检查，记录A拨打电话的时间T1，及B收到电话的时间T2，人工通过计算T1-T2得出结果。可精确到秒，精确度不高，且人力干预，成本最高。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p><strong>方案一：</strong>人工检查，记录A拨打电话的时间T1，及B收到电话的时间T2，人工通过计算T1-T2得出结果。可精确到秒，精确度不高，且人力干预，成本最高。</p>
 <p><strong>方案二：</strong>自动化检查，A开启短信监听，A拨打电话时，自记录拨打时间T1；B接收到电话时，发送短信至A通知其已接收到电话的时间T2；A收到短信后提取时间T2，自动通过计算T1-T2得出结果。可精确到毫秒，但存在短信收发延时误差，且短信成本较高。</p>
 <p><strong>方案三：</strong>自动化检查，既然短信成本高，且经常存在延时误差，是否存在一种替代短信的方式呢？在QQ、微信等第三方社交应用风靡的当下，短信通讯早已逐渐被取代，这里当然也可以通过第三方应用来取代方案二中的短信通知。监听新消息的问题不大，开启Accessibility之后监听通知栏新消息的关键字即可（原理同微信红包助手）。但问题来了，测试前需要先登录账号，并互加好友都是必要条件。据了解，已存在的主流第三方社交应用，发送信息的API并没有开放，如果模拟人手操作，点开应用，找到对方账号，编写好信息内容，点击发送，这将又是一个不大简洁、便利的过程，且需要一定的耗时，影响结果准确性。</p>
 <p><strong>方案四：</strong>依然自动化检查，既然已有的第三方通讯工具调用都比较麻烦，我们是否能够编写自己的通讯工具呢？通过调用自定义的接口，实现信息传递，简化传递过程，减少信息发送过程的误差，增加结果准确性。答案当然是可以的。</p>
-<p>由以上四种递进方案中，可知<strong>方案四</strong>是最优的方案。那实现手机间通讯有什么方式呢？最主流的有 <strong>wifi</strong> 和 <strong>bluetooth</strong> 两种，这两种方式各有千秋，下面我们通过表格来对比两者的优缺点：</p>
+<h2 id="方案对比"><a href="#方案对比" class="headerlink" title="方案对比"></a>方案对比</h2><p>由以上四种递进方案中，可知<strong>方案四</strong>是最优的方案。那实现手机间通讯有什么方式呢？最主流的有 <strong>wifi</strong> 和 <strong>bluetooth</strong> 两种，这两种方式各有千秋，下面我们通过表格来对比两者的优缺点：</p>
 <hr>
 <table>
 <thead>
@@ -139,233 +351,305 @@
 </tbody>
 </table>
 <hr>
-<p>由上表可知，wifi最大的优点是支持多台设备同时通讯；而bluetooth相对于wifi，不需要付流量费，本身既可以当客户端又可以当服务端使用，无需额外的服务器，且连接非常稳定，几乎不会无故掉线；而wifi通讯则受网络稳定性影响较大。综上所述，若同时通讯设备数≥3，则只能选择wifi方式，其他情况选择bluetooth方式较为明智。</p>
-<p>以下为蓝牙及wifi实现方式的功能预览图：</p>
+<h2 id="方案选择"><a href="#方案选择" class="headerlink" title="方案选择"></a>方案选择</h2><p>由上表可知，wifi最大的优点是支持多台设备同时通讯；而bluetooth相对于wifi，不需要付流量费，本身既可以当客户端又可以当服务端使用，无需额外的服务器，且连接非常稳定，几乎不会无故掉线；而wifi通讯则受网络稳定性影响较大。综上所述，若同时通讯设备数≥3，则只能选择wifi方式，其他情况选择bluetooth方式较为明智。</p>
+<h2 id="功能预览"><a href="#功能预览" class="headerlink" title="功能预览"></a>功能预览</h2><p>以下为蓝牙及wifi实现方式的功能预览图：</p>
 <p><img src="/imgs/IAMP/IAMP.gif" alt="IAMP功能预览"></p>
-<p>本文仅先介绍Android手机间通讯工具的实现原理，源码可到<a href="https://github.com/AutoTestTools/IAMP" target="_blank" rel="external">GitHub</a>上获取，后续将增加源码解析篇，敬请期待。</p>
+<h2 id="源码链接"><a href="#源码链接" class="headerlink" title="源码链接"></a>源码链接</h2><p>本文仅先介绍Android手机间通讯工具的实现原理，源码可到<a href="https://github.com/AutoTestTools/IAMP" target="_blank" rel="external">GitHub</a>上获取，后续将增加源码解析篇，敬请期待。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag">#android</a>
+          
+            <a href="/tags/小工具/" rel="tag">#小工具</a>
+          
+            <a href="/tags/测试/" rel="tag">#测试</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/03/Android客户端如何规避服务端数据格式错误导致的crash问题/" rel="next" title="Android客户端如何规避服务端数据格式错误导致的crash问题">
+                <i class="fa fa-chevron-left"></i> Android客户端如何规避服务端数据格式错误导致的crash问题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/11/流量统计小工具/" rel="prev" title="流量统计小工具">
+                流量统计小工具 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="yoyo_zyx" />
+          <p class="site-author-name" itemprop="name">yoyo_zyx</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案"><span class="nav-number">2.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方案对比"><span class="nav-number">3.</span> <span class="nav-text">方案对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方案选择"><span class="nav-number">4.</span> <span class="nav-text">方案选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能预览"><span class="nav-number">5.</span> <span class="nav-text">功能预览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码链接"><span class="nav-number">6.</span> <span class="nav-text">源码链接</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
 
     </div>
-    <footer>
-        
-  
-  <div class="categories">
-    <a href="/categories/测试小工具/">测试小工具</a>
-  </div>
+  </aside>
+
 
         
-  
-  <div class="tags">
-    <a href="/tags/android/">android</a>, <a href="/tags/小工具/">小工具</a>, <a href="/tags/测试/">测试</a>
-  </div>
+      </div>
+    </main>
 
-		<div class="bdsharebuttonbox">
-	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
-	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
-	<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
-	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
-	<a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
-	<a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
-	<a href="#" class="bds_more" data-cmd="more"></a>
-	<a href="#" class="bds_count" data-cmd="count"></a>
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yoyo_zyx</span>
 </div>
-<script>
-window._bd_share_config=
-{
-	"common":{
-		"bdSnsKey":{},
-		"bdText":"",
-		"bdMini":"2",
-		"bdMiniList":false,
-		"bdPic":"",
-		"bdStyle":"0",
-		"bdSize":"24"
-	},
-	"share":{},
-	"image":{
-		"viewList":["qzone","tsina","tqq","renren","weixin","fbook","twi"],
-		"viewText":"分享到：",
-		"viewSize":"24"
-	},
-	"selectShare":{
-		"bdContainerClass":null,
-		"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin","fbook","twi"]
-	}
-};
-with(document)0[
-	(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)
-];
-</script>    
-        <div class="clearfix"></div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
     </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
   </div>
-</article>
-
- <nav id="pagination" >
-    
-    <a href="/2016/09/11/流量统计小工具/" class="alignleft prev" title="流量统计小工具">流量统计小工具</a>
-    
-    
-    <a href="/2016/09/03/Android客户端如何规避服务端数据格式错误导致的crash问题/" class="alignright next" title="Android客户端如何规避服务端数据格式错误导致的crash问题">Android客户端如何规避服务端数据格式错误导致的crash问题</a>
-    
-    <div class="clearfix"></div>
-</nav>
-
-
-
-	
-	<section id="comment">
-		<!-- 多说评论框 start -->
-		<div class="ds-thread" data-thread-key="2016/09/04/Android手机间通讯工具——原理篇/" data-title="Android手机间通讯工具——原理篇" data-url="http://yoursite.com/2016/09/04/Android手机间通讯工具——原理篇/"></div>
-		<!-- 多说评论框 end -->
-		<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-		<script type="text/javascript">
-		var duoshuoQuery = {short_name:"yoyozyx"};
-		(function() {
-			var ds = document.createElement('script');
-			ds.type = 'text/javascript';ds.async = true;
-			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-			ds.charset = 'UTF-8';
-			(document.getElementsByTagName('head')[0] 
-			 || document.getElementsByTagName('body')[0]).appendChild(ds);
-		})();
-		</script>
-		<!-- 多说公共JS代码 end -->
-	</section>
-	
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="q" value="site:yoursite.com">
-  </form>
-</div>
 
   
-<div class="widget tag">
-  <h3 class="title">Categories</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/测试小工具/">测试小工具</a><small>1</small></li>
-  
-    <li><a href="/categories/白盒测试/">白盒测试</a><small>3</small></li>
-  
-    <li><a href="/categories/自动化测试/">自动化测试</a><small>1</small></li>
-  
-    <li><a href="/categories/随笔/">随笔</a><small>1</small></li>
-  
-  </ul>
-</div>
 
-
-  
-<div class="widget tagcloud">
-  <h3 class="title">Tag Cloud</h3>
-  <div class="entry">
-    <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/单元测试/" style="font-size: 15px;">单元测试</a> <a href="/tags/小工具/" style="font-size: 10px;">小工具</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a> <a href="/tags/测试/" style="font-size: 10px;">测试</a> <a href="/tags/自动化/" style="font-size: 10px;">自动化</a>
-  </div>
-</div>
-
-
-  <iframe width="100%" height="140" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=140&fansRow=2&ptype=1&speed=0&skin=5&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2471152864&verifier=7b0d1c10&dpc=1"></iframe>
-
-  <div class="widget tag">
-<h3 class="title">友情链接</h3>
-<ul class="entry">
-<li><a href="http://opiece.me" title="Chillax's Blog" target="_blank">Chillax</a></li>
-</ul>
-</div>
-</aside>
-    <div class="clearfix"></div>
-  </div>
-  <footer id="footer"><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
-	</div>
-	
-	
-	<section class="info">
-		<p> Better late than never. <br/>
-			A=x+y+z and zyx=z+y+z,so zyx = A.</p>
-	</section>
-	 
-	<div class="social-font clearfix">
-		
-		<a href="http://weibo.com/2471152864" target="_blank" title="weibo"></a>
-		
-		
-		
-		<a href="https://github.com/yoyoyoky" target="_blank" title="github"></a>
-		
-		
-		<a href="https://www.facebook.com/yoyo_zyx" target="_blank" title="facebook"></a>
-		
-		
-		
-		<a href="mailto:452782019@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
-		
-	</div>
-		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/huangjunhui/concise" target="_blank" title="Concise">Concise</a> © 2016 
-		
-		<a href="http://yoursite.com/about" target="_blank" title="yoyo_zyx">yoyo_zyx</a>
-		
-		</p>
-</div>
-</footer>
-  <script src="//libs.baidu.com/jquery/2.0.3/jquery.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
-<script src="/js/counter.js"></script>
-
-
-
-
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<div id="totop" style="position:fixed;bottom:100px;right:10px;cursor: pointer;">
-<a title="返回顶部"><img src="/imgs/scrollup.png"/></a>
-</div>
-<script src="/js/totop.js"></script>
-<!-- mathjax config similar to math.stackexchange -->
 
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
 
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>
-
-
