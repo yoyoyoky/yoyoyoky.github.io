@@ -92,8 +92,9 @@
 <meta property="og:description" content="阅读本文大约需要10分钟">
 <meta property="og:image" content="http://yoursite.com/imgs/源码流程/Android源码.png">
 <meta property="og:image" content="http://yoursite.com/imgs/源码流程/Clone.gif">
+<meta property="og:image" content="http://yoursite.com/imgs/源码流程/sha1.png">
 <meta property="og:image" content="http://yoursite.com/imgs/源码流程/android代码定位流程.png">
-<meta property="og:updated_time" content="2016-09-19T06:22:46.288Z">
+<meta property="og:updated_time" content="2016-09-19T07:27:07.356Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅读Android客户端源码流程">
 <meta name="twitter:description" content="阅读本文大约需要10分钟">
@@ -313,7 +314,7 @@
 <blockquote class="blockquote-center">阅读本文大约需要10分钟</blockquote>
 
 <a id="more"></a>
-<h2 id="拉取源码常用git命令介绍"><a href="#拉取源码常用git命令介绍" class="headerlink" title="拉取源码常用git命令介绍"></a>拉取源码常用git命令介绍</h2><h3 id="克隆项目至本地"><a href="#克隆项目至本地" class="headerlink" title="克隆项目至本地"></a>克隆项目至本地</h3><p>以GooleSamples中的<a href="https://github.com/googlesamples/android-architecture" target="_blank" rel="external">todoapp</a>为例，选择Clone with HTTPS方式复制克隆地址，不选择SSH方式的原因见 HTTPS和SSH的区别和使用。</p>
+<h2 id="拉取源码常用git命令介绍"><a href="#拉取源码常用git命令介绍" class="headerlink" title="拉取源码常用git命令介绍"></a>拉取源码常用git命令介绍</h2><h3 id="克隆项目至本地"><a href="#克隆项目至本地" class="headerlink" title="克隆项目至本地"></a>克隆项目至本地</h3><p>以GitHub中的<a href="https://github.com/yoyoyoky/UnitPro" target="_blank" rel="external">UnitPro</a>(为演示的例子)为例，选择Clone with HTTPS方式复制克隆地址，不选择SSH方式的原因见<strong>HTTPS和SSH的区别和使用</strong>。</p>
 <p>获取到https url后，在合适的位置，打开Git Bash窗口，输入命令”git clone ‘https url’ “即可克隆指定项目到本地。</p>
 <p><img src="/imgs/源码流程/Clone.gif" alt="Clone">    </p>
 <hr>
@@ -403,23 +404,23 @@
 <td>git stash clear</td>
 <td>清空所有暂存记录</td>
 </tr>
-<tr>
-<td></td>
-</tr>
 </tbody>
 </table>
 <p>此处仅罗列常用的简单命令，详细使用可以参考<a href="https://git-scm.com/book/zh/v2" target="_blank" rel="external">Git-Book</a>，不想使用命令也可以使用Git-GUI 或 source-tree 或 GitHub 等图形界面工具。</p>
-<h2 id="正确配置android工程"><a href="#正确配置android工程" class="headerlink" title="正确配置android工程"></a>正确配置android工程</h2><p>在Android Studio中Open上一节中clone下来的项目，可喜的是，此项目没有附带本地项目的依赖，所有依赖均可自动从远程仓库中compile。</p>
+<h2 id="正确配置android工程"><a href="#正确配置android工程" class="headerlink" title="正确配置android工程"></a>正确配置android工程</h2><p>在Android Studio中Open上一节中clone下来的项目，需要说明的是，并不是所有的项目都会附带本地项目的依赖，大部分项目依赖均可自动从远程仓库中compile。</p>
 <p>但有一些项目可能会依赖到一些本地库，就需要先将依赖的库配置好。</p>
-<p>为了演示需要，我将todoapp fork到了自己的<a href="https://github.com/yoyoyoky/android-architecture" target="_blank" rel="external">Github</a>账号上，并对添加了Logger的本地工程依赖。</p>
-<p><strong><em>如何配置步骤大致如下：</em></strong></p>
-<p>1.同上步，将该工程clone到本地，切换到todo-mvp-rxjava分支</p>
-<p>2.查看app下gradle依赖所依赖的本地project，及使用compile project配置的工程</p>
+<p>为了演示需要，我在<a href="https://github.com/yoyoyoky/UnitPro" target="_blank" rel="external">UnitPro</a>的<a href="https://github.com/yoyoyoky/UnitPro/tree/another" target="_blank" rel="external">another分支</a>添加了Logger的本地工程依赖。</p>
+<h3 id="本地工程依赖的好处："><a href="#本地工程依赖的好处：" class="headerlink" title="本地工程依赖的好处："></a>本地工程依赖的好处：</h3><p>通过compile project导入本地工程，可省去打jar包或发布的重复性流程，被依赖工程在本地修改后，所引用的工程无需修改（若引用jar包则需重新导入）即可自动更新修改。</p>
+<h3 id="配置步骤大致如下："><a href="#配置步骤大致如下：" class="headerlink" title="配置步骤大致如下："></a>配置步骤大致如下：</h3><p>1.同上节，将该工程clone到本地，切换到another分支</p>
+<p>2.查看app下gradle依赖所依赖的本地project，即使用compile project配置的工程</p>
 <p>3.打开settings.gradle查看上步工程名所对应的路径配置</p>
 <p>4.根据本地依赖project路径配置好工程</p>
-<h2 id="android源码定位技巧"><a href="#android源码定位技巧" class="headerlink" title="android源码定位技巧"></a>android源码定位技巧</h2><p>1.熟悉客户端大致功能点及了解源码的基本Acitivity和Fragment命名（命名即可）</p>
-<p>2.若能从功能点猜测出对应界面的Activity或Fragment，则直接定位到该类，从左侧Project选择或Ctrl+Shift+R搜索定位</p>
-<p>3.若对命名不熟悉，则可按照以下流程及方法定位</p>
+<h2 id="Android签名证书SHA1"><a href="#Android签名证书SHA1" class="headerlink" title="Android签名证书SHA1"></a>Android签名证书SHA1</h2><p>在开发调试时，从Android Studio或者Eclipse中直接运行的APP在打包时使用了开发工具默认的开发版（debug）签名文件keystore，开发版签名文件对应有唯一的SHA1。SHA1的获取如下：</p>
+<p><img src="/imgs/源码流程/sha1.png" alt="sha1"></p>
+<p>备注：对签名的了解较少，希望后期能有进一步了解。</p>
+<h2 id="android源码定位技巧"><a href="#android源码定位技巧" class="headerlink" title="android源码定位技巧"></a>android源码定位技巧</h2><h3 id="熟悉命名"><a href="#熟悉命名" class="headerlink" title="熟悉命名"></a>熟悉命名</h3><p>熟悉客户端大致功能点及了解源码的基本Acitivity和Fragment命名（命名即可）</p>
+<h3 id="直接定位"><a href="#直接定位" class="headerlink" title="直接定位"></a>直接定位</h3><p>若能从功能点猜测出对应界面的Activity或Fragment，则直接定位到该类，从左侧Project选择或Ctrl+Shift+R搜索定位</p>
+<h3 id="流程定位"><a href="#流程定位" class="headerlink" title="流程定位"></a>流程定位</h3><p>若对命名不熟悉，则可按照以下流程及方法定位</p>
 <p><img src="/imgs/源码流程/android代码定位流程.png" alt="android代码定位流程"></p>
 
       
@@ -574,7 +575,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#拉取源码常用git命令介绍"><span class="nav-number">1.</span> <span class="nav-text">拉取源码常用git命令介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#克隆项目至本地"><span class="nav-number">1.1.</span> <span class="nav-text">克隆项目至本地</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用git命令"><span class="nav-number">1.2.</span> <span class="nav-text">常用git命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正确配置android工程"><span class="nav-number">2.</span> <span class="nav-text">正确配置android工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#android源码定位技巧"><span class="nav-number">3.</span> <span class="nav-text">android源码定位技巧</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#拉取源码常用git命令介绍"><span class="nav-number">1.</span> <span class="nav-text">拉取源码常用git命令介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#克隆项目至本地"><span class="nav-number">1.1.</span> <span class="nav-text">克隆项目至本地</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用git命令"><span class="nav-number">1.2.</span> <span class="nav-text">常用git命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正确配置android工程"><span class="nav-number">2.</span> <span class="nav-text">正确配置android工程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#本地工程依赖的好处："><span class="nav-number">2.1.</span> <span class="nav-text">本地工程依赖的好处：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置步骤大致如下："><span class="nav-number">2.2.</span> <span class="nav-text">配置步骤大致如下：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android签名证书SHA1"><span class="nav-number">3.</span> <span class="nav-text">Android签名证书SHA1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#android源码定位技巧"><span class="nav-number">4.</span> <span class="nav-text">android源码定位技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#熟悉命名"><span class="nav-number">4.1.</span> <span class="nav-text">熟悉命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直接定位"><span class="nav-number">4.2.</span> <span class="nav-text">直接定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流程定位"><span class="nav-number">4.3.</span> <span class="nav-text">流程定位</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
