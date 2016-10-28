@@ -104,7 +104,7 @@
 <meta property="og:image" content="http://yoursite.com/imgs/Android单元测试——辅助工具介绍/12findBugs代码检测.png">
 <meta property="og:image" content="http://yoursite.com/imgs/Android单元测试——辅助工具介绍/13findBugs筛选、.png">
 <meta property="og:image" content="http://yoursite.com/imgs/Android单元测试——辅助工具介绍/14运行结果.png">
-<meta property="og:updated_time" content="2016-09-19T06:18:29.753Z">
+<meta property="og:updated_time" content="2016-10-28T13:19:57.739Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android单元测试——辅助工具介绍">
 <meta name="twitter:description" content="阅读本文大约需要8分钟">
@@ -339,8 +339,7 @@
 
 <font color="#EE6AA7"><strong>2.一些点子来自<a href="http://chriszou.com/2016/04/25/android-unit-testing-wechat-group-share.html#rd?sukey=fa67fe3435f5c4beb9df864eb76da9c7c53e64c529e8216896471e04e9f5e1659bc497b62a02125156d9025ab5a0207b" target="_blank" rel="external">Android单元测试在蘑菇街支付金融部门的实践</a>，该作者<a href="http://chriszou.com/" target="_blank" rel="external">小创</a> 有很多关于单元测试的知识值得学习。</strong></font>
 
-<p><span id="jump1"><font size="3" color="#1C86EE"><strong>一.Code Coverage Tool （代码覆盖率工具）:</strong></font></span></p>
-<p>众所周知，在编写单元测试案例的过程中，有一个重要的指标就是代码覆盖率。编写单元测试并不是为了追求100%覆盖率，但覆盖率在单元测试中仍占据着不可或缺的地位。</p>
+<h2 id="一-Code-Coverage-Tool-（代码覆盖率工具）"><a href="#一-Code-Coverage-Tool-（代码覆盖率工具）" class="headerlink" title="一.Code Coverage Tool （代码覆盖率工具）:"></a><span id="jump1"><font size="3" color="#1C86EE"><strong>一.Code Coverage Tool （代码覆盖率工具）:</strong></font></span></h2><p>众所周知，在编写单元测试案例的过程中，有一个重要的指标就是代码覆盖率。编写单元测试并不是为了追求100%覆盖率，但覆盖率在单元测试中仍占据着不可或缺的地位。</p>
 <p>经典的Java Coverage Tool : Emma、Eclemma（Eclipse推荐使用）、Cobertura，感兴趣的学者可以自行查阅资料。</p>
 <p>接下来，我们来看Android Studio支持的Coverage Tool ： jacoco、IntelliJ IDEA。</p>
 <p>在Android Stuido新建过工程的同学，应该有注意到，该工程默认会新建androidTest及test的测试包。在Android Stuido中，在androidTest编写的单元测试，默认使用jacoco插件生成包含代码覆盖率的测试报告；而test包下的单元测试代码，则直接使用Android Studio已有工具IntelliJ IDEA生成覆盖率，也可以通过自定义gradle task使用jacoco插件生成与androidTest相同格式的测试报告。</p>
@@ -350,8 +349,7 @@
 <p><strong>区别：</strong>androidTest是存放一些与View(UI界面层)相关的单元测试案例的测试代码集，需要在真机或虚拟机上运行。一般使用的框架有：Instrumentation、Espresso，也可以编写自动化测试案例（框架：Uiautomator2.0）；<br>而test包则一般只存放与Model(数据层)相关的单元测试案例，但Android几乎无法实现MV完全解耦，所以目前在test包下可能也会涉及到View的测试。直接在JVM虚拟机上运行即可，速度快。框架：Robolectric+Mockito+其他。</p>
 <p><strong>运行方式：</strong>Android Studio 2.0版本开始，已经能够智能检测当前的测试是androidTest还是test了，低版本的可以在Build Variants中设置Test Artifact或者Add New Configuration 时选择Unit Tests(对应test),Android Instrumentation Tests(对应androidTest)。</p>
 <hr>
-<p><strong>jacoco:</strong></p>
-<ul>
+<h3 id="jacoco"><a href="#jacoco" class="headerlink" title="jacoco:"></a><strong>jacoco:</strong></h3><ul>
 <li><strong>先讲androidTest的使用方法</strong></li>
 </ul>
 <p>在Module gradle文件中添加以下代码：</p>
@@ -373,24 +371,21 @@
 <p>在\app\build\reports\jacoco\index.html：<br><img src="/imgs/Android单元测试——辅助工具介绍/7覆盖率报告.png" alt="test覆盖率报告"></p>
 <font color="#EE6AA7"><strong>那么问题来了：<font color="#1C86EE">如果同时编写了androidTest与test单元测试代码，能否使用jacoco生成一份综合的代码覆盖率测试报告呢？</font>此处应有思考。</strong></font>
 
-<p><strong>IntelliJ IDEA：</strong></p>
-<p>目前，只有test才支持此方式，操作步骤请看下图:<br><img src="/imgs/Android单元测试——辅助工具介绍/8控制台运行方式.png" alt="test控制台运行方式"><br>Tracing模式会增加消耗,但测量会更精确，但一般使用Sampling就足够。</p>
+<h3 id="IntelliJ-IDEA："><a href="#IntelliJ-IDEA：" class="headerlink" title="IntelliJ IDEA："></a><strong>IntelliJ IDEA：</strong></h3><p>目前，只有test才支持此方式，操作步骤请看下图:<br><img src="/imgs/Android单元测试——辅助工具介绍/8控制台运行方式.png" alt="test控制台运行方式"><br>Tracing模式会增加消耗,但测量会更精确，但一般使用Sampling就足够。</p>
 <p>生成报告：<br><img src="/imgs/Android单元测试——辅助工具介绍/9test控制台运行结果.png" alt="test控制台运行结果"></p>
 <hr>
 <font color="#EE6AA7"><strong>jacoco 与 IntelliJ IDEA:</strong></font>
 
 <p>两者各有优缺点，最明显的不同是，jacoco生成的是html报告，如果使用Jenkins自动构建测试，应该使用jacoco；而 IntelliJ IDEA,其实也是采用jacoco检测覆盖率的，但其在面板中显示，较为直观，推荐在编写调试案例时使用。分不同情况使用不同的覆盖率工具，两者可以相互取长补短。</p>
 <hr>
-<p><span id="jump2"><font size="3" color="#1C86EE"><strong>二.静态代码检测工具：FindBugs</strong></font></span></p>
-<p> <strong>what：</strong>静态代码分析是指无需运行被测代码，仅通过分析或检查源程序的语法、结构、过程、接口等来检查程序的正确性，找出代码隐藏的错误和缺陷，如参数不匹配，有歧义的嵌套语句，错误的递归，非法计算，可能出现的空指针引用等等。</p>
+<h2 id="二-静态代码检测工具：FindBugs"><a href="#二-静态代码检测工具：FindBugs" class="headerlink" title="二.静态代码检测工具：FindBugs"></a><span id="jump2"><font size="3" color="#1C86EE"><strong>二.静态代码检测工具：FindBugs</strong></font></span></h2><p> <strong>what：</strong>静态代码分析是指无需运行被测代码，仅通过分析或检查源程序的语法、结构、过程、接口等来检查程序的正确性，找出代码隐藏的错误和缺陷，如参数不匹配，有歧义的嵌套语句，错误的递归，非法计算，可能出现的空指针引用等等。</p>
 <p><strong>安装</strong>：AndroidStudio-&gt;Settigns-&gt;Plugins-&gt;Browse repositories-&gt;search “findBUgs-IDEA” 安装重启AndroidStudio即可。<br><img src="/imgs/Android单元测试——辅助工具介绍/11findBugs安装.png" alt="findBugs安装"></p>
 <p>安装完之后，工程右键选择&gt;FindBugs&gt;Analyze Module Files，即可开始检测代码。<br><img src="/imgs/Android单元测试——辅助工具介绍/12findBugs代码检测.png" alt="findBugs代码检测"></p>
 <p>若部分错误不想扫描，可右键工程-&gt;Open Module Settings里设置：<br><img src="/imgs/Android单元测试——辅助工具介绍/13findBugs筛选、.png" alt="findBugs筛选"></p>
 <p><strong>扫描结果分析：</strong><br>该工程扫描出两种类型的错误Bad practice（坏的实践：不建议的写法，建议修改为约定俗成的写法）和Dodgy Code(危险代码： 具有潜在危险的代码，可能运行期产生错误)，并给出了详细的说明。此工程的代码量较少，且编码风格也较好，所以查出来的bug较少，FindBugs关于FindBugs更多信息，可查看<a href="http://www.myexception.cn/database/1920915.html" target="_blank" rel="external"><strong>一些你不知道的事，findbugs的配置跟使用</strong></a>。</p>
 <p><font color="#EE6AA7"><strong>需要注意的是，</strong></font>虽然FindBugs能够对代码进行静态检测，但并不是FindBugs查找出来的bug就一定存在问题，也并不是所有潜在的bug，FidBugs都能查找出来，还需要开发者结合具体代码进行判断。</p>
 <p><a href="http://qa.blog.163.com/blog/static/190147002201342382422899/" target="_blank" rel="external"><strong>为啥不用静态代码检查工具呢?</strong></a> 静态代码检查从入门到放弃。</p>
-<p><span id="jump3"><font size="3" color="#1C86EE"><strong>三.Annotation、@Rule介绍</strong></font></span></p>
-<p>Annotation 与 <a href="https://github.com/junit-team/junit4/wiki/Rules" target="_blank" rel="external"><strong>JUnit Rule</strong></a> 的详细使用，需要自行学习，这里只介绍<a href="http://chriszou.com/2016/04/25/android-unit-testing-wechat-group-share.html#rd?sukey=fa67fe3435f5c4beb9df864eb76da9c7c53e64c529e8216896471e04e9f5e1659bc497b62a02125156d9025ab5a0207b" target="_blank" rel="external"><strong>Android单元测试在蘑菇街支付金融部门的实践</strong></a>中提到的结合两者来编写测试方法的注释，来规避测试方法名冗长、难以定义、格式不美观的问题。当测试失败时，会在控制台上添加自定义的错误信息。这的确是一个不错的方法。</p>
+<h2 id="三-Annotation、-Rule介绍"><a href="#三-Annotation、-Rule介绍" class="headerlink" title="三.Annotation、@Rule介绍"></a><span id="jump3"><font size="3" color="#1C86EE"><strong>三.Annotation、@Rule介绍</strong></font></span></h2><p>Annotation 与 <a href="https://github.com/junit-team/junit4/wiki/Rules" target="_blank" rel="external"><strong>JUnit Rule</strong></a> 的详细使用，需要自行学习，这里只介绍<a href="http://chriszou.com/2016/04/25/android-unit-testing-wechat-group-share.html#rd?sukey=fa67fe3435f5c4beb9df864eb76da9c7c53e64c529e8216896471e04e9f5e1659bc497b62a02125156d9025ab5a0207b" target="_blank" rel="external"><strong>Android单元测试在蘑菇街支付金融部门的实践</strong></a>中提到的结合两者来编写测试方法的注释，来规避测试方法名冗长、难以定义、格式不美观的问题。当测试失败时，会在控制台上添加自定义的错误信息。这的确是一个不错的方法。</p>
 <p>1).新建Annotation类，需要注意的是，单元测试以JUnit形式运行，需要添加@Retention，否则运行时无法检测到该类</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Retention (RetentionPolicy. RUNTIME)</span><br><span class="line">public @interface Purpose &#123;</span><br><span class="line">    String desc () default &quot;&quot; ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>2).新建实现MethodRule接口的自定义Rule类，在apply方法中处理案例执行前、执行成功或失败所做的操作：</p>
@@ -509,7 +504,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -526,7 +521,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -555,7 +550,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-Code-Coverage-Tool-（代码覆盖率工具）"><span class="nav-number">1.</span> <span class="nav-text">一.Code Coverage Tool （代码覆盖率工具）:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jacoco"><span class="nav-number">1.1.</span> <span class="nav-text">jacoco:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IntelliJ-IDEA："><span class="nav-number">1.2.</span> <span class="nav-text">IntelliJ IDEA：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-静态代码检测工具：FindBugs"><span class="nav-number">2.</span> <span class="nav-text">二.静态代码检测工具：FindBugs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-Annotation、-Rule介绍"><span class="nav-number">3.</span> <span class="nav-text">三.Annotation、@Rule介绍</span></a></li></ol></div>
             
           </div>
         </section>

@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="android,小工具,测试," />
+  <meta name="keywords" content="单元测试,android,覆盖率,jacoco," />
 
 
 
@@ -86,17 +86,16 @@
 
 <meta name="description" content="阅读本文大约需要5分钟">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android手机间通讯工具——原理篇">
-<meta property="og:url" content="http://yoursite.com/2016/09/04/Android手机间通讯工具——原理篇/index.html">
+<meta property="og:title" content="JaCoCo覆盖率计数器介绍">
+<meta property="og:url" content="http://yoursite.com/2016/10/28/JaCoCo覆盖率计数器介绍/index.html">
 <meta property="og:site_name" content="You's blog">
 <meta property="og:description" content="阅读本文大约需要5分钟">
-<meta property="og:image" content="http://yoursite.com/imgs/IAMP/IAMP.png">
-<meta property="og:image" content="http://yoursite.com/imgs/IAMP/IAMP.gif">
-<meta property="og:updated_time" content="2016-09-19T06:20:01.110Z">
+<meta property="og:image" content="http://yoursite.com/imgs/jacoco/Jacoco.jpg">
+<meta property="og:updated_time" content="2016-10-28T13:38:43.609Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android手机间通讯工具——原理篇">
+<meta name="twitter:title" content="JaCoCo覆盖率计数器介绍">
 <meta name="twitter:description" content="阅读本文大约需要5分钟">
-<meta name="twitter:image" content="http://yoursite.com/imgs/IAMP/IAMP.png">
+<meta name="twitter:image" content="http://yoursite.com/imgs/jacoco/Jacoco.jpg">
 
 
 
@@ -117,9 +116,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/09/04/Android手机间通讯工具——原理篇/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/10/28/JaCoCo覆盖率计数器介绍/"/>
 
-  <title> Android手机间通讯工具——原理篇 | You's blog </title>
+  <title> JaCoCo覆盖率计数器介绍 | You's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -249,7 +248,7 @@
             
             
               
-                Android手机间通讯工具——原理篇
+                JaCoCo覆盖率计数器介绍
               
             
           </h1>
@@ -261,8 +260,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-04T21:08:29+08:00" content="2016-09-04">
-              2016-09-04
+            <time itemprop="dateCreated" datetime="2016-10-28T21:08:04+08:00" content="2016-10-28">
+              2016-10-28
             </time>
           </span>
 
@@ -275,8 +274,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/测试小工具/" itemprop="url" rel="index">
-                    <span itemprop="name">测试小工具</span>
+                  <a href="/categories/白盒测试/" itemprop="url" rel="index">
+                    <span itemprop="name">白盒测试</span>
                   </a>
                 </span>
 
@@ -308,55 +307,39 @@
       
 
       
-        <p><img src="/imgs/IAMP/IAMP.png" alt="IAMP"></p>
+        <p><img src="/imgs/jacoco/Jacoco.jpg" alt="jacoco">    </p>
 <blockquote class="blockquote-center">阅读本文大约需要5分钟</blockquote>
 
 <a id="more"></a>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在移动端测试过程中，我们经常会涉及到设备间信息的传输，而在自动化测试热潮的席卷下，是否也有可能让设备之间的新消息交换实现自动化，进一步解放双手呢？</p>
-<p>当然，只有想不到的，没有做不到的。</p>
-<p>比如以下情景，你能想到多少种解决方案呢？</p>
-<p><strong>手机A给手机B拨打了一个电话，要求手机B接收到电话时，求计算出从A拨出电话到B接收到电话的时间延迟。</strong></p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p><strong>方案一：</strong>人工检查，记录A拨打电话的时间T1，及B收到电话的时间T2，人工通过计算T1-T2得出结果。可精确到秒，精确度不高，且人力干预，成本最高。</p>
-<p><strong>方案二：</strong>自动化检查，A开启短信监听，A拨打电话时，自记录拨打时间T1；B接收到电话时，发送短信至A通知其已接收到电话的时间T2；A收到短信后提取时间T2，自动通过计算T1-T2得出结果。可精确到毫秒，但存在短信收发延时误差，且短信成本较高。</p>
-<p><strong>方案三：</strong>自动化检查，既然短信成本高，且经常存在延时误差，是否存在一种替代短信的方式呢？在QQ、微信等第三方社交应用风靡的当下，短信通讯早已逐渐被取代，这里当然也可以通过第三方应用来取代方案二中的短信通知。监听新消息的问题不大，开启Accessibility之后监听通知栏新消息的关键字即可（原理同微信红包助手）。但问题来了，测试前需要先登录账号，并互加好友都是必要条件。据了解，已存在的主流第三方社交应用，发送信息的API并没有开放，如果模拟人手操作，点开应用，找到对方账号，编写好信息内容，点击发送，这将又是一个不大简洁、便利的过程，且需要一定的耗时，影响结果准确性。</p>
-<p><strong>方案四：</strong>依然自动化检查，既然已有的第三方通讯工具调用都比较麻烦，我们是否能够编写自己的通讯工具呢？通过调用自定义的接口，实现信息传递，简化传递过程，减少信息发送过程的误差，增加结果准确性。答案当然是可以的。</p>
-<h2 id="方案对比"><a href="#方案对比" class="headerlink" title="方案对比"></a>方案对比</h2><p>由以上四种递进方案中，可知<strong>方案四</strong>是最优的方案。那实现手机间通讯有什么方式呢？最主流的有 <strong>wifi</strong> 和 <strong>bluetooth</strong> 两种，这两种方式各有千秋，下面我们通过表格来对比两者的优缺点：</p>
-<hr>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">方式</th>
-<th style="text-align:center">精度</th>
-<th style="text-align:center">费用</th>
-<th style="text-align:center">稳定性</th>
-<th style="text-align:center">同时通讯设备数</th>
-<th style="text-align:center">服务端</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">wifi</td>
-<td style="text-align:center">ms</td>
-<td style="text-align:center">较低</td>
-<td style="text-align:center">较稳定</td>
-<td style="text-align:center">n</td>
-<td style="text-align:center">独立服务器</td>
-</tr>
-<tr>
-<td style="text-align:center">bluetooth</td>
-<td style="text-align:center">ms</td>
-<td style="text-align:center">免费</td>
-<td style="text-align:center">很稳定</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">客户端本身</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id="方案选择"><a href="#方案选择" class="headerlink" title="方案选择"></a>方案选择</h2><p>由上表可知，wifi最大的优点是支持多台设备同时通讯；而bluetooth相对于wifi，不需要付流量费，本身既可以当客户端又可以当服务端使用，无需额外的服务器，且连接非常稳定，几乎不会无故掉线；而wifi通讯则受网络稳定性影响较大。综上所述，若同时通讯设备数≥3，则只能选择wifi方式，其他情况选择bluetooth方式较为明智。</p>
-<h2 id="功能预览"><a href="#功能预览" class="headerlink" title="功能预览"></a>功能预览</h2><p>以下为蓝牙及wifi实现方式的功能预览图：</p>
-<p><img src="/imgs/IAMP/IAMP.gif" alt="IAMP功能预览"></p>
-<h2 id="源码链接"><a href="#源码链接" class="headerlink" title="源码链接"></a>源码链接</h2><p>本文仅先介绍Android手机间通讯工具的实现原理，源码可到<a href="https://github.com/AutoTestTools/IAMP" target="_blank" rel="external">GitHub</a>上获取，后续将增加源码解析篇，敬请期待。</p>
+<p><font color="#F20072"><strong>注意：</strong></font>此文译自JaCoCo官方介绍文档，如有出错之处，烦请指出，不胜感激。<a href="http://www.eclemma.org/jacoco/trunk/doc/counters.html" target="_blank" rel="external">点击此处，查看原文</a></p>
+<h2 id="覆盖率计数器"><a href="#覆盖率计数器" class="headerlink" title=" 覆盖率计数器 "></a><font color="#049E94"> 覆盖率计数器 </font></h2><p>JaCoCo使用一组不同的计数器来计算覆盖率指标。这些计数器根据Java类文件包含的信息（基本上是Java字节码指令和调试信息有选择地嵌入类文件）被分成不同种类。因此，即使在没有源码的情况下，这种方法也允许高效的动态测量和分析应用程序。 </p>
+<p>在大多数情况下，收集到的信息可以被映射回源代码，然后可视化成行级别的覆盖率报告。然而，这种方法也有局限性。调试信息必须被编译到类文件，以便计算行粒度覆盖率，并提供源代码高亮显示。并不是所有的Java语言结构都可以直接编译成字节码，在这种情况下,Java编译器创建所谓的合成代码有时会导致意想不到的代码覆盖率结果。</p>
+<h2 id="指令-C0-Coverage"><a href="#指令-C0-Coverage" class="headerlink" title=" 指令(C0 Coverage) "></a><font color="#049E94"> 指令(C0 Coverage) </font></h2><p>最小单元JaCoCo计数是单个Java字节码指令，指令覆盖提供了被执行或未被执行的代码量信息。这个指标是完全独立于源格式的， 即使在没有调试信息的类文件，也是可用的,。</p>
+<h2 id="分支-C1-Coverage"><a href="#分支-C1-Coverage" class="headerlink" title=" 分支(C1 Coverage) "></a><font color="#049E94"> 分支(C1 Coverage) </font></h2><p>JaCoCo也计算所有if和switch语句的分支覆盖率。这个指标项计算在一个方法中的总分支数,并决定了已执行和未执行分支的数量。即使在没有调试信息的类文件，分支覆盖也总是可用的。注意，在此计数器的定义中，异常处理并不属于分支。</p>
+<p>如果类文件被编译了调式信息决策点，就能够被相应地映射回源码行以及高亮显示：</p>
+<ul>
+<li>未覆盖：所有分支行都未被执行（红色钻石）</li>
+<li>部分覆盖：只有一部分行分支被执行（黄色钻石）</li>
+<li>全覆盖：所有的行分支都已被执行（绿色钻石）</li>
+</ul>
+<h2 id="圈复杂度"><a href="#圈复杂度" class="headerlink" title=" 圈复杂度 "></a><font color="#049E94"> 圈复杂度 </font></h2><p>JaCoCo也为每个非抽象方法计算圈复杂度，总结类、包和组的复杂性。根据McCabe1996的定义，圈复杂度是，在(线性)组合，通过一个方法来生成所有可能的路径中的最小数量路径。因此，复杂性值可以作为单元测试用例的数量完全覆盖一个软件某一块的指标。即使在没有调试信息的类文件，复杂度也通常都是可计算的。</p>
+<p>圈复杂度的正式定义v(G)是基于方法的控制流图表示的有向图:</p>
+<blockquote class="blockquote-center"> v(G) = E - N + 2 </blockquote>
+
+<p>E表示边缘数，N表示节点数。JaCoCo通过以基于分支数（B）和决策点（D）的等效方程来计算一个方法的圈复杂度：</p>
+<blockquote class="blockquote-center"> v(G) = B - D + 1 </blockquote>
+
+<p>根据每个分支的覆盖率情况，JaCoCo还为每个方法计算已覆盖和未覆盖的复杂性，未覆盖复杂度又为完全覆盖一个模块所缺失的测试用例数提供了指标。注意,JaCoCo并不考虑异常处理分支，try / catch块也不会增加复杂性。</p>
+<h2 id="行"><a href="#行" class="headerlink" title=" 行 "></a><font color="#049E94"> 行 </font></h2><p>对所有已编译调试信息的类文件,每一行的覆盖率信息也可以计算。当至少一条指令被分配到某一源码行时，该源码行被认为已经执行。</p>
+<p>由于一行通常 编译多个字节码指令，每一行包含的源代码高亮显示有三种不同的状态:</p>
+<ul>
+<li>未覆盖：该行没有指令被执行（红色背景）</li>
+<li>部分覆盖：该行只有部分指令被执行（黄色背景）</li>
+<li>全覆盖：该行包含的所有指令都被执行（绿色背景）</li>
+</ul>
+<p>根据源格式，一行源代码可能指定了多个方法或多个类。因此，方法的行计数，不能简单地添加到获得包含类的总数。这同样适用于在一个源文件的多个类。JaCoCo基于实际的源代码行覆盖来计算类和源文件的覆盖率。</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title=" 方法 "></a><font color="#049E94"> 方法 </font></h2><p>每个非抽象方法至少包含一条指令。当方法至少一条指令被执行，则被认为该方法被执行过。因为JaCoCo是基于字节码级别的，构造函数和静态初始化也被当作方法计算。 其中有些方法，如隐式,从而生成默认构造函数或常量初始值设定，可能没有直接对应到Java源代码中。</p>
+<h2 id="类"><a href="#类" class="headerlink" title=" 类 "></a><font color="#049E94"> 类 </font></h2><p>当一个类至少有一个方法被执行过，则认为该类被执行过。注意，JaCoCo 将构造方法和静态初始化方法也当作被执行过的方法。包含静态初始化方法的Java接口类型，也被当作已执行的类。</p>
 
       
     </div>
@@ -379,11 +362,13 @@
       
         <div class="post-tags">
           
+            <a href="/tags/单元测试/" rel="tag">#单元测试</a>
+          
             <a href="/tags/android/" rel="tag">#android</a>
           
-            <a href="/tags/小工具/" rel="tag">#小工具</a>
+            <a href="/tags/覆盖率/" rel="tag">#覆盖率</a>
           
-            <a href="/tags/测试/" rel="tag">#测试</a>
+            <a href="/tags/jacoco/" rel="tag">#jacoco</a>
           
         </div>
       
@@ -392,17 +377,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/03/Android客户端如何规避服务端数据格式错误导致的crash问题/" rel="next" title="Android客户端如何规避服务端数据格式错误导致的crash问题">
-                <i class="fa fa-chevron-left"></i> Android客户端如何规避服务端数据格式错误导致的crash问题
+              <a href="/2016/09/11/浅读Android客户端源码流程/" rel="next" title="浅读Android客户端源码流程">
+                <i class="fa fa-chevron-left"></i> 浅读Android客户端源码流程
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/11/流量统计小工具/" rel="prev" title="流量统计小工具">
-                流量统计小工具 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -516,7 +497,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案"><span class="nav-number">2.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方案对比"><span class="nav-number">3.</span> <span class="nav-text">方案对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方案选择"><span class="nav-number">4.</span> <span class="nav-text">方案选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能预览"><span class="nav-number">5.</span> <span class="nav-text">功能预览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码链接"><span class="nav-number">6.</span> <span class="nav-text">源码链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#覆盖率计数器"><span class="nav-number">1.</span> <span class="nav-text"> 覆盖率计数器 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指令-C0-Coverage"><span class="nav-number">2.</span> <span class="nav-text"> 指令(C0 Coverage) </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分支-C1-Coverage"><span class="nav-number">3.</span> <span class="nav-text"> 分支(C1 Coverage) </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#圈复杂度"><span class="nav-number">4.</span> <span class="nav-text"> 圈复杂度 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#行"><span class="nav-number">5.</span> <span class="nav-text"> 行 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法"><span class="nav-number">6.</span> <span class="nav-text"> 方法 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类"><span class="nav-number">7.</span> <span class="nav-text"> 类 </span></a></li></ol></div>
             
           </div>
         </section>
