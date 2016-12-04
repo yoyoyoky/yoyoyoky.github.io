@@ -96,7 +96,7 @@
 <meta property="og:image" content="http://yoursite.com/imgs/layout/Floating.gif">
 <meta property="og:image" content="http://yoursite.com/imgs/layout/Inspector无法定位Webview详情.gif">
 <meta property="og:image" content="http://yoursite.com/imgs/layout/chrome inspect webview.gif">
-<meta property="og:updated_time" content="2016-12-04T09:07:20.999Z">
+<meta property="og:updated_time" content="2016-12-04T09:22:25.799Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android自动化无法定位悬浮窗、webview等控件的完美解决方案">
 <meta name="twitter:description" content="阅读本文大约需要8分钟">
@@ -312,7 +312,7 @@
       
 
       
-        <p><img src="/imgs/layout/Layout Inspector.jpg" alt="Android源码"></p>
+        <p><img src="/imgs/layout/Layout Inspector.jpg" alt="Layout Inspector"></p>
 <blockquote class="blockquote-center">阅读本文大约需要8分钟</blockquote>
 
 <a id="more"></a>
@@ -322,17 +322,20 @@
 <p>如果你还在使用Eclipse编程，该换IDEA或Android Studio啦；如果你的Android Studio版本还在2.1或以下版本，可以考虑升级2.2啦。为什么要换2.2？可以先看看stormzhang的这篇文章<a href="http://stormzhang.com/2016/09/20/android-studio-2.2/" target="_blank" rel="external">《Android Studio 2.2 来啦》</a>。张帅的文章里面提及到很多2.2版本非常吸引人的功能，包括对开发来说非常方便的Layout Editor。那对测试人员来说，Android Studio 2.2是否有带来福音呢？答案当然是肯定的。</p>
 <p>在手机打开指定的界面，usb连接电脑，打开Android Studio，选择 Tool -&gt; Android -&gt; Layout Inspector,弹框可以选择已连接的手机 -&gt; 正在运行的应用包名 -&gt; 已打开的应用Activity名。相比于DDMS，Layout Inspector的速度杠杠的，且支持获取处于后台运行的界面，即一次打开多个界面后，在不切换手机屏幕的情况下，可以获取多个界面的信息。通过此功能，在选择指定应用Activity时，我们便可以得到被测试界面的Acitivty名啦，不通过adb命令即可实现。</p>
 <p>不过此处有一个问题，当有多个Activity时，对源码不熟悉的同学可能会选错Activity, <font color="#F20072">没有关系，没有关系，没有关系，</font>看到后面截取的layout与指定界面不符时，选择其他Activity即可。一回生，二回熟，慢慢你就能体会其中的奥妙啦~</p>
-<p><img src="/imgs/layout/Activity.gif" alt="Android源码"></p>
+<p><img src="/imgs/layout/Activity.gif" alt="Activity"></p>
 <blockquote>注意：使用Layout Inspector获取布局信息，需要是debug版的apk,否则视图检查器列表不会显示该package</blockquote>
 
-<h2 id="悬浮窗等控件属性"><a href="#悬浮窗等控件属性" class="headerlink" title="悬浮窗等控件属性"></a><font color="#049E94">悬浮窗等控件属性</font></h2><p>由上节可知，新版Android Studio功能真的很强大！<br>继上步，Layout Inspector还有更多更精彩的内容。选择Activity之后，很快即可获取指定界面的layout。该layout不仅包括了<a href="https://developer.android.com/studio/profile/optimize-ui.html" target="_blank" rel="external">Hierarchy Viewer Tool</a>中所有的属性信息，还提供了更详细的内容。包括控件绑定的Tag、Alpha值、ListView加载的数据类型……。更神奇的是，界面未显示的控件也会灰显显示在左侧的layout列表中，且选中可查看该控件的详细属性信息。当然悬浮窗肯定不在话下了，需要主意的是，如果A应用调用了B应用的悬浮窗，需要选择B应用的包名才能获取到悬浮窗控件哦。</p>
+<h2 id="悬浮窗等控件属性"><a href="#悬浮窗等控件属性" class="headerlink" title="悬浮窗等控件属性"></a><font color="#049E94">悬浮窗等控件属性</font></h2><p>由上节可知，新版Android Studio功能真的很强大！</p>
+<p>继上步，Layout Inspector还有更多更精彩的内容。选择Activity之后，很快即可获取指定界面的layout。该layout不仅包括了<a href="https://developer.android.com/studio/profile/optimize-ui.html" target="_blank" rel="external">Hierarchy Viewer Tool</a>中所有的属性信息，还提供了更详细的内容。包括控件绑定的Tag、Alpha值、ListView加载的数据类型……。更神奇的是，界面未显示的控件也会灰显显示在左侧的layout列表中，且选中可查看该控件的详细属性信息。当然悬浮窗肯定不在话下了，需要主意的是，如果A应用调用了B应用的悬浮窗，需要选择B应用的包名才能获取到悬浮窗控件哦。</p>
 <p><a href="https://developer.android.com/studio/profile/optimize-ui.html" target="_blank" rel="external">Hierarchy Viewer Tool</a>无法定位悬浮窗口视图详情：</p>
-<p><img src="/imgs/layout/DDMS.gif" alt="Android源码"></p>
-<p>Layout Inspector可以选中悬浮窗所在package-&gt;”layout”定位控件：</p>
-<p><img src="/imgs/layout/Floating.gif" alt="Android源码"></p>
-<h2 id="webview控件获取"><a href="#webview控件获取" class="headerlink" title="webview控件获取"></a><font color="#049E94">webview控件获取</font></h2><p>可惜的是，Android Studio仍然未支持html5页面控件的详情获取，但我们可以通过Google浏览器提供的插件来解决这个问题。使用Google浏览器打开<a href="chrome://inspect//#devices" target="_blank" rel="external">chrome://inspect//#devices</a> 网址，首次使用需要翻墙才可以获取到界面信息。</p>
+<p><img src="/imgs/layout/DDMS.gif" alt="DDMS"></p>
+<p>Hierarchy Viewer Tool可以获取普通控件的属性信息，包括id、text、坐标值等，但无法定位悬浮窗口，点击悬浮窗口，定位到的是下层的整个View控件。</p>
+<p>Layout Inspector可以选中悬浮窗所在package-&gt;window窗口，来定位控件：</p>
+<p><img src="/imgs/layout/Floating.gif" alt="Floating"></p>
+<p>选择悬浮窗口所在的window(一般情况下可能会有内存号显示，或者其他一些悬浮窗标志，如名字包含float等)，若实在不知道悬浮窗属于哪个window，那就尽量开少的window，如何一个个试。这是比较笨的方法，试多了就有感觉了。有gif动图可看出，Layout Inspector是直接截取悬浮窗口视图，其控件信息如普通Activity控件属性相同。</p>
+<h2 id="webview控件获取"><a href="#webview控件获取" class="headerlink" title="webview控件获取"></a><font color="#049E94">webview控件获取</font></h2><p>可惜的是，Android Studio仍然未支持html5页面控件的详情获取，但我们可以通过Google浏览器提供的插件来解决这个问题。使用Google浏览器打开<a href="chrome://inspect/#devices" target="_blank" rel="external">chrome://inspect/#devices</a> 网址，首次使用需要翻墙才可以获取到界面信息。</p>
 <p>Layout Inspector不支持Webview控件定位：</p>
-<p><img src="/imgs/layout/Inspector无法定位Webview详情.gif" alt="Android源码"></p>
+<p><img src="/imgs/layout/Inspector无法定位Webview详情.gif" alt="Inspector无法定位Webview详情"></p>
 <p>使用chrome inspect 定位webview控件：</p>
 <p><img src="/imgs/layout/chrome inspect webview.gif" alt="chrome inspect webview"></p>
 <p>可以通过操作pc端控制手机端h5页面操作，页面跳转后，inspect获取到的页面详情会随之改变，定位到指定控件之后，可以点击右键复制xpath或者css path，该值可以直接用于自动化脚本的编写，非常便捷。</p>
