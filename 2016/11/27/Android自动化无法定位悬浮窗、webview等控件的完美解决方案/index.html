@@ -91,7 +91,12 @@
 <meta property="og:site_name" content="You's blog">
 <meta property="og:description" content="阅读本文大约需要8分钟">
 <meta property="og:image" content="http://yoursite.com/imgs/layout/Layout Inspector.jpg">
-<meta property="og:updated_time" content="2016-12-03T16:10:35.198Z">
+<meta property="og:image" content="http://yoursite.com/imgs/layout/Activity.gif">
+<meta property="og:image" content="http://yoursite.com/imgs/layout/DDMS.gif">
+<meta property="og:image" content="http://yoursite.com/imgs/layout/Floating.gif">
+<meta property="og:image" content="http://yoursite.com/imgs/layout/Inspector无法定位Webview详情.gif">
+<meta property="og:image" content="http://yoursite.com/imgs/layout/chrome inspect webview.gif">
+<meta property="og:updated_time" content="2016-12-04T09:07:20.999Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android自动化无法定位悬浮窗、webview等控件的完美解决方案">
 <meta name="twitter:description" content="阅读本文大约需要8分钟">
@@ -311,15 +316,26 @@
 <blockquote class="blockquote-center">阅读本文大约需要8分钟</blockquote>
 
 <a id="more"></a>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#049E94">前言</font></h2><p>众所周知，在做Android自动化过程中，经常需要获取Activity名、控件属性等信息，以便脚本能够打开指定界面或者定位到指定控件并对其进行操作。通常，我们都是通过DDMS（Dalvik Debug Monitor Service， Android 开发环境中的Dalvik虚拟机调试监控服务。它为我们提供例如：为测试设备截屏，针对特定的进程查看正在运行的线程以及堆信息、Logcat、广播状态信息、模拟电话呼叫、接收SMS、虚拟地理坐标等等。取自<a href="http://www.baidu.com/link?url=waelqRXwkZ7m2TUP6KzT3iAs6jL40iE-6uIUL4eC6AqhnH7TackpEvvs1QYB_FDGMBEOrvax1hltIYFY_Qhbnq" target="_blank" rel="external">百度百科</a>）获取控件属性的。</p>
-<p>用过DDMS获取控件属性的同学应该深有感触，打开DDMS耗时较长、截取屏幕速度极其考验人的耐性，且存在一个很严重的弊端——无法获取包含动态元素的界面、无法定位悬浮窗或webview中的元素。接下来将告诉你，这通通都不是问题。</p>
-<h2 id="Acitvity名获取"><a href="#Acitvity名获取" class="headerlink" title=" Acitvity名获取"></a><font color="#049E94"> Acitvity名获取</font></h2><p>在进入正题之前，先插入一个小插曲。</p>
-<p>在编写自动化测试脚本过程中，获取Activity名称是必不可少的环节。通常来说，我们都是通过adb命令 (我这边用的是<font color="#F20072">“adb shell dumpsys window w | grep mCurrentFocus= ”</font>来过滤) 来获取手机当前界面的Activity名。如果觉得使用adb命令查询比较麻烦，毕竟adb总是会出现类似“adb devices not found”等奇奇怪怪的问题，可以通过Android Studio来获取，前提是下载了Android Studio最新版(目前最新版是2.2.2)，因为此功能是在2.2版本才推出的。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#049E94">前言</font></h2><p>众所周知，在做Android自动化过程中，经常需要获取Activity名、控件属性等信息，以便脚本能够打开指定界面或者定位到指定控件并对其进行操作。通常，我们都是通过DDMS（Dalvik Debug Monitor Service， Android 开发环境中的Dalvik虚拟机调试监控服务。它为我们提供例如：为测试设备截屏，针对特定的进程查看正在运行的线程以及堆信息、Logcat、广播状态信息、模拟电话呼叫、接收SMS、虚拟地理坐标等等。取自<a href="http://www.baidu.com/link?url=waelqRXwkZ7m2TUP6KzT3iAs6jL40iE-6uIUL4eC6AqhnH7TackpEvvs1QYB_FDGMBEOrvax1hltIYFY_Qhbnq" target="_blank" rel="external">百度百科</a>）获取控件属性的。实际上，是通过其 <a href="https://developer.android.com/studio/profile/optimize-ui.html" target="_blank" rel="external">Hierarchy Viewer Tool</a>。</p>
+<p>用过<a href="https://developer.android.com/studio/profile/optimize-ui.html" target="_blank" rel="external">Hierarchy Viewer Tool</a>获取控件属性的同学应该深有感触，打开<a href="https://developer.android.com/studio/profile/optimize-ui.html" target="_blank" rel="external">Hierarchy Viewer Tool</a>耗时较长、截取屏幕速度极其考验人的耐性，且存在一个很严重的弊端——无法获取包含动态元素的界面、无法定位悬浮窗或webview中的元素。接下来将告诉你，这通通都不是问题。</p>
+<h2 id="Acitvity名获取"><a href="#Acitvity名获取" class="headerlink" title=" Acitvity名获取"></a><font color="#049E94"> Acitvity名获取</font></h2><p>在编写自动化测试脚本过程中，获取Activity名称是必不可少的环节。通常来说，我们都是通过adb命令 (我这边用的是<font color="#F20072">“adb shell dumpsys window w | grep mCurrentFocus= ”</font>来过滤) 来获取手机当前界面的Activity名。如果觉得使用adb命令查询比较麻烦，毕竟adb总是会出现类似“adb devices not found”等奇奇怪怪的问题，可以通过Android Studio来获取，前提是下载了Android Studio最新版(目前最新版是2.2.2)，因为此功能是在2.2版本才推出的。</p>
 <p>如果你还在使用Eclipse编程，该换IDEA或Android Studio啦；如果你的Android Studio版本还在2.1或以下版本，可以考虑升级2.2啦。为什么要换2.2？可以先看看stormzhang的这篇文章<a href="http://stormzhang.com/2016/09/20/android-studio-2.2/" target="_blank" rel="external">《Android Studio 2.2 来啦》</a>。张帅的文章里面提及到很多2.2版本非常吸引人的功能，包括对开发来说非常方便的Layout Editor。那对测试人员来说，Android Studio 2.2是否有带来福音呢？答案当然是肯定的。</p>
 <p>在手机打开指定的界面，usb连接电脑，打开Android Studio，选择 Tool -&gt; Android -&gt; Layout Inspector,弹框可以选择已连接的手机 -&gt; 正在运行的应用包名 -&gt; 已打开的应用Activity名。相比于DDMS，Layout Inspector的速度杠杠的，且支持获取处于后台运行的界面，即一次打开多个界面后，在不切换手机屏幕的情况下，可以获取多个界面的信息。通过此功能，在选择指定应用Activity时，我们便可以得到被测试界面的Acitivty名啦，不通过adb命令即可实现。</p>
 <p>不过此处有一个问题，当有多个Activity时，对源码不熟悉的同学可能会选错Activity, <font color="#F20072">没有关系，没有关系，没有关系，</font>看到后面截取的layout与指定界面不符时，选择其他Activity即可。一回生，二回熟，慢慢你就能体会其中的奥妙啦~</p>
-<h2 id="悬浮窗等控件属性"><a href="#悬浮窗等控件属性" class="headerlink" title="悬浮窗等控件属性"></a><font color="#049E94">悬浮窗等控件属性</font></h2><p>呼~终于要切入正确题啦！由上节可知，新版Android Studio功能真的很强大！<br>继上步，Layout Inspector还有更多更精彩的内容。选择Activity之后，很快即可获取指定界面的layout。该layout不仅包括了DDMS中所有的属性信息，还提供了更详细的内容。包括控件绑定的Tag、Alpha值、ListView加载的数据类型……。更神奇的是，界面未显示的控件也会灰显显示在layout树中，且可查看该控件的详细属性信息。当然悬浮窗肯定不在话下了，需要主意的是，如果A应用调用了B应用的悬浮窗，需要选择B应用的包名才能获取到悬浮窗控件哦。</p>
+<p><img src="/imgs/layout/Activity.gif" alt="Android源码"></p>
+<blockquote>注意：使用Layout Inspector获取布局信息，需要是debug版的apk,否则视图检查器列表不会显示该package</blockquote>
+
+<h2 id="悬浮窗等控件属性"><a href="#悬浮窗等控件属性" class="headerlink" title="悬浮窗等控件属性"></a><font color="#049E94">悬浮窗等控件属性</font></h2><p>由上节可知，新版Android Studio功能真的很强大！<br>继上步，Layout Inspector还有更多更精彩的内容。选择Activity之后，很快即可获取指定界面的layout。该layout不仅包括了<a href="https://developer.android.com/studio/profile/optimize-ui.html" target="_blank" rel="external">Hierarchy Viewer Tool</a>中所有的属性信息，还提供了更详细的内容。包括控件绑定的Tag、Alpha值、ListView加载的数据类型……。更神奇的是，界面未显示的控件也会灰显显示在左侧的layout列表中，且选中可查看该控件的详细属性信息。当然悬浮窗肯定不在话下了，需要主意的是，如果A应用调用了B应用的悬浮窗，需要选择B应用的包名才能获取到悬浮窗控件哦。</p>
+<p><a href="https://developer.android.com/studio/profile/optimize-ui.html" target="_blank" rel="external">Hierarchy Viewer Tool</a>无法定位悬浮窗口视图详情：</p>
+<p><img src="/imgs/layout/DDMS.gif" alt="Android源码"></p>
+<p>Layout Inspector可以选中悬浮窗所在package-&gt;”layout”定位控件：</p>
+<p><img src="/imgs/layout/Floating.gif" alt="Android源码"></p>
 <h2 id="webview控件获取"><a href="#webview控件获取" class="headerlink" title="webview控件获取"></a><font color="#049E94">webview控件获取</font></h2><p>可惜的是，Android Studio仍然未支持html5页面控件的详情获取，但我们可以通过Google浏览器提供的插件来解决这个问题。使用Google浏览器打开<a href="chrome://inspect//#devices" target="_blank" rel="external">chrome://inspect//#devices</a> 网址，首次使用需要翻墙才可以获取到界面信息。</p>
+<p>Layout Inspector不支持Webview控件定位：</p>
+<p><img src="/imgs/layout/Inspector无法定位Webview详情.gif" alt="Android源码"></p>
+<p>使用chrome inspect 定位webview控件：</p>
+<p><img src="/imgs/layout/chrome inspect webview.gif" alt="chrome inspect webview"></p>
+<p>可以通过操作pc端控制手机端h5页面操作，页面跳转后，inspect获取到的页面详情会随之改变，定位到指定控件之后，可以点击右键复制xpath或者css path，该值可以直接用于自动化脚本的编写，非常便捷。</p>
 <h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a><font color="#049E94">结尾</font></h2><p>此文旨在介绍Acitivity名的新获取方式、Layout Inspector获取悬浮窗口控件属性及属性介绍、webview控件获取详细界面内容等，获取到的信息，可以应用于自动化脚本的编写，也可对Android布局及控件属性有进一步的了解。接下来的文章，将基于Google新推的UI单元测试框架——Espresso介绍如何利用通过此文获取到的控件信息。</p>
 
       
