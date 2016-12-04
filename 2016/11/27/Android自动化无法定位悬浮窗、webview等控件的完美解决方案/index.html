@@ -90,10 +90,12 @@
 <meta property="og:url" content="http://yoursite.com/2016/11/27/Android自动化无法定位悬浮窗、webview等控件的完美解决方案/index.html">
 <meta property="og:site_name" content="You's blog">
 <meta property="og:description" content="阅读本文大约需要8分钟">
-<meta property="og:updated_time" content="2016-11-27T14:39:04.952Z">
+<meta property="og:image" content="http://yoursite.com/imgs/layout/Layout Inspector.jpg">
+<meta property="og:updated_time" content="2016-12-03T16:10:35.198Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android自动化无法定位悬浮窗、webview等控件的完美解决方案">
 <meta name="twitter:description" content="阅读本文大约需要8分钟">
+<meta name="twitter:image" content="http://yoursite.com/imgs/layout/Layout Inspector.jpg">
 
 
 
@@ -305,10 +307,11 @@
       
 
       
-        <blockquote class="blockquote-center">阅读本文大约需要8分钟</blockquote>
+        <p><img src="/imgs/layout/Layout Inspector.jpg" alt="Android源码"></p>
+<blockquote class="blockquote-center">阅读本文大约需要8分钟</blockquote>
 
 <a id="more"></a>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#049E94">前言</font></h2><p>众所周知，在做Android自动化过程中，经常需要获取Activity名、控件属性等信息，以便脚本能够打开指定界面或者定位到指定控件并对其进行操作。通常，我们都是通过DDMS（Dalvik Debug Monitor Service， Android 开发环境中的Dalvik虚拟机调试监控服务。它为我们提供例如：为测试设备截屏，针对特定的进程查看正在运行的线程以及堆信息、Logcat、广播状态信息、模拟电话呼叫、接收SMS、虚拟地理坐标等等）获取控件属性的。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#049E94">前言</font></h2><p>众所周知，在做Android自动化过程中，经常需要获取Activity名、控件属性等信息，以便脚本能够打开指定界面或者定位到指定控件并对其进行操作。通常，我们都是通过DDMS（Dalvik Debug Monitor Service， Android 开发环境中的Dalvik虚拟机调试监控服务。它为我们提供例如：为测试设备截屏，针对特定的进程查看正在运行的线程以及堆信息、Logcat、广播状态信息、模拟电话呼叫、接收SMS、虚拟地理坐标等等。取自<a href="http://www.baidu.com/link?url=waelqRXwkZ7m2TUP6KzT3iAs6jL40iE-6uIUL4eC6AqhnH7TackpEvvs1QYB_FDGMBEOrvax1hltIYFY_Qhbnq" target="_blank" rel="external">百度百科</a>）获取控件属性的。</p>
 <p>用过DDMS获取控件属性的同学应该深有感触，打开DDMS耗时较长、截取屏幕速度极其考验人的耐性，且存在一个很严重的弊端——无法获取包含动态元素的界面、无法定位悬浮窗或webview中的元素。接下来将告诉你，这通通都不是问题。</p>
 <h2 id="Acitvity名获取"><a href="#Acitvity名获取" class="headerlink" title=" Acitvity名获取"></a><font color="#049E94"> Acitvity名获取</font></h2><p>在进入正题之前，先插入一个小插曲。</p>
 <p>在编写自动化测试脚本过程中，获取Activity名称是必不可少的环节。通常来说，我们都是通过adb命令 (我这边用的是<font color="#F20072">“adb shell dumpsys window w | grep mCurrentFocus= ”</font>来过滤) 来获取手机当前界面的Activity名。如果觉得使用adb命令查询比较麻烦，毕竟adb总是会出现类似“adb devices not found”等奇奇怪怪的问题，可以通过Android Studio来获取，前提是下载了Android Studio最新版(目前最新版是2.2.2)，因为此功能是在2.2版本才推出的。</p>
