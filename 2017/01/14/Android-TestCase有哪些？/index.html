@@ -1,0 +1,664 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="测试,android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="阅读本文大约需要6.66分钟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android TestCase有哪些？">
+<meta property="og:url" content="http://yoursite.com/2017/01/14/Android-TestCase有哪些？/index.html">
+<meta property="og:site_name" content="You's blog">
+<meta property="og:description" content="阅读本文大约需要6.66分钟">
+<meta property="og:image" content="http://yoursite.com/imgs/testcase/TestCase.jpg">
+<meta property="og:updated_time" content="2017-01-14T09:30:35.240Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android TestCase有哪些？">
+<meta name="twitter:description" content="阅读本文大约需要6.66分钟">
+<meta name="twitter:image" content="http://yoursite.com/imgs/testcase/TestCase.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/14/Android-TestCase有哪些？/"/>
+
+  <title> Android TestCase有哪些？ | You's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">You's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android TestCase有哪些？
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-14T16:00:48+08:00" content="2017-01-14">
+              2017-01-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/白盒测试/" itemprop="url" rel="index">
+                    <span itemprop="name">白盒测试</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/imgs/testcase/TestCase.jpg" alt="Android源码"></p>
+<blockquote class="blockquote-center">阅读本文大约需要6.66分钟</blockquote>
+
+<a id="more"></a>
+<p>Google提供的编写单元、功能、性能测试案例的类，通常可以细分为以下几个类：</p>
+<h2 id="ActivityInstrumentationTestCase2"><a href="#ActivityInstrumentationTestCase2" class="headerlink" title="ActivityInstrumentationTestCase2"></a><a href="https://developer.android.com/reference/android/test/ActivityInstrumentationTestCase2.html" target="_blank" rel="external"><font color="#049E94">ActivityInstrumentationTestCase2</font></a></h2><p>这个类提供了一个单一的Activity的功能测试。Activity的测试，将使用系统创建的基础设施（通过调用InstrumentationTestCase.launchActivity()）来创建,且您能够直接对Activiy进行操作。</p>
+<p>这个测试案例支持的其他选项包括：</p>
+<ul>
+<li>您可以在UI线程运行任何测试方法  （见<a href="https://developer.android.com/reference/android/test/UiThreadTest.html" target="_blank" rel="external">UiThreadTest</a>）。</li>
+<li>您可以注入自定义的Intent到你的活动（见 <a href="https://developer.android.com/reference/android/test/ActivityInstrumentationTestCase2.html#setActivityIntent(android.content.Intent" target="_blank" rel="external">setActivityIntent(Intent)</a>）。</li>
+<li>该类取代了<a href="https://developer.android.com/reference/android/test/ActivityInstrumentationTestCase.html" target="_blank" rel="external">ActivityInstrumentationTestCase</a>，它被废弃了。新的测试应该使用这个基类来写。</li>
+</ul>
+<h2 id="ActivityUnitTestCase"><a href="#ActivityUnitTestCase" class="headerlink" title="ActivityUnitTestCase"></a><a href="https://developer.android.com/reference/android/test/ActivityUnitTestCase.html" target="_blank" rel="external"><font color="#049E94">ActivityUnitTestCase</font></a></h2><p>这个类提供了一个单一的Activity独立测试。Activity的测试，将用最小的连接到系统的基础设施来创建，您可以注入mocked或包装Activity所依赖的许多版本（原文： wrappered versions of many of Activity’s dependencies 暂不理解其含义）。大部分的工作都是通过通过<a href="https://developer.android.com/reference/android/test/ActivityUnitTestCase.html#setUp" target="_blank" rel="external">setUp()</a>和<a href="https://developer.android.com/reference/android/test/ActivityUnitTestCase.html#tearDown" target="_blank" rel="external">tearDown()</a> 自动处理的。</p>
+<p>必须指出的是，作为一个真正的单元测试，您的Activity将不会在正常的系统运行，并且将不参加与其它Activity的正常相互作用。下面的方法在这个配置中，不应该被调用 - 它们大多会抛出异常：</p>
+<ul>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#createPendingResult(int, android.content.Intent, int&#39;">createPendingResult(int, Intent, int)</a></p>
+</li>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#startActivityIfNeeded(android.content.Intent, int&#39;">startActivityIfNeeded(Intent, int)</a></p>
+</li>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#startActivityFromChild(android.app.Activity, android.content.Intent, int&#39;">startActivityFromChild(Activity, Intent, int)</a></p>
+</li>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#startNextMatchingActivity(android.content.Intent&#39;"> startNextMatchingActivity(Intent)</a></p>
+</li>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#getCallingActivity(&#39;">getCallingActivity()</a></p>
+</li>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#getCallingPackage(&#39;">getCallingPackage()</a></p>
+</li>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#createPendingResult(int, android.content.Intent, int&#39;">createPendingResult(int, Intent, int)</a></p>
+</li>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#getTaskId(&#39;">getTaskId()</a></p>
+</li>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#isTaskRoot(&#39;">isTaskRoot()</a></p>
+</li>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#moveTaskToBack(boolean&#39;">moveTaskToBack(boolean)</a></p>
+</li>
+</ul>
+<p>以下方法可以调用，但不会做任何事情。出于测试目的，您可以使用<a href="&#39;https://developer.android.com/reference/android/test/ActivityUnitTestCase.html#getStartedActivityIntent(&#39;">getStartedActivityIntent()</a>，并<a href="&#39;https://developer.android.com/reference/android/test/ActivityUnitTestCase.html#getStartedActivityRequest(&#39;">getStartedActivityRequest()</a>方法来检查它们被调用时所携带的参数。</p>
+<ul>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#startActivity(android.content.Intent&#39;">startActivity(Intent)</a></p>
+</li>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#startActivityForResult(android.content.Intent, int&#39;">startActivityForResult(Intent, int)</a></p>
+</li>
+</ul>
+<p>以下方法可以调用，但不会做任何事情。出于测试目的，您可以使用<a href="&#39;https://developer.android.com/reference/android/test/ActivityUnitTestCase.html#isFinishCalled(&#39;">isFinishCalled()</a>，并<a href="&#39;https://developer.android.com/reference/android/test/ActivityUnitTestCase.html#getFinishedActivityRequest(&#39;">getFinishedActivityRequest()</a>检查它们被调用时所携带的参数。</p>
+<ul>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#finish(&#39;">finish()</a></p>
+</li>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#finishFromChild(android.app.Activity&#39;">finishFromChild(Activity)</a></p>
+</li>
+<li><p><a href="&#39;https://developer.android.com/reference/android/app/Activity.html#finishActivity(int&#39;">finishActivity(int)</a></p>
+</li>
+</ul>
+<h2 id="AndroidTestCase"><a href="#AndroidTestCase" class="headerlink" title=" AndroidTestCase"></a><a href="https://developer.android.com/reference/android/test/AndroidTestCase.html" target="_blank" rel="external"><font color="#049E94"> AndroidTestCase</font></a></h2><p>如果您需要访问资源文件或其他依赖于Activity上下文Context 的东西时，可以继承这个类。</p>
+<h2 id="ApplicationTestCase"><a href="#ApplicationTestCase" class="headerlink" title="ApplicationTestCase "></a><a href="https://developer.android.com/reference/android/test/ApplicationTestCase.html" target="_blank" rel="external"><font color="#049E94">ApplicationTestCase</font> </a></h2><p>这个测试案例提供了一个框架，使您可以在受控环境中测试应用程序类。它提供了应用程序的生命周期 ，可以注入各种依赖的钩子以及控制您的被测应用程序的测试环境的基本支持。</p>
+<p><strong>生命周期支持。</strong> 每个应用程序被设计为方法调用的特定序列内（见<a href="https://developer.android.com/reference/android/app/Application.html" target="_blank" rel="external">Application</a>有详细介绍）。为了支持应用程序的生命周期，这个测试用例将在以下时间被调用。</p>
+<ul>
+<li>测试用例不会调用onCreate()，直到测试中调用了 <a href="&#39;https://developer.android.com/reference/android/test/ApplicationTestCase.html#createApplication(&#39;">createApplication()</a>方法。这使得在onCreate被调用之前，您可以设置额外的框架或测试逻辑。</li>
+<li>测试完成后，测试案例的<a href="&#39;https://developer.android.com/reference/android/test/ApplicationTestCase.html#tearDown(&#39;">tearDown()</a>方法被自动调用，并且它将调用onDestroy()方法来暂停或销毁应用程序。</li>
+</ul>
+<p><strong>依赖注入。 </strong>每个应用程序都有一个内在的相关性，即<a href="https://developer.android.com/reference/android/content/Context.html" target="_blank" rel="external">Context</a>。该框架允许你注入一个修改，模拟或隔离，这种相关性更换，从而进行真正的单元测试。</p>
+<p>如果只是运行测试，你的应用程序将被注入全功能的Context。您可以在调用 <a href="&#39;https://developer.android.com/reference/android/test/ApplicationTestCase.html#createApplication(&#39;">createApplication()</a> 之前，创建并通过调用 <a href="&#39;https://developer.android.com/reference/android/test/AndroidTestCase.html#setContext(android.content.Context&#39;">setContext()</a>来注入Contexts的替代类。测试框架提供了一些上下文的替代品，其中包括<a href="https://developer.android.com/reference/android/test/mock/MockContext.html" target="_blank" rel="external">MockContext</a>， <a href="https://developer.android.com/reference/android/test/RenamingDelegatingContext.html" target="_blank" rel="external">RenamingDelegatingContext</a>，和 <a href="https://developer.android.com/reference/android/content/ContextWrapper.html" target="_blank" rel="external">ContextWrapper</a>。</p>
+<h2 id="InstrumentationTestCase"><a href="#InstrumentationTestCase" class="headerlink" title="InstrumentationTestCase "></a><a href="https://developer.android.com/reference/android/test/InstrumentationTestCase.html" target="_blank" rel="external"><font color="#049E94">InstrumentationTestCase</font> </a></h2><p>一个能够访问<a href="https://developer.android.com/reference/android/app/Instrumentation.html" target="_blank" rel="external">Instrumentation</a>的测试用例</p>
+<h2 id="ProviderTestCase"><a href="#ProviderTestCase" class="headerlink" title="ProviderTestCase"></a><a href="https://developer.android.com/reference/android/test/ProviderTestCase.html" target="_blank" rel="external"><font color="#049E94">ProviderTestCase</font></a></h2><p>如果你想使用 <a href="https://developer.android.com/reference/android/test/InstrumentationTestCase.html" target="_blank" rel="external">InstrumentationTestCase</a>来测试一个单一的内容提供者content provider ，这个类的<a href="&#39;https://developer.android.com/reference/android/test/ProviderTestCase.html#setUp(&#39;">setUp()</a>和 <a href="&#39;https://developer.android.com/reference/android/test/ProviderTestCase.html#tearDown(&#39;">tearDown()</a>提供了一些模板（测试content provider 的必要前提）。</p>
+<h2 id="ServiceTestCase"><a href="#ServiceTestCase" class="headerlink" title="ServiceTestCase"></a><a href="https://developer.android.com/reference/android/test/ServiceTestCase.html" target="_blank" rel="external"><font color="#049E94">ServiceTestCase</font></a></h2><p>这个测试案例提供了一个框架，使你可以在受控环境中测试服务类。它提供了一个服务的生命周期的基本支持，以及可以注入各种依赖关系的钩子，并控制在您的服务测试环境。</p>
+<p><strong>生命周期支持。</strong> A服务与调用的特定顺序访问，为中描述的 <a href="http://developer.android.com/guide/topics/fundamentals/services.html" target="_blank" rel="external">服务</a> 文档。为了支持服务的生命周期， ServiceTestCase强制执行此协议：</p>
+<ul>
+<li>该<a href="">setUp()</a>方法是每个测试方法之前调用。基实现获取系统环境。如果覆盖<a href="">setUp()</a>，您必须在覆盖的第一条语句调用 <a href="">super.setUp()</a>。</li>
+<li>直到你的测试调用<a href="">startService(Intent)</a>或<a href="">bindService(Intent)</a>，测试用例才调用<a href="">onCreate()</a> 。这使得在服务运行之前，您可以设置或调整任何额外的框架或测试逻辑。</li>
+<li>当任一测试方法调用<a href="">ServiceTestCase.startService()</a> 或<a href="">ServiceTestCase.bindService()</a>时， <a href="">Service.onCreate()</a>被调用。 <a href="">Service.startService(Intent)</a>或 <a href="">Service.bindService(Intent, ServiceConnection, int)</a>可以根据需要调用。它还存储需要被跟踪的值，也支持生命周期。</li>
+<li>每个测试方法完成之后 ，测试用例调用<a href="">tearDown()</a>方法。这个方法根据服务的启动方式，适当地停止或销毁服务 。如果要重写<a href="">tearDown()</a>，你必须在重写方法中的最后一条语句 调用 <a href="">super.tearDown()</a>。</li>
+</ul>
+<p><strong>依赖注入。</strong> 一个服务有两个内在的相关性，其<a href="">Context</a>及其关联<a href="">Application</a>。该ServiceTestCase框架允许你修改注入，模拟或隔离，替代这些依赖，从而在一个孤立的环境控制的依赖进行单元测试。</p>
+<p>默认情况下，测试案例被注入一个完整的系统环境和通用 <a href="">MockApplication</a>对象。您可以在调用<a href="">startService()</a>或<a href="">bindService()</a>之前，通过调用 <a href="">setContext()</a>或<a href="">setApplication()</a> 注入替代。测试框架提供了一些上下文的替代品，其中包括 <a href="">MockContext</a>，<a href="">RenamingDelegatingContext</a>， <a href="">ContextWrapper</a>，和 <a href="">IsolatedContext</a>。</p>
+<h2 id="SingleLaunchActivityTestCase"><a href="#SingleLaunchActivityTestCase" class="headerlink" title="SingleLaunchActivityTestCase"></a><a href="https://developer.android.com/reference/android/test/SingleLaunchActivityTestCase.html" target="_blank" rel="external"><font color="#049E94">SingleLaunchActivityTestCase</font></a></h2><p>如果您想使用<a href="">InstrumentationTestCase]</a> 测试一个单一的Activity，这个类在<a href="">setUp()</a>和<a href="">tearDown()</a>中提供了一些启动和结束Activity的模板。这个类整个测试过程中，只启动一次Activity，而不是在每一次 setup / teardown都调用。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/测试/" rel="tag">#测试</a>
+          
+            <a href="/tags/android/" rel="tag">#android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/14/Instrumentation到底是什么？/" rel="next" title="Instrumentation到底是什么？">
+                <i class="fa fa-chevron-left"></i> Instrumentation到底是什么？
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="yoyo_zyx" />
+          <p class="site-author-name" itemprop="name">yoyo_zyx</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ActivityInstrumentationTestCase2"><span class="nav-number">1.</span> <span class="nav-text">ActivityInstrumentationTestCase2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ActivityUnitTestCase"><span class="nav-number">2.</span> <span class="nav-text">ActivityUnitTestCase</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AndroidTestCase"><span class="nav-number">3.</span> <span class="nav-text"> AndroidTestCase</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ApplicationTestCase"><span class="nav-number">4.</span> <span class="nav-text">ApplicationTestCase </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InstrumentationTestCase"><span class="nav-number">5.</span> <span class="nav-text">InstrumentationTestCase </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ProviderTestCase"><span class="nav-number">6.</span> <span class="nav-text">ProviderTestCase</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ServiceTestCase"><span class="nav-number">7.</span> <span class="nav-text">ServiceTestCase</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SingleLaunchActivityTestCase"><span class="nav-number">8.</span> <span class="nav-text">SingleLaunchActivityTestCase</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yoyo_zyx</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
