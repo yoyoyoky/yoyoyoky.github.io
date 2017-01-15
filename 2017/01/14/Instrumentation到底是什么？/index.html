@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="android,测试," />
+  <meta name="keywords" content="测试,android," />
 
 
 
@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="You's blog">
 <meta property="og:description" content="阅读本文大约需要2.33333分钟">
 <meta property="og:image" content="http://yoursite.com/imgs/instrumentation/Instrumentation.jpg">
-<meta property="og:updated_time" content="2017-01-14T08:00:24.265Z">
+<meta property="og:updated_time" content="2017-01-15T05:40:58.434Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Instrumentation到底是什么？">
 <meta name="twitter:description" content="阅读本文大约需要2.33333分钟">
@@ -311,11 +311,11 @@
 <blockquote class="blockquote-center">阅读本文大约需要2.33333分钟</blockquote>
 
 <a id="more"></a>
-<p><a href="http://android-doc.com/tools/testing/testing_android.html]" target="_blank" rel="external">根据官方的说法</a>，</p>
+<p><a href="http://android-doc.com/tools/testing/testing_android.html#Instrumentation" target="_blank" rel="external">根据官方的说法</a>，</p>
 <pre><code>    Android instrumentation is a set of control methods or hooks in the Android system.
 These hooks control an Android component independently of its normal lifecycle.
 They also control how Android loads applications.    
-</code></pre><p>Android Instrumentation是Android系统里面的一套控制方法或者”钩子“。这方法，可以用来独立地控制某个组件的生命周期。它们同时可以控制Android如何加载应用程序。</p>
+</code></pre><p>Android Instrumentation是Android系统里面的一套控制方法或者”钩子“。这些方法，可以用来独立地控制某个组件的生命周期。它们同时可以控制Android如何加载应用程序。</p>
 <p>一般来说，Android中组件的生命周期是由系统来控制的。</p>
 <p>比如，我们通过Intent启动了一个Activity，那么Activity的生命周期方法会自动被调用。首先，该Activity对象的onCreate()方法就会被调用，紧跟着就是onResume()；当用户启动另外一个应用时，则该Activity的onPause()方法被调用；如果该Activity的代码调用了finish()方法，那么onDestroy()方法也随即被调用。</p>
 <p>Android APIs并没有提供入口让我们直接去调用这些生命周期方法，但是如果通过Instrumentation就可以轻松做到这一点。</p>
@@ -346,9 +346,9 @@ They also control how Android loads applications.
       
         <div class="post-tags">
           
-            <a href="/tags/android/" rel="tag">#android</a>
-          
             <a href="/tags/测试/" rel="tag">#测试</a>
+          
+            <a href="/tags/android/" rel="tag">#android</a>
           
         </div>
       
@@ -435,7 +435,7 @@ They also control how Android loads applications.
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -452,7 +452,7 @@ They also control how Android loads applications.
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
