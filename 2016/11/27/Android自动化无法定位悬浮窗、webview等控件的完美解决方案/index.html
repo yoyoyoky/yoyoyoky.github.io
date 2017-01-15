@@ -94,9 +94,10 @@
 <meta property="og:image" content="http://yoursite.com/imgs/layout/Activity.gif">
 <meta property="og:image" content="http://yoursite.com/imgs/layout/DDMS.gif">
 <meta property="og:image" content="http://yoursite.com/imgs/layout/Floating.gif">
+<meta property="og:image" content="http://yoursite.com/imgs/layout/li.gif">
 <meta property="og:image" content="http://yoursite.com/imgs/layout/Inspector无法定位Webview详情.gif">
 <meta property="og:image" content="http://yoursite.com/imgs/layout/chrome inspect webview.gif">
-<meta property="og:updated_time" content="2016-12-06T13:59:57.128Z">
+<meta property="og:updated_time" content="2017-01-15T05:27:43.048Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android自动化无法定位悬浮窗、webview等控件的完美解决方案">
 <meta name="twitter:description" content="阅读本文大约需要8分钟">
@@ -332,7 +333,9 @@
 <p>Hierarchy Viewer Tool可以获取普通控件的属性信息，包括id、text、坐标值等，但无法定位悬浮窗口，点击悬浮窗口，定位到的是下层的整个View控件。</p>
 <p>Layout Inspector可以选中悬浮窗所在package-&gt;window窗口，来定位控件：</p>
 <p><img src="/imgs/layout/Floating.gif" alt="Floating"></p>
-<p>选择悬浮窗口所在的window(一般情况下可能会有内存号显示，或者其他一些悬浮窗标志，如名字包含float等)，若实在不知道悬浮窗属于哪个window，那就尽量开少的window，如何一个个试。这是比较笨的方法，试多了就有感觉了。有gif动图可看出，Layout Inspector是直接截取悬浮窗口视图，其控件信息如普通Activity控件属性相同。</p>
+<p>选择悬浮窗口所在的window(一般情况下可能会有内存号显示，或者其他一些悬浮窗标志，如名字包含float等)，若实在不知道悬浮窗属于哪个window，那就尽量开少的window，然后一个个试。这是比较笨的方法，试多了就有感觉了。由gif动图可看出，Layout Inspector是直接截取悬浮窗口视图，其控件信息如普通Activity控件属性相同。</p>
+<p>另外，由Layout Inspector截取的界面信息，都以.li文件保存于项目对应的captures文件夹中，即若模块app的路径为Project/app/src……，则captures的路径为Project/captures/**.li。通过Android Studio左侧菜单栏的Captures可以打开或重命名.li文件。且与DDMS不同的是，即使关闭后重启AS,.li文件仍然存在，除非你删除了capture路径下对应的.li文件。</p>
+<p><img src="/imgs/layout/li.gif" alt="Li"></p>
 <h2 id="webview控件获取"><a href="#webview控件获取" class="headerlink" title="webview控件获取"></a><font color="#049E94">webview控件获取</font></h2><p>可惜的是，Android Studio仍然未支持html5页面控件的详情获取，但我们可以通过Google浏览器提供的插件来解决这个问题。使用Google浏览器打开<a href="chrome://inspect/#devices" target="_blank" rel="external">chrome://inspect/#devices</a> 网址，首次使用需要翻墙才可以获取到界面信息。</p>
 <h3 id="Layout-Inspector不支持Webview控件定位："><a href="#Layout-Inspector不支持Webview控件定位：" class="headerlink" title="Layout Inspector不支持Webview控件定位："></a>Layout Inspector不支持Webview控件定位：</h3><p><img src="/imgs/layout/Inspector无法定位Webview详情.gif" alt="Inspector无法定位Webview详情"></p>
 <h3 id="配置WebViews为可调试："><a href="#配置WebViews为可调试：" class="headerlink" title="配置WebViews为可调试："></a>配置WebViews为可调试：</h3><p>在Chrome中启用设置“USB web debugging”不会影响WebViews。在WebView中进行调试，需要通过在应用程序中以编程方式调用WebView类的静态方法setWebContentsDebuggingEnabled。</p>
