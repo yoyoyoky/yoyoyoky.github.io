@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="工具,jenkins," />
+  <meta name="keywords" content="工具,fiddler," />
 
 
 
@@ -84,23 +84,25 @@
 
 
 
-<meta name="description" content="阅读本文大约需要5分钟">
+<meta name="description" content="阅读本文大约需要10分钟">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Jenkins 使用Git Parameter打包">
-<meta property="og:url" content="http://yoursite.com/2017/09/24/Jenkins-使用Git-Parameter打包/index.html">
+<meta property="og:title" content="玩转Fiddler(一)——QuickExec的使用">
+<meta property="og:url" content="http://yoursite.com/2017/12/09/玩转Fiddler-QuickExec的使用/index.html">
 <meta property="og:site_name" content="You's blog">
-<meta property="og:description" content="阅读本文大约需要5分钟">
-<meta property="og:image" content="http://yoursite.com/imgs/jenkins_git_parameter/first.png">
-<meta property="og:image" content="http://yoursite.com/imgs/jenkins_git_parameter/error.png">
-<meta property="og:image" content="http://yoursite.com/imgs/jenkins_git_parameter/sucess.png">
-<meta property="og:image" content="http://yoursite.com/imgs/jenkins_git_parameter/type.png">
-<meta property="og:image" content="http://yoursite.com/imgs/jenkins_git_parameter/build.png">
-<meta property="og:image" content="http://yoursite.com/imgs/jenkins_git_parameter/filter.png">
-<meta property="og:updated_time" content="2017-09-24T14:44:52.277Z">
+<meta property="og:description" content="阅读本文大约需要10分钟">
+<meta property="og:image" content="http://yoursite.com/imgs/fiddler1/fiddler1.png">
+<meta property="og:image" content="http://yoursite.com/imgs/fiddler1/quickExec.png">
+<meta property="og:image" content="http://yoursite.com/imgs/fiddler1/highlight.png">
+<meta property="og:image" content="http://yoursite.com/imgs/fiddler1/click.png">
+<meta property="og:image" content="http://yoursite.com/imgs/fiddler1/bold.png">
+<meta property="og:image" content="http://yoursite.com/imgs/fiddler1/dump.png">
+<meta property="og:image" content="http://yoursite.com/imgs/fiddler1/replace.png">
+<meta property="og:image" content="http://yoursite.com/imgs/fiddler1/dns.png">
+<meta property="og:updated_time" content="2017-12-09T07:53:50.326Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jenkins 使用Git Parameter打包">
-<meta name="twitter:description" content="阅读本文大约需要5分钟">
-<meta name="twitter:image" content="http://yoursite.com/imgs/jenkins_git_parameter/first.png">
+<meta name="twitter:title" content="玩转Fiddler(一)——QuickExec的使用">
+<meta name="twitter:description" content="阅读本文大约需要10分钟">
+<meta name="twitter:image" content="http://yoursite.com/imgs/fiddler1/fiddler1.png">
 
 
 
@@ -121,9 +123,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/24/Jenkins-使用Git-Parameter打包/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/09/玩转Fiddler-QuickExec的使用/"/>
 
-  <title> Jenkins 使用Git Parameter打包 | You's blog </title>
+  <title> 玩转Fiddler(一)——QuickExec的使用 | You's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -253,7 +255,7 @@
             
             
               
-                Jenkins 使用Git Parameter打包
+                玩转Fiddler(一)——QuickExec的使用
               
             
           </h1>
@@ -265,8 +267,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-09-24T21:57:38+08:00" content="2017-09-24">
-              2017-09-24
+            <time itemprop="dateCreated" datetime="2017-12-09T15:28:08+08:00" content="2017-12-09">
+              2017-12-09
             </time>
           </span>
 
@@ -312,53 +314,95 @@
       
 
       
-        <p><img src="/imgs/jenkins_git_parameter/first.png" alt="Git Parameter"></p>
-<blockquote class="blockquote-center">阅读本文大约需要5分钟</blockquote>
+        <p><img src="/imgs/fiddler1/fiddler1.png" alt="首图"></p>
+<blockquote class="blockquote-center">阅读本文大约需要10分钟</blockquote>
 
 <a id="more"></a>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#049E94">前言</font></h2><p>在使用jenkins打包过程中，如果只需要根据分支打包，则直接使用“源码管理-Git-Branches to build”直接填写想要打包的分支即可。这是最常用，也是最容易、最简单的方式。</p>
-<p>但打包分支总是切来切去，每次打包前到job“配置”中修改分支是一种方式。有没有一种方式可以不用每次都修改“配置”呢？</p>
-<p>我们都知道，每次版本发布之后，就会给发布的分支打tag标记，记录每个发布版本对应的代码，便于代码回滚。那么Jenkins是否可以基于tag打包的呢？</p>
-<p>有时候，开发正在某个分支修改出了一个大bug，导致该分支打包失败，是要将包回退到该分支某个commit之前的代码。将Jenkins中对应的打包记录工作区中下载需要的包，放到指定服务器，然后手动启动应用。还是有更简单的方式呢？Jenkins能否直接根据某个commit打包呢？</p>
-<p>Jenkins实现根据Branch,Tag,commit等信息打包，其实很简单。只需要Git Parameter插件即可实现。</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a><font color="#049E94">安装</font></h2><p>下载<a href="https://plugins.jenkins.io/git-parameter" target="_blank" rel="external">git-parameter.hpi</a>插件，然后安装自定义插件；若安装过程出现以下报错：</p>
-<p><img src="/imgs/jenkins_git_parameter/error.png" alt="Git Parameter"></p>
-<p>根据报错日志，可知git-parameter插件需要依赖jquery插件，下载<a href="https://plugins.jenkins.io/jquery" target="_blank" rel="external">jquery.hpi</a>安装之。 </p>
-<p>安装完jquery插件，再重新安装git-parameter插件，便可安装成功：</p>
-<p><img src="/imgs/jenkins_git_parameter/sucess.png" alt="Git Parameter"></p>
-<p><br></p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a><font color="#049E94">使用</font></h2><ul>
-<li>源码管理——Git——Branches to build——填写变量，如${BRANCH}</li>
-<li>参数化构建过程——添加参数——Git Parameter——Name填写上步调用的变量名BRANCH</li>
-<li><p>Git Parameter可以选择不同的Parameter Type来构建</p>
-<p><img src="/imgs/jenkins_git_parameter/type.png" alt="Git Parameter"></p>
-</li>
-<li><p>较为简单的用法，至此已经配置完成。构建job时，可以看到， “立即构建”已经变成了”Build with Parameters”，点击后进入参数（分支）选择页面。选择参数，点击“开始构建”。</p>
-<p><img src="/imgs/jenkins_git_parameter/build.png" alt="Git Parameter"></p>
-</li>
-<li><p>Git Parameter除了Branch，也可以根据Tag,Revision来拉取代码。另外，还可以在高级配置中，配置过滤条件。具体使用可以结合参数说明配置。</p>
-</li>
-</ul>
-<p><br></p>
-<h2 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a><font color="#049E94">参数说明</font></h2><h3 id="Parameter-Type"><a href="#Parameter-Type" class="headerlink" title="Parameter Type"></a>Parameter Type</h3><ul>
-<li>Tag-为区分版本在代码中打上的标签</li>
-<li>Branch-代码分支</li>
-<li>Branch or Tag-以上两者的集合</li>
-<li>Revision-每个代码提交对应的id</li>
-<li>Pull Request- 我修改了你的代码，所以请求（request）你把我修改过的代码拉（pull）回去看看，比较少用到。</li>
-</ul>
-<h3 id="高级选项"><a href="#高级选项" class="headerlink" title="高级选项"></a>高级选项</h3><ul>
-<li>Branch-指定分支</li>
-<li>Branch Filter-分支过滤器，支持正则表达</li>
-<li>Tag Filter-标签过滤器</li>
-<li>Sort Mode-排序方式，顺序或倒序</li>
-<li>Default Value-缺省值，无匹配值时的默认值</li>
-<li>Selected Value-NONE，默认不选；TOP，默认选择第一个；DEFAULT，选择默认值</li>
-<li>Use repository-指定代码仓库</li>
-<li><p>Quick Filter-勾选之后，在构建时会在右侧显示过滤关键字输入框，输入关键字，可以过滤左侧的选项</p>
-<p><img src="/imgs/jenkins_git_parameter/filter.png" alt="Git Parameter"></p>
-</li>
-</ul>
+<p>在Fiddler的QuickExec输入指定的命令，可以进行快捷操作。<br>在Fiddler中使用Alt+Q快捷键可以快速定位到命令行快捷输入框，也可以直接移动鼠标到Fiddler首页左下角的黑框中。</p>
+<p><img src="/imgs/fiddler1/quickExec.png" alt="QuickExect"></p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a><a href="http://docs.telerik.com/fiddler/knowledgebase/quickexec" target="_blank" rel="external"><font color="#049E94">常用命令</font></a></h2><font color="#F20072"><strong> ?sometxt（问号+关键字）</strong></font>
+
+<p>当输入?以及文本关键字时，Fiddler会将当前已执行过的且包含该关键字的会话高亮显示：</p>
+<p><img src="/imgs/fiddler1/highlight.png" alt="高亮显示"></p>
+<p>按Enter键，将选中包含该关键字的所有会话，可以对选中的会话进行操作，此时快捷输入栏的关键字自动清除：</p>
+<p><img src="/imgs/fiddler1/click.png" alt="点击右键"></p>
+<font color="#F20072"><strong> &gt;size(大于号+数字)</strong> </font>
+
+<p>高亮显示或选中返回值字节大小大于size字节的会话，size可直接填数字，如5000，也可为5k，两者效果相等</p>
+<font color="#F20072"><strong> &lt;size(小于号+数字)</strong> </font>
+
+<p>同上相似，高亮显示或选中返回值字节大小小于size字节的会话，size的格式同上</p>
+<font color="#F20072"><strong> =status</strong> </font>
+
+<p>选中response状态码为status的会话<br>如， =404 &lt;–选中response状态码为404的会话</p>
+<font color="#F20072"><strong> =method</strong> </font>
+
+<p>选中request的请求方式为method的会话<br>如，  =POST &lt;– 选中所有POST请求的会话</p>
+<font color="#F20072"><strong> @host</strong> </font>
+
+<p>选中所有请求的host中包含指定host关键字的会话<br>如，@github.io &lt;– 选中 www.github.io, yoyoyoky.github.io 等域相关的请求</p>
+<font color="#F20072"><strong> bold</strong> </font>
+
+<p>将接下来的所有包含指定关键字的请求加粗显示<br>如，bold yoyoyoky.github.io</p>
+<p><img src="/imgs/fiddler1/bold.png" alt="字体加粗"></p>
+<p>直接输入不带参数的bold，即可清除加粗设置</p>
+<font color="#F20072"><strong> bpafter</strong> </font>
+
+<p>所有request的url中包含指定关键字时，在其response时打断点<br>如，bpafter expresso，当url请求中包含epresso关键字时，response返回时打断点<br>直接输入不带参数的bpafter，即可清除相关断点设置</p>
+<font color="#F20072"><strong> bps</strong> </font>
+
+<p>所有response状态码与指定值匹配时，打断点<br>如，bps 404，所有404请求response时，都打断点<br>直接输入不带参数的bps，即可状态码的断点设置</p>
+<font color="#F20072"><strong> bpv 或 bpm</strong> </font>
+
+<p>HTTP请求为指定方式时，给request打断点。使用此命令时，将会清空之前用该命令头设置的内容。直接输入不带参数的命令，将会将已设置的断点配置置为无效。<br>如，bpv POST，所有请求方式为POST格式的HTTP请求，都设置断点。</p>
+<font color="#F20072"><strong> bpu</strong> </font>
+
+<p>HTTP请求的URIs中包含指定字符时，给request设置断点。使用此命令时，将会清空之前用该命令头设置的内容。直接输入不带参数的命令，将会将已设置的断点配置置为无效。<br>如，bpu expresso，当请求的URIs中包含expresso字符串时，设置断点。</p>
+<font color="#F20072"><strong> cls or clear</strong> </font>
+
+<p>清空会话列表，直接输入“cls”或“clear”即可。功能相当于菜单栏的“Remove All”。</p>
+<font color="#F20072"><strong> dump</strong> </font>
+
+<p>使用dump命令，会将当前所有会话压缩存放到本地，存放地址，会在左下角提示：</p>
+<p><img src="/imgs/fiddler1/dump.png" alt="dump"></p>
+<font color="#F20072"><strong> g or go</strong> </font>
+
+<p>恢复打断点的会话。直接输入“g”或“go”即可。</p>
+<font color="#F20072"><strong> help</strong> </font>
+
+<p>快捷输入框中，输入“help”，可以跳转至官方的QuickExec使用文档页面。</p>
+<font color="#F20072"><strong> hide</strong> </font>
+
+<p>隐藏Fiddler界面，可点击桌面右下角的图标恢复界面。</p>
+<font color="#F20072"><strong> urlreplace</strong> </font>
+
+<p>将url中指定的字符替换成其他字符，再进行请求。使用此命令时，将会清空之前用该命令头设置的内容。直接输入不带参数的命令，将会将已设置的断点配置置为无效。<br>如，urlreplace baidu qq，则当访问百度首页时，跳转到的是腾讯首页。</p>
+<p><img src="/imgs/fiddler1/replace.png" alt="urlreplace"></p>
+<font color="#F20072"><strong> start</strong> </font>
+
+<p>注册，作为系统代理</p>
+<font color="#F20072"><strong> stop</strong> </font>
+
+<p>注销，不作为系统代理</p>
+<font color="#F20072"><strong> show</strong> </font>
+
+<p>将Fiddler从系统托盘中恢复，从ExecAction.exe获取更多有用的触发规则。</p>
+<font color="#F20072"><strong> select MIME</strong> </font>
+
+<p>选择Content- Type头中包含指定字符串的响应，可用于选择文件格式等。<br>如，select image,选中返回image的请求；select json,选中返回值为json格式的请求。</p>
+<font color="#F20072"><strong> allbut or keeponly</strong> </font>
+
+<p>隐藏Content-Type头中除了包含指定字符串的其他所有会话，用于筛选。<br>如，allbut json，只显示返回值格式为json的会话</p>
+<font color="#F20072"><strong> quit</strong> </font>
+
+<p>关闭Fiddler</p>
+<font color="#F20072"><strong> !dns hostname</strong> </font>
+
+<p>查找指定域名的DNS，并将结果显示在LOG选项卡上<br>!dns www.vip.com<br>!nslookup www.vip.com</p>
+<p><img src="/imgs/fiddler1/dns.png" alt="dns"></p>
+<font color="#F20072"><strong> !listen PORT [CERTHOSTNAME]</strong> </font>
+
+<p>在另一个端口增设一个监听器，选择HTTPS证书保证安全<br>!listen 8889!listen 4443 localhost<br>!listen 444 secure.example.com</p>
 
       
     </div>
@@ -383,7 +427,7 @@
           
             <a href="/tags/工具/" rel="tag">#工具</a>
           
-            <a href="/tags/jenkins/" rel="tag">#jenkins</a>
+            <a href="/tags/fiddler/" rel="tag">#fiddler</a>
           
         </div>
       
@@ -392,17 +436,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/02/15/精准化测试探索之路/" rel="next" title="精准化测试探索之路">
-                <i class="fa fa-chevron-left"></i> 精准化测试探索之路
+              <a href="/2017/09/24/Jenkins-使用Git-Parameter打包/" rel="next" title="Jenkins 使用Git Parameter打包">
+                <i class="fa fa-chevron-left"></i> Jenkins 使用Git Parameter打包
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/09/玩转Fiddler-QuickExec的使用/" rel="prev" title="玩转Fiddler(一)——QuickExec的使用">
-                玩转Fiddler(一)——QuickExec的使用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -516,7 +556,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">3.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数说明"><span class="nav-number">4.</span> <span class="nav-text">参数说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Parameter-Type"><span class="nav-number">4.1.</span> <span class="nav-text">Parameter Type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高级选项"><span class="nav-number">4.2.</span> <span class="nav-text">高级选项</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">1.</span> <span class="nav-text">常用命令</span></a></li></ol></div>
             
           </div>
         </section>
