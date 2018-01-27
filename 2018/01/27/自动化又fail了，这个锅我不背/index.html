@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="android,自动化," />
+  <meta name="keywords" content="测试," />
 
 
 
@@ -84,19 +84,18 @@
 
 
 
-<meta name="description" content="阅读本文大约需要5分钟">
+<meta name="description" content="测试环境说：自动化用例又fail了，这个锅我不背——linux进程监控及自动重启">
 <meta property="og:type" content="article">
-<meta property="og:title" content="流量统计小工具">
-<meta property="og:url" content="http://yoursite.com/2016/09/11/流量统计小工具/index.html">
+<meta property="og:title" content="自动化又fail了，这个锅我不背">
+<meta property="og:url" content="http://yoursite.com/2018/01/27/自动化又fail了，这个锅我不背/index.html">
 <meta property="og:site_name" content="You's blog">
-<meta property="og:description" content="阅读本文大约需要5分钟">
-<meta property="og:image" content="http://yoursite.com/imgs/流量统计小工具/流量统计.png">
-<meta property="og:image" content="http://yoursite.com/imgs/流量统计小工具/流量统计小工具.gif">
-<meta property="og:updated_time" content="2016-09-19T06:21:55.626Z">
+<meta property="og:description" content="测试环境说：自动化用例又fail了，这个锅我不背——linux进程监控及自动重启">
+<meta property="og:image" content="http://yoursite.com/imgs/进程监控/首图.jpg">
+<meta property="og:updated_time" content="2018-01-27T13:44:53.106Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="流量统计小工具">
-<meta name="twitter:description" content="阅读本文大约需要5分钟">
-<meta name="twitter:image" content="http://yoursite.com/imgs/流量统计小工具/流量统计.png">
+<meta name="twitter:title" content="自动化又fail了，这个锅我不背">
+<meta name="twitter:description" content="测试环境说：自动化用例又fail了，这个锅我不背——linux进程监控及自动重启">
+<meta name="twitter:image" content="http://yoursite.com/imgs/进程监控/首图.jpg">
 
 
 
@@ -117,9 +116,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/09/11/流量统计小工具/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/27/自动化又fail了，这个锅我不背/"/>
 
-  <title> 流量统计小工具 | You's blog </title>
+  <title> 自动化又fail了，这个锅我不背 | You's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -249,7 +248,7 @@
             
             
               
-                流量统计小工具
+                自动化又fail了，这个锅我不背
               
             
           </h1>
@@ -261,8 +260,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-11T18:29:08+08:00" content="2016-09-11">
-              2016-09-11
+            <time itemprop="dateCreated" datetime="2018-01-27T21:25:59+08:00" content="2018-01-27">
+              2018-01-27
             </time>
           </span>
 
@@ -308,29 +307,29 @@
       
 
       
-        <p><img src="/imgs/流量统计小工具/流量统计.png" alt="流量统计"></p>
-<blockquote class="blockquote-center">阅读本文大约需要5分钟</blockquote>
+        <p><img src="/imgs/进程监控/首图.jpg" alt="首图"></p>
+<blockquote class="blockquote-center">测试环境说：自动化用例又fail了，这个锅我不背——linux进程监控及自动重启</blockquote>
 
 <a id="more"></a>
-<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>《充电三小时偷跑23G流量》，《女子手机一夜跑50G流量》……</p>
-<h2 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h2><p>分为上传流量（发送）和下载流量（接收）。下载，就是浏览网页和上网会走信息流量，上传流量是将系统和软件的信息发给服务器。</p>
-<h2 id="功能："><a href="#功能：" class="headerlink" title="功能："></a>功能：</h2><h3 id="纵向："><a href="#纵向：" class="headerlink" title="纵向："></a>纵向：</h3><p>版本信息、本次流量、流量查询（通过菜单选择切换）</p>
-<h3 id="横向："><a href="#横向：" class="headerlink" title="横向："></a>横向：</h3><p>系统、第三方、全部（通过底部Tab选择切换）</p>
-<h2 id="关键类解析："><a href="#关键类解析：" class="headerlink" title="关键类解析："></a>关键类解析：</h2><p>•apk信息相关类：<br>PackageManager-&gt;PackageInfo-&gt;ApplicationInfo</p>
-<p>•安装，卸载应用</p>
-<p>•查询permission相关信息</p>
-<p>•查询Application相关信息(application，activity，receiver，service，provider及相应属性等）</p>
-<p>•查询已安装应用</p>
-<p>•增加，删除permission</p>
-<p>•清除用户数据、缓存，代码段等</p>
-<p>ApplicationInfo是从一个特定的应用得到的信息。这些信息是从相对应的Androdimanifest.xml的&lt; application&gt;标签中收集到的。</p>
-<h2 id="pm命令介绍："><a href="#pm命令介绍：" class="headerlink" title="pm命令介绍："></a>pm命令介绍：</h2><p>PackageManager的缩写，命令功能与该类相近</p>
-<h2 id="获取流量类："><a href="#获取流量类：" class="headerlink" title="获取流量类："></a>获取流量类：</h2><p>TrafficStats，可获取手机从开机至当前时间的上传、下载流量情况，可只获取Mobile流量，也可以获取Mobile与Wifi的总量</p>
-<h2 id="记录数据类："><a href="#记录数据类：" class="headerlink" title="记录数据类："></a>记录数据类：</h2><p>SQLiteDatabase，增删改查</p>
-<h2 id="广播："><a href="#广播：" class="headerlink" title="广播："></a>广播：</h2><p>关机、重启、日期改变</p>
-<h2 id="上下文："><a href="#上下文：" class="headerlink" title="上下文："></a>上下文：</h2><p>Context<br>。有Application、Activity和Service三种类型。弹出Toast、启动Activity、启动Service、发送广播、操作数据库等等都需要用到Context。<br>特殊场景：比启动Activity，还有弹出Dialog。<a href="http://blog.csdn.net/guolin_blog/article/details/47028975" target="_blank" rel="external">参考传送门</a></p>
-<h2 id="功能预览："><a href="#功能预览：" class="headerlink" title="功能预览："></a>功能预览：</h2><p><img src="/imgs/流量统计小工具/流量统计小工具.gif" alt="流量统计小工具"></p>
-<h2 id="源码地址："><a href="#源码地址：" class="headerlink" title="源码地址："></a>源码地址：</h2><p><a href="https://github.com/yoyoyoky/Tools/tree/master/flow_counter" target="_blank" rel="external">GitHub</a></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a><font color="#049E94">背景</font></h2> <font color="#F20072"><strong>机房要迁移了！机房要断电了！机房服务器要重启了！</strong></font>
+
+<p>每次机房要搞事情，总是有一堆烦恼的事情。服务器重启了，各应用都需要重新启动，未及时重启，总是会有各种各样的不愉快。</p>
+<p>哎呀，某某应用还未启动，以为某某同事去启动了，某某比较隐蔽的服务，又忘记启动了……各种启动任务需要手动执行，但总是还有部分应用被遗忘。</p>
+<p>最终导致，每日自动化回归用例又挂掉啦T_T，服务器已经启动了，怎么还挂掉啊T_T。</p>
+<p>开始分析redis，数据库，上游服务……历经千辛万苦，终于把服务都重启完毕，心好累……</p>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a><font color="#049E94">思考</font></h2><p>如何保证各应用稳定运行？机房搞完事情，环境不稳定现象，重则持续一周。</p>
+<p>人为手动重启，总是存在遗漏的情况，而且这重复枯燥的任务，实在不想每次都手动执行一遍。</p>
+<p>是否存在一种自动化方式，能够自动监控应用运行情况，若应用未运行，则自动启动？</p>
+<p>而且，需要服务器重启后，能够自动检测到，并在短时间内进行重启应用操作，降低对整个测试环境的影响。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a><font color="#049E94">解决方案</font></h2><p>通过linux的crontab定时任务，设置开机自启动，来监听指定进程是否启动，若进程未启动，则根据指定的启动脚本启动进程。</p>
+<p>###Shell脚本###</p>
+<p>新建/apps/sh/monitorprocess.sh脚本，脚本内容如下，需根据实际情况稍微修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">#要监听的进程唯一关键字，多个进程以空格分隔</span><br><span class="line">process=(iproxy exposure igw)</span><br><span class="line">#启动以上进程的脚本，需要与以上进程一一对应</span><br><span class="line">startShell=(&quot;/apps/sh/iproxy.sh start&quot; &quot;/apps/sh/exposure.sh start&quot; &quot;/apps/svr/tomcat/bin/startup.sh&quot;)</span><br><span class="line">#循环检查以上指定的进程，若进程不存在，则重启</span><br><span class="line">for((i=0;i&lt;$&#123;#process[@]&#125;;i++))</span><br><span class="line">do</span><br><span class="line">    ps -fe|grep $&#123;process[i]&#125; |grep -v grep</span><br><span class="line">    if [ $? -ne 0 ]</span><br><span class="line">    then</span><br><span class="line">        echo &quot;start process.....&quot;$&#123;process[i]&#125;</span><br><span class="line">        $&#123;startShell[i]&#125;</span><br><span class="line">    else</span><br><span class="line">        echo &quot;runing.....&quot;</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>提醒：记得给脚本添加执行权限哦~</p>
+<p>###crontab定时任务###</p>
+<p>执行命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#进入crontab编辑模式</span><br><span class="line">crontab -e</span><br><span class="line">#按i进行编辑，设置定时任务，每隔10分钟执行一次</span><br><span class="line">*/10 * * * * cd /apps/sh;./monitorprocess.sh&gt;&gt;./process.log 2&gt;&amp;1</span><br><span class="line">#按Ctrl+C,Shift+:,输入wq!，保存修改</span><br><span class="line"> </span><br><span class="line">#启动定时任务</span><br><span class="line">service crond start 或 service crond restart</span><br><span class="line"> </span><br><span class="line">#检查是否开机自启动crond</span><br><span class="line">chkconfig --list crond</span><br><span class="line"> </span><br><span class="line">#若未设置开机自启动，则设置之</span><br><span class="line">chkconfig crond on</span><br></pre></td></tr></table></figure>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a><font color="#049E94">结果</font></h2><p>我们再也不怕机房迁移，机器重启，服务进程不稳定被kill等影响环境稳定；我们再也不用因为自动化用例又fail了，再次把锅甩给不稳定的测试环境了！</p>
 
       
     </div>
@@ -353,9 +352,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/android/" rel="tag">#android</a>
-          
-            <a href="/tags/自动化/" rel="tag">#自动化</a>
+            <a href="/tags/测试/" rel="tag">#测试</a>
           
         </div>
       
@@ -364,17 +361,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/04/Android手机间通讯工具——原理篇/" rel="next" title="Android手机间通讯工具——原理篇">
-                <i class="fa fa-chevron-left"></i> Android手机间通讯工具——原理篇
+              <a href="/2017/12/09/玩转Fiddler-Composer发送HTTP-Request/" rel="next" title="玩转Fiddler(二)——Composer发送HTTP Request">
+                <i class="fa fa-chevron-left"></i> 玩转Fiddler(二)——Composer发送HTTP Request
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/11/浅读Android客户端源码流程/" rel="prev" title="浅读Android客户端源码流程">
-                浅读Android客户端源码流程 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -488,7 +481,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景："><span class="nav-number">1.</span> <span class="nav-text">背景：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义："><span class="nav-number">2.</span> <span class="nav-text">定义：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能："><span class="nav-number">3.</span> <span class="nav-text">功能：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#纵向："><span class="nav-number">3.1.</span> <span class="nav-text">纵向：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#横向："><span class="nav-number">3.2.</span> <span class="nav-text">横向：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键类解析："><span class="nav-number">4.</span> <span class="nav-text">关键类解析：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pm命令介绍："><span class="nav-number">5.</span> <span class="nav-text">pm命令介绍：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取流量类："><span class="nav-number">6.</span> <span class="nav-text">获取流量类：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#记录数据类："><span class="nav-number">7.</span> <span class="nav-text">记录数据类：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#广播："><span class="nav-number">8.</span> <span class="nav-text">广播：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上下文："><span class="nav-number">9.</span> <span class="nav-text">上下文：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能预览："><span class="nav-number">10.</span> <span class="nav-text">功能预览：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码地址："><span class="nav-number">11.</span> <span class="nav-text">源码地址：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思考"><span class="nav-number">2.</span> <span class="nav-text">思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案"><span class="nav-number">3.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果"><span class="nav-number">4.</span> <span class="nav-text">结果</span></a></li></ol></div>
             
           </div>
         </section>
