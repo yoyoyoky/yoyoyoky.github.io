@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="精准测试," />
+  <meta name="keywords" content="工具,jmeter," />
 
 
 
@@ -84,20 +84,18 @@
 
 
 
-<meta name="description" content="阅读本文大约需要5分钟">
+<meta name="description" content="阅读本文大约需要3分钟">
 <meta property="og:type" content="article">
-<meta property="og:title" content="精准化测试探索之路">
-<meta property="og:url" content="http://yoursite.com/2017/02/15/精准化测试探索之路/index.html">
+<meta property="og:title" content="解锁JMeter（一）——扩展jar包与依赖jar包">
+<meta property="og:url" content="http://yoursite.com/2018/12/02/JMeter扩展jar包与依赖jar包/index.html">
 <meta property="og:site_name" content="You's blog">
-<meta property="og:description" content="阅读本文大约需要5分钟">
-<meta property="og:image" content="http://yoursite.com/imgs/精准测试/精准测试.jpg">
-<meta property="og:image" content="http://yoursite.com/imgs/精准测试/Case.gif">
-<meta property="og:image" content="http://yoursite.com/imgs/精准测试/Call.gif">
-<meta property="og:updated_time" content="2017-02-15T14:45:03.474Z">
+<meta property="og:description" content="阅读本文大约需要3分钟">
+<meta property="og:image" content="http://yoursite.com/imgs/jmeter1/first.jpg">
+<meta property="og:updated_time" content="2018-12-02T08:18:18.053Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="精准化测试探索之路">
-<meta name="twitter:description" content="阅读本文大约需要5分钟">
-<meta name="twitter:image" content="http://yoursite.com/imgs/精准测试/精准测试.jpg">
+<meta name="twitter:title" content="解锁JMeter（一）——扩展jar包与依赖jar包">
+<meta name="twitter:description" content="阅读本文大约需要3分钟">
+<meta name="twitter:image" content="http://yoursite.com/imgs/jmeter1/first.jpg">
 
 
 
@@ -118,9 +116,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/02/15/精准化测试探索之路/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/12/02/JMeter扩展jar包与依赖jar包/"/>
 
-  <title> 精准化测试探索之路 | You's blog </title>
+  <title> 解锁JMeter（一）——扩展jar包与依赖jar包 | You's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -250,7 +248,7 @@
             
             
               
-                精准化测试探索之路
+                解锁JMeter（一）——扩展jar包与依赖jar包
               
             
           </h1>
@@ -262,8 +260,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-02-15T22:20:45+08:00" content="2017-02-15">
-              2017-02-15
+            <time itemprop="dateCreated" datetime="2018-12-02T15:35:01+08:00" content="2018-12-02">
+              2018-12-02
             </time>
           </span>
 
@@ -276,8 +274,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/白盒测试/" itemprop="url" rel="index">
-                    <span itemprop="name">白盒测试</span>
+                  <a href="/categories/工具使用/" itemprop="url" rel="index">
+                    <span itemprop="name">工具使用</span>
                   </a>
                 </span>
 
@@ -309,13 +307,20 @@
       
 
       
-        <p><img src="/imgs/精准测试/精准测试.jpg" alt="精准测试">    </p>
-<blockquote class="blockquote-center">阅读本文大约需要5分钟</blockquote>
+        <p><img src="/imgs/jmeter1/first.jpg" alt="Git Parameter"></p>
+<blockquote class="blockquote-center">阅读本文大约需要3分钟</blockquote>
 
 <a id="more"></a>
-<p>由于时间关系，此处先给出gif效果图，后续再补上介绍。</p>
-<p><img src="/imgs/精准测试/Case.gif" alt="case">    </p>
-<p><img src="/imgs/精准测试/Call.gif" alt="call">    </p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#049E94">前言</font></h2><p>在使用自定义的Java Sampler，总是莫名奇妙地报找不到类——ClaasNotFound Exception，但实际上该类是存在的。究其原因，是因为不知道哪些jar包应该放在哪个目录。一般情况下，JMeter有2个默认的jar包路径：%JMETER_HOME%lib和%JMETER_HOME%lib/ext；有时候为了更有序地管理自定义的jar包，往往希望能够在%JMETER_HOME%lib目录下创建自定义的文件夹来分类存在jar包。但也因为没有真正理解哪个路径应该存放哪种类型的jar包，导致执行脚本过程中，总是猝不及防地报错。</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a><font color="#049E94">定义</font></h2><p>这里先介绍一下，<strong>扩展jar包</strong>与<strong>依赖jar包</strong>。</p>
+<p><strong>扩展jar包</strong>（也称“协议测试jar包”）:自己开发的脚本（jar文件），需要在Java Sampler等取样器中被识别的Java代码 ，包括组件和插件；默认情况，放在%JMETER_HOME%lib/ext 目录下。</p>
+<p>注：脚本依赖的jar不要放在这里！</p>
+<p><strong>依赖jar包</strong>：脚本依赖的jar包或者其他jar（如JDBC,JMS实现类或者任何其他支持库）；默认情况，放在%JMETER_HOME%lib 目录下。注：%JMETER_HOME%lib 目录下本身有很多jar包，拷贝脚本依赖的jar时一定要小心，如果有重复的jar包但版本不一致，一般情况下，保留高版本的jar，删除抵版本的jar即可（java一般需要遵从高版本向低版本兼容）。</p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a><font color="#049E94">扩展</font></h2><p>如果不想将扩展jar放在lib/ext 目录下，可以在jmeter.properties配置文件中，配置search_paths。</p>
+<p>操作步骤：打开%JMETER_HOME%/bin/jmeter.properties文件，搜索“search_paths ”，去掉注释符号“#”,设置自定义的目录。如search_paths=..lib/osp;..lib/testcase。</p>
+<p>同理，如果不想将依赖jar放在lib目录下，可以在jmeter.properties配置文件中，配置user.classpath或者 plugin_dependency_paths。操作步骤同上。</p>
+<p><strong>备注：JMeter只识别.jar文件，不会对.zip等压缩文件进行扫描。</strong></p>
+<p>官方解释，可参考官方白皮书 <a href="http://jmeter.apache.org/usermanual/get-started.html#classpath" target="_blank" rel="external">JMeter Classpath</a>。 </p>
 
       
     </div>
@@ -338,7 +343,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/精准测试/" rel="tag">#精准测试</a>
+            <a href="/tags/工具/" rel="tag">#工具</a>
+          
+            <a href="/tags/jmeter/" rel="tag">#jmeter</a>
           
         </div>
       
@@ -347,17 +354,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/15/超乎想象的Espresso/" rel="next" title="超乎想象的Espresso">
-                <i class="fa fa-chevron-left"></i> 超乎想象的Espresso
+              <a href="/2018/01/27/自动化又fail了，这个锅我不背/" rel="next" title="自动化又fail了，这个锅我不背">
+                <i class="fa fa-chevron-left"></i> 自动化又fail了，这个锅我不背
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/24/Jenkins-使用Git-Parameter打包/" rel="prev" title="Jenkins 使用Git Parameter打包">
-                Jenkins 使用Git Parameter打包 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -471,7 +474,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">2.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展"><span class="nav-number">3.</span> <span class="nav-text">扩展</span></a></li></ol></div>
             
           </div>
         </section>
