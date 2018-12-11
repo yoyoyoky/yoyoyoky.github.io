@@ -1,0 +1,640 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="工具,jmeter," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="阅读本文大约需要10分钟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解锁JMeter（三）——JMeter自带函数与自定义函数">
+<meta property="og:url" content="http://yoursite.com/2018/12/11/JMeter自带函数与自定义函数/index.html">
+<meta property="og:site_name" content="You's blog">
+<meta property="og:description" content="阅读本文大约需要10分钟">
+<meta property="og:image" content="http://yoursite.com/imgs/jmeter3/first.jpg">
+<meta property="og:image" content="http://yoursite.com/imgs/jmeter3/1.png">
+<meta property="og:image" content="http://yoursite.com/imgs/jmeter3/2.png">
+<meta property="og:image" content="http://yoursite.com/imgs/jmeter3/3.png">
+<meta property="og:image" content="http://yoursite.com/imgs/jmeter3/4.png">
+<meta property="og:image" content="http://yoursite.com/imgs/jmeter3/5.png">
+<meta property="og:image" content="http://yoursite.com/imgs/jmeter3/6.png">
+<meta property="og:image" content="http://yoursite.com/imgs/jmeter3/7.png">
+<meta property="og:image" content="http://yoursite.com/imgs/jmeter3/8.png">
+<meta property="og:updated_time" content="2018-12-11T13:54:32.261Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解锁JMeter（三）——JMeter自带函数与自定义函数">
+<meta name="twitter:description" content="阅读本文大约需要10分钟">
+<meta name="twitter:image" content="http://yoursite.com/imgs/jmeter3/first.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/11/JMeter自带函数与自定义函数/"/>
+
+  <title> 解锁JMeter（三）——JMeter自带函数与自定义函数 | You's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">You's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                解锁JMeter（三）——JMeter自带函数与自定义函数
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-12-11T21:28:50+08:00" content="2018-12-11">
+              2018-12-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/工具使用/" itemprop="url" rel="index">
+                    <span itemprop="name">工具使用</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/imgs/jmeter3/first.jpg" alt="Git Parameter"></p>
+<blockquote class="blockquote-center">阅读本文大约需要10分钟</blockquote>
+
+<a id="more"></a>
+<h2 id="自带函数"><a href="#自带函数" class="headerlink" title="自带函数"></a><font color="#049E94">自带函数</font></h2><p>JMeter提供了丰富的函数，编写脚本过程中可以直接使用，便于生成指定类型数据。但是，JMeter提供的函数虽然众多，编写脚本的时候却不会像IDEA一样输入首字母就可以智能地提示方法名及入参等，也因此误以为JMeter的函数很难使用。然而，事实不是这样子的。JMeter提供了函数助手对话框，使用者可以快速找到场景合适的函数以及输入入参后自动生成调用代码。</p>
+<p>首先，我们先看一下函数对话框的打开方式，总共有3种：</p>
+<p><strong><em>1.点击工具栏图标</em></strong></p>
+<p><img src="/imgs/jmeter3/1.png" alt="Git Parameter"></p>
+<p><strong><em>2.点击菜单栏菜单</em></strong></p>
+<p><img src="/imgs/jmeter3/2.png" alt="Git Parameter"></p>
+<p><strong><em>3.默认快捷键：</em></strong> Ctrl+Shift+F1</p>
+<p>打开函数助手对话框之后，可以选择合适的功能，根据提示填入函数参数，然后点击“生成按钮”，即会生成函数的调用代码以及函数的调用结果，将函数调用结果拷贝至需要的脚本处即可。</p>
+<p><img src="/imgs/jmeter3/3.png" alt="Git Parameter"></p>
+<p>比如，可以将生成0-100之间的随机数函数填写到上一节（<a href="http://yoyoyoky.github.io/2018/12/09/JMeter%E8%87%AA%E5%AE%9A%E4%B9%89JavaSampler/" target="_blank" rel="external">JMeter自定义JavaSampler</a>）的入参中</p>
+<p><img src="/imgs/jmeter3/4.png" alt="Git Parameter"></p>
+<p>测试结果如下：</p>
+<p><img src="/imgs/jmeter3/5.png" alt="Git Parameter"></p>
+<h2 id="自定义函数"><a href="#自定义函数" class="headerlink" title="自定义函数"></a><font color="#049E94">自定义函数</font></h2><p>即使JMeter自带了丰富的函数，可以满足大部分场景需求。也偶尔存在一些没有已有函数能支持的场景，此时，自定义函数就因运而生了。</p>
+<h3 id="代码工程"><a href="#代码工程" class="headerlink" title="代码工程"></a>代码工程</h3><p>同上一节（<a href="http://yoyoyoky.github.io/2018/12/09/JMeter%E8%87%AA%E5%AE%9A%E4%B9%89JavaSampler/" target="_blank" rel="external">JMeter自定义JavaSampler</a>）一致，但需要增加ApacheJMeter_functions的依赖。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.jmeter&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;ApacheJMeter_functions&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;$&#123;jmeter-version&#125;&lt;/version&gt;</span><br><span class="line">    &lt;exclusions&gt;</span><br><span class="line">        &lt;exclusion&gt;</span><br><span class="line">            &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;log4j-1.2-api&lt;/artifactId&gt;</span><br><span class="line">        &lt;/exclusion&gt;</span><br><span class="line">        &lt;exclusion&gt;</span><br><span class="line">            &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;log4j-core&lt;/artifactId&gt;</span><br><span class="line">        &lt;/exclusion&gt;</span><br><span class="line">        &lt;exclusion&gt;</span><br><span class="line">            &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;log4j-api&lt;/artifactId&gt;</span><br><span class="line">        &lt;/exclusion&gt;</span><br><span class="line">        &lt;exclusion&gt;</span><br><span class="line">            &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;log4j-slf4j-impl&lt;/artifactId&gt;</span><br><span class="line">        &lt;/exclusion&gt;</span><br><span class="line">    &lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p>新建类，如RadomName，继承AbstractFunction，并重写以下方法。<br>为让读者更好地理解重写的方法，此处先提供RadomName定义的成员变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">final String FUNCTION_NAME = &quot;_RadomName&quot;;</span><br><span class="line">final String ARG_1_DESC = &quot;Your family Name&quot;;</span><br><span class="line">final String ARG_2_DESC = &quot;Boy or Girl&quot;;</span><br><span class="line">final int ARG_COUNT = 2;</span><br><span class="line">Object[] objects;</span><br><span class="line">List&lt;String&gt; girlNames = Arrays.asList(&quot;Abby&quot;, &quot;Aline&quot;, &quot;Daryl&quot;, &quot;Lauren&quot;, &quot;Dove&quot;, &quot;Sally&quot;, &quot;Ophelia&quot;, &quot;Maggie&quot;, &quot;Tania&quot;, &quot;Theresa&quot;);</span><br><span class="line">List&lt;String&gt; boyNames = Arrays.asList(&quot;Felix&quot;, &quot;Fox&quot;, &quot;Keith&quot;, &quot;Edison&quot;, &quot;Egan&quot;, &quot;Evan&quot;, &quot;Jack&quot;, &quot;Jasper&quot;, &quot;Nash&quot;, &quot;Major&quot;);</span><br><span class="line">String sex;</span><br><span class="line">String familyName;</span><br></pre></td></tr></table></figure>
+<p><strong><em>1.getReferenceKey</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public String getReferenceKey() &#123;</span><br><span class="line">    return FUNCTION_NAME;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>获取函数名称，函数助手对话框中，下拉框中显示的名称，同时也勇于测试脚本调用的函数名。</p>
+<p><strong><em>2.getArgumentDesc</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public List&lt;String&gt; getArgumentDesc() &#123;</span><br><span class="line">    List&lt;String&gt; argumentDesc = Arrays.asList(ARG_1_DESC, ARG_2_DESC);</span><br><span class="line">    return argumentDesc;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置入参的描述语，用于函数助手对话框中，显示函数名称提示。</p>
+<p><strong><em>3.setParameters</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void setParameters(Collection&lt;CompoundVariable&gt; collection) throws InvalidVariableException &#123;</span><br><span class="line">    checkParameterCount(collection, ARG_COUNT);</span><br><span class="line">    objects = collection.toArray();</span><br><span class="line">    familyName = ((CompoundVariable)objects[0]).execute().trim();</span><br><span class="line">    sex = ((CompoundVariable)objects[1]).execute().trim();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>获取函数参数，对应函数助手对话框中，传入的参数值。</p>
+<p><strong><em>4.execute</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public String execute(SampleResult sampleResult, Sampler sampler) throws InvalidVariableException &#123;</span><br><span class="line">    Random ra = new Random();</span><br><span class="line">    int nameCount = 0;</span><br><span class="line">    switch (sex) &#123;</span><br><span class="line">        case &quot;Girl&quot;:</span><br><span class="line">            nameCount = girlNames.size();</span><br><span class="line">            return girlNames.get(ra.nextInt(nameCount)) + &quot; &quot; +familyName;</span><br><span class="line">        case &quot;Boy&quot;:</span><br><span class="line">            return boyNames.get(ra.nextInt(nameCount)) + &quot; &quot; + familyName;</span><br><span class="line">        default:</span><br><span class="line">            return &quot;Anonymous &quot; + familyName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>函数执行的实现逻辑写在这个方法中，返回的值即是函数最终的返回结果。</p>
+<h3 id="jar包生成及引用"><a href="#jar包生成及引用" class="headerlink" title="jar包生成及引用"></a>jar包生成及引用</h3><p>jar包生成依然同上一节（<a href="http://yoyoyoky.github.io/2018/12/09/JMeter%E8%87%AA%E5%AE%9A%E4%B9%89JavaSampler/" target="_blank" rel="external">JMeter自定义JavaSampler</a>）一致，但引用jar包时，只能放在%JMETER_HOME%\lib\ext路径下。</p>
+<h3 id="调用示范"><a href="#调用示范" class="headerlink" title="调用示范"></a>调用示范</h3><p>同自带函数一样，可以通过函数助手对话框生成示例代码。</p>
+<p><img src="/imgs/jmeter3/6.png" alt="Git Parameter"></p>
+<p>然后，将随机生成名字的函数填写到上一节（<a href="http://yoyoyoky.github.io/2018/12/09/JMeter%E8%87%AA%E5%AE%9A%E4%B9%89JavaSampler/" target="_blank" rel="external">JMeter自定义JavaSampler</a>）的示例入参中。</p>
+<p><img src="/imgs/jmeter3/7.png" alt="Git Parameter"></p>
+<p>查看结果：</p>
+<p><img src="/imgs/jmeter3/8.png" alt="Git Parameter"></p>
+<p>从结果可见，自定义的函数已经生效。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/工具/" rel="tag">#工具</a>
+          
+            <a href="/tags/jmeter/" rel="tag">#jmeter</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/09/JMeter自定义JavaSampler/" rel="next" title="解锁JMeter（二）——JMeter自定义JavaSampler">
+                <i class="fa fa-chevron-left"></i> 解锁JMeter（二）——JMeter自定义JavaSampler
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="yoyo_zyx" />
+          <p class="site-author-name" itemprop="name">yoyo_zyx</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#自带函数"><span class="nav-number">1.</span> <span class="nav-text">自带函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义函数"><span class="nav-number">2.</span> <span class="nav-text">自定义函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码工程"><span class="nav-number">2.1.</span> <span class="nav-text">代码工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实现"><span class="nav-number">2.2.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jar包生成及引用"><span class="nav-number">2.3.</span> <span class="nav-text">jar包生成及引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用示范"><span class="nav-number">2.4.</span> <span class="nav-text">调用示范</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yoyo_zyx</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
