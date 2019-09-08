@@ -1,0 +1,638 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="工具,jmeter," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="阅读本文大约需要10分钟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自动化调优——TestNG失败用力批量重试">
+<meta property="og:url" content="http://yoursite.com/2019/09/08/自动化调优——TestNG失败用力批量重试/index.html">
+<meta property="og:site_name" content="You's blog">
+<meta property="og:description" content="阅读本文大约需要10分钟">
+<meta property="og:image" content="http://yoursite.com/imgs/testng1/retry.png">
+<meta property="og:image" content="http://yoursite.com/imgs/testng1/run.png">
+<meta property="og:image" content="http://yoursite.com/imgs/testng1/suit.png">
+<meta property="og:image" content="http://yoursite.com/imgs/testng1/listener.png">
+<meta property="og:image" content="http://yoursite.com/imgs/testng1/report.png">
+<meta property="og:image" content="http://yoursite.com/imgs/testng1/command.png">
+<meta property="og:image" content="http://yoursite.com/imgs/testng1/build.png">
+<meta property="og:image" content="http://yoursite.com/imgs/testng1/log.png">
+<meta property="og:image" content="http://yoursite.com/imgs/testng1/result1.png">
+<meta property="og:image" content="http://yoursite.com/imgs/testng1/result2.png">
+<meta property="og:image" content="http://yoursite.com/imgs/testng1/html.png">
+<meta property="og:updated_time" content="2019-09-08T13:36:23.746Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自动化调优——TestNG失败用力批量重试">
+<meta name="twitter:description" content="阅读本文大约需要10分钟">
+<meta name="twitter:image" content="http://yoursite.com/imgs/testng1/retry.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/08/自动化调优——TestNG失败用力批量重试/"/>
+
+  <title> 自动化调优——TestNG失败用力批量重试 | You's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">You's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                自动化调优——TestNG失败用力批量重试
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-09-08T20:41:39+08:00" content="2019-09-08">
+              2019-09-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/工具使用/" itemprop="url" rel="index">
+                    <span itemprop="name">工具使用</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/imgs/testng1/retry.png" alt="Git Parameter"></p>
+<blockquote class="blockquote-center">阅读本文大约需要10分钟</blockquote>
+
+<a id="more"></a>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a><font color="#049E94">背景</font></h2><p>执行自动化测试用例时，经常会因为网络、环境等不确定因素导致执行结果不稳定。</p>
+<p>为解决该问题，TestNG提供了失败用例立即重试的机制，此处的立即，指的是1个用例失败后，用户可以自定义操作之后决定是否重新执行该用例；执行完指定次数的重试或者在指定次数内成功之后，再执行下1个用例。上述描述只需要编写自定义的Retry类implements IRetryAnalyzer即可快速实现。已经有很多成功的案例，直接网上搜索即可快速找到教程，此处不再赘述。</p>
+<p>然而，ci流水线上，大部分情况下，如果1个用例在某一时刻（秒级别）是失败的，再次重试80%以上也会是失败的。面对这种情况，我们一般都是在本地重试这些失败的case，往往又是可以成功通过的。那么，我们是否可以在ci流水上模拟这种操作，<strong><em><font color="#049E94">等所有的用例执行完毕之后，重置环境，再统一重试执行失败的用例</font></em></strong>呢？</p>
+<p>由此需要先看看TestNG的源码的执行原理。</p>
+<h2 id="源码解读"><a href="#源码解读" class="headerlink" title="源码解读"></a><font color="#049E94">源码解读</font></h2><p>GitHub下载<a href="https://github.com/cbeust/testng" target="_blank" rel="external">TestNG最新源码</a></p>
+<h3 id="执行入口"><a href="#执行入口" class="headerlink" title="执行入口"></a><font color="#049E94">执行入口</font></h3><p>TestNG.run()方法</p>
+<p><img src="/imgs/testng1/run.png" alt="Git Parameter"></p>
+<p><img src="/imgs/testng1/suit.png" alt="Git Parameter"></p>
+<p>由以上代码可知，<strong><em><font color="#049E94">只要将所有失败的case设置到一个新的xmlSuite上，调用TestNG.run()方法即可重试失败的case。</font></em></strong></p>
+<h3 id="失败结果重置"><a href="#失败结果重置" class="headerlink" title="失败结果重置"></a><font color="#049E94">失败结果重置</font></h3><p>众所周知，自定义listener implements ITestListener可以监听测试结果，onFinish方法中，能够获取到所有用例的执行结果。只要重写这个方法，就能够将失败后重试成功的用例结果重置。</p>
+<p><img src="/imgs/testng1/listener.png" alt="Git Parameter"></p>
+<h3 id="报告修改"><a href="#报告修改" class="headerlink" title="报告修改"></a><font color="#049E94">报告修改</font></h3><p>原生的报告是由XMLReporter.java生成的，从源码中不难看出，xml报告是基于ITestContext生成的。而ITestContext这个熟悉的对象，不正是上一步监听器中刚刚出现过吗？将源码中的XMLReporter.java复制出来，稍作修改，即可将覆盖原生的报告。也可以使用开源框架，或者自己编写代码生成自定义格式的报告。</p>
+<p><img src="/imgs/testng1/report.png" alt="Git Parameter"></p>
+<h2 id="批量重试关键代码"><a href="#批量重试关键代码" class="headerlink" title="批量重试关键代码"></a><font color="#049E94">批量重试关键代码</font></h2><h3 id="重试配置类"><a href="#重试配置类" class="headerlink" title="重试配置类"></a><font color="#049E94">重试配置类</font></h3><p>TestRetryConfig.java，主要用来储存重试的一些配置及过程数据，如当前重试次数、重试最大次数、每次执行的ITestContext等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class TestRetryConfig &#123;</span><br><span class="line"></span><br><span class="line">    public static final String TEST_PACKAGE_PATH = &quot;com.xxx.xxx.testcases.&quot;;</span><br><span class="line">    public static final String RETRY_SUIT_NAME = &quot;TestNG Retry Test&quot;;</span><br><span class="line"></span><br><span class="line">    public static int retryCount = 0;</span><br><span class="line">    public static int retryMax = 0;</span><br><span class="line"></span><br><span class="line">    public static List&lt;ITestContext&gt; finishTestContextList = new ArrayList();</span><br><span class="line">    public static ITestContext testContext = null;</span><br><span class="line"></span><br><span class="line">    public static void setRetryMax(int max) &#123;</span><br><span class="line">        retryMax = max;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="执行指定用例类"><a href="#执行指定用例类" class="headerlink" title="执行指定用例类"></a><font color="#049E94">执行指定用例类</font></h3><p>TestNgController.java，根据指定的Method，设置suite，并使用TestNG.run()方法执行用例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class TestNgController &#123;</span><br><span class="line"></span><br><span class="line">    /***</span><br><span class="line">     * 需要重试的testNGMethod</span><br><span class="line">     */</span><br><span class="line">    List&lt;ITestNGMethod&gt; testNGMethodList;</span><br><span class="line">    /***</span><br><span class="line">     * 按类名将ITestNGMethod分类</span><br><span class="line">     */</span><br><span class="line">    Map&lt;String, List&lt;String&gt;&gt; failClassMethodMap;</span><br><span class="line"></span><br><span class="line">    public TestNgController(Collection&lt;ITestNGMethod&gt; testNGMethodSet) &#123;</span><br><span class="line">        this.testNGMethodList = new ArrayList&lt;&gt;(testNGMethodSet);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void getFialMap() &#123;</span><br><span class="line">        if (this.testNGMethodList != null &amp;&amp; this.testNGMethodList.size() &gt; 0) &#123;</span><br><span class="line">            failClassMethodMap = new HashMap&lt;&gt;();</span><br><span class="line">            for (ITestNGMethod iTestNGMethod : testNGMethodList) &#123;</span><br><span class="line">                String className = iTestNGMethod.getTestClass().getName();</span><br><span class="line">                if (failClassMethodMap.get(className) != null) &#123;</span><br><span class="line">                    failClassMethodMap.get(className).add(iTestNGMethod.getMethodName());</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    List&lt;String&gt; methodList = new ArrayList&lt;&gt;();</span><br><span class="line">                    methodList.add(iTestNGMethod.getMethodName());</span><br><span class="line">                    failClassMethodMap.put(className, methodList);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * TestNG测试程序化调用</span><br><span class="line">     */</span><br><span class="line">    public boolean executeTests() &#123;</span><br><span class="line"></span><br><span class="line">        //获取失败用例map</span><br><span class="line">        getFialMap();</span><br><span class="line"></span><br><span class="line">        //没有失败的用例</span><br><span class="line">        if (failClassMethodMap == null || failClassMethodMap.keySet().size() == 0) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        //构建testng.xml内存对象</span><br><span class="line">        try &#123;</span><br><span class="line">            List&lt;XmlSuite&gt; suites = new ArrayList&lt;XmlSuite&gt;();</span><br><span class="line"></span><br><span class="line">            XmlSuite suite = new XmlSuite();</span><br><span class="line">            suite.setName(TestRetryConfig.RETRY_SUIT_NAME + TestRetryConfig.retryCount);</span><br><span class="line">            List&lt;String&gt; suiteListeners = new ArrayList&lt;String&gt;();</span><br><span class="line">            suiteListeners.add(TestListener.class.getName());</span><br><span class="line">            suite.setListeners(suiteListeners);</span><br><span class="line"></span><br><span class="line">            suites.add(suite);</span><br><span class="line"></span><br><span class="line">            XmlTest test = new XmlTest(suite);</span><br><span class="line">            test.setName(TestRetryConfig.RETRY_SUIT_NAME + TestRetryConfig.retryCount);</span><br><span class="line"></span><br><span class="line">            List&lt;XmlClass&gt; classes = new ArrayList&lt;XmlClass&gt;();</span><br><span class="line"></span><br><span class="line">            Set&lt;String&gt; failClassSet = failClassMethodMap.keySet();</span><br><span class="line">            for (String className : failClassSet) &#123;</span><br><span class="line">                List&lt;String&gt; methodNameList = failClassMethodMap.get(className);</span><br><span class="line">                List&lt;XmlInclude&gt; includedMethodList = new ArrayList&lt;&gt;();</span><br><span class="line">                for (String methodName : methodNameList) &#123;</span><br><span class="line">                    includedMethodList.add(new XmlInclude(methodName));</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                XmlClass testClass = new XmlClass(className);</span><br><span class="line">                testClass.setIncludedMethods(includedMethodList);</span><br><span class="line"></span><br><span class="line">                classes.add(testClass);</span><br><span class="line">            &#125;</span><br><span class="line">            test.setXmlClasses(classes);</span><br><span class="line"></span><br><span class="line">            LogUtils.log(String.format(&quot;第%s次执行批量重试测试用例开始！！！！！！！！！ &quot;,TestRetryConfig.retryCount));</span><br><span class="line">            //设置TestNG，并开始执行用例</span><br><span class="line">            TestNG testNG = new TestNG();</span><br><span class="line">            testNG.setXmlSuites(suites);</span><br><span class="line">            testNG.run();</span><br><span class="line"></span><br><span class="line">            return true;</span><br><span class="line"></span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            LogUtils.log(&quot;批量重试测试用例执行失败： &quot; + e.getMessage());</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        TestNgController testNgController = new TestNgController(Collections.EMPTY_LIST);</span><br><span class="line">        testNgController.executeTests();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="结果监听器"><a href="#结果监听器" class="headerlink" title="结果监听器"></a><font color="#049E94">结果监听器</font></h3><p>TestListener.java，主要记录每次执行完毕的结果，以及遇到失败时调用TestNgController进行执行失败case。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class TestListener implements ITestListener &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onTestStart(ITestResult iTestResult) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onTestSuccess(ITestResult iTestResult) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onTestFailure(ITestResult iTestResult) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onTestSkipped(ITestResult iTestResult) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onStart(ITestContext iTestContext) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onFinish(ITestContext iTestContext) &#123;</span><br><span class="line">        TestRetryConfig.finishTestContextList.add(iTestContext);</span><br><span class="line"></span><br><span class="line">        //记录首次执行的测试集</span><br><span class="line">        if (TestRetryConfig.testContext == null) &#123;</span><br><span class="line">            TestRetryConfig.testContext = iTestContext;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //已重试次数&lt;最大重试次数，继续执行失败case</span><br><span class="line">        if (TestRetryConfig.retryCount &lt; TestRetryConfig.retryMax) &#123;</span><br><span class="line">            TestRetryConfig.retryCount++;</span><br><span class="line">            TestNgController testNgController = new TestNgController(iTestContext.getFailedTests().getAllMethods());</span><br><span class="line"></span><br><span class="line">            //有失败case，继续执行，无需处理结果</span><br><span class="line">            if (testNgController.executeTests()) &#123;</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //若无失败case,没有继续执行，则需要继续处理结果</span><br><span class="line"></span><br><span class="line">        //指向首次执行的测试集</span><br><span class="line">        iTestContext = TestRetryConfig.testContext;</span><br><span class="line"></span><br><span class="line">        List&lt;ITestResult&gt; testsToBeRemoved = new ArrayList&lt;&gt;();</span><br><span class="line">        Set&lt;Integer&gt; passedTestIds = new HashSet&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        //筛选出多次重试之后所有成功的用例</span><br><span class="line">        for (ITestContext testContext : TestRetryConfig.finishTestContextList) &#123;</span><br><span class="line">            for (ITestResult passedTest : testContext.getPassedTests().getAllResults()) &#123;</span><br><span class="line">//                LogUtils.log(&quot;PassedTests = &quot; + passedTest.getMethod().getTestClass().getName() + &quot;.&quot; + passedTest.getMethod().getMethodName());</span><br><span class="line">                passedTestIds.add(getId(passedTest));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //筛选出多次重试之后所有失败的用例</span><br><span class="line">        Set&lt;Integer&gt; failedTestIds = new HashSet&lt;Integer&gt;();</span><br><span class="line">        for (ITestResult failedTest : iTestContext.getFailedTests().getAllResults()) &#123;</span><br><span class="line">//            LogUtils.log(&quot;failedTest = &quot; + failedTest.getMethod().getTestClass().getName() + &quot;.&quot; + failedTest.getMethod().getMethodName());</span><br><span class="line">            int failedTestId = getId(failedTest);</span><br><span class="line">            if (failedTestIds.contains(failedTestId) || passedTestIds.contains(failedTestId)) &#123;</span><br><span class="line">                testsToBeRemoved.add(failedTest);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                failedTestIds.add(failedTestId);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //将重试之后成功的用例，从失败结果集中删除，并添加到成功的结果集</span><br><span class="line">        for (Iterator&lt;ITestResult&gt; iterator = iTestContext.getFailedTests().getAllResults().iterator(); iterator</span><br><span class="line">                .hasNext(); ) &#123;</span><br><span class="line">            ITestResult testResult = iterator.next();</span><br><span class="line">            if (testsToBeRemoved.contains(testResult)) &#123;</span><br><span class="line">                LogUtils.log(&quot;Change failed test to passed: &quot; + testResult.getMethod().getTestClass().getName() + &quot;.&quot; + testResult.getMethod().getMethodName());</span><br><span class="line">                iterator.remove();</span><br><span class="line">                iTestContext.getPassedTests().addResult(testResult, testResult.getMethod());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private int getId(ITestResult result) &#123;</span><br><span class="line">        int id = result.getTestClass().getName().hashCode();</span><br><span class="line">        id = id + result.getMethod().getMethodName().hashCode();</span><br><span class="line">        id = id + (result.getParameters() != null ? Arrays.hashCode(result.getParameters()) : 0);</span><br><span class="line">        return id;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="xml报告监听器"><a href="#xml报告监听器" class="headerlink" title="xml报告监听器"></a><font color="#049E94">xml报告监听器</font></h3><p>XMLReporter.java，从源码中复制出来，稍作修改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * The main entry for the XML generation operation</span><br><span class="line"> */</span><br><span class="line">public class XMLReporter implements IReporter &#123;</span><br><span class="line">    public static final String FILE_NAME = &quot;testng-results.xml&quot;;</span><br><span class="line">    private final XMLReporterConfig config = new XMLReporterConfig();</span><br><span class="line">    private XMLStringBuffer rootBuffer;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void generateReport(List&lt;XmlSuite&gt; xmlSuites, List&lt;ISuite&gt; suites, String outputDirectory) &#123;</span><br><span class="line"></span><br><span class="line">        ITestContext testContext = TestRetryConfig.testContext;</span><br><span class="line"></span><br><span class="line">        if (Utils.isStringEmpty(config.getOutputDirectory())) &#123;</span><br><span class="line">            config.setOutputDirectory(outputDirectory);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Calculate passed/failed/skipped</span><br><span class="line">        int passed = testContext.getPassedTests().size();</span><br><span class="line">        int failed = testContext.getFailedTests().size();</span><br><span class="line">        int skipped = testContext.getSkippedTests().size();</span><br><span class="line">        int ignored = 0;</span><br><span class="line">        int retried = 0;</span><br><span class="line"></span><br><span class="line">        rootBuffer = new XMLStringBuffer();</span><br><span class="line">        Properties p = new Properties();</span><br><span class="line">        p.put(&quot;passed&quot;, passed);</span><br><span class="line">        p.put(&quot;failed&quot;, failed);</span><br><span class="line">        p.put(&quot;skipped&quot;, skipped);</span><br><span class="line">        if (retried &gt; 0) &#123;</span><br><span class="line">            p.put(&quot;retried&quot;, retried);</span><br><span class="line">        &#125;</span><br><span class="line">        p.put(&quot;ignored&quot;, ignored);</span><br><span class="line">        p.put(&quot;total&quot;, passed + failed + skipped + ignored + retried);</span><br><span class="line">        rootBuffer.push(XMLReporterConfig.TAG_TESTNG_RESULTS, p);</span><br><span class="line">        writeReporterOutput(rootBuffer);</span><br><span class="line">        for (ISuite suite : suites) &#123;</span><br><span class="line">            if (suite.getName().contains(TestRetryConfig.RETRY_SUIT_NAME)) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            writeSuite(suite);</span><br><span class="line">        &#125;</span><br><span class="line">        rootBuffer.pop();</span><br><span class="line">        Utils.writeUtf8File(config.getOutputDirectory(), fileName(), rootBuffer, null /* no prefix */);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static String fileName() &#123;</span><br><span class="line">        return FILE_NAME;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void writeReporterOutput(XMLStringBuffer xmlBuffer) &#123;</span><br><span class="line">        // TODO: Cosmin - maybe a &lt;line&gt; element isn&apos;t indicated for each line</span><br><span class="line">        xmlBuffer.push(XMLReporterConfig.TAG_REPORTER_OUTPUT);</span><br><span class="line">        List&lt;String&gt; output = Reporter.getOutput();</span><br><span class="line">        for (String line : output) &#123;</span><br><span class="line">            if (line != null) &#123;</span><br><span class="line">                xmlBuffer.push(XMLReporterConfig.TAG_LINE);</span><br><span class="line">                xmlBuffer.addCDATA(line);</span><br><span class="line">                xmlBuffer.pop();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        xmlBuffer.pop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void writeSuite(ISuite suite) &#123;</span><br><span class="line">        switch (config.getFileFragmentationLevel()) &#123;</span><br><span class="line">            case XMLReporterConfig.FF_LEVEL_NONE:</span><br><span class="line">                writeSuiteToBuffer(rootBuffer, suite);</span><br><span class="line">                break;</span><br><span class="line">            case XMLReporterConfig.FF_LEVEL_SUITE:</span><br><span class="line">            case XMLReporterConfig.FF_LEVEL_SUITE_RESULT:</span><br><span class="line">                File suiteFile = referenceSuite(rootBuffer, suite);</span><br><span class="line">                writeSuiteToFile(suiteFile, suite);</span><br><span class="line">                break;</span><br><span class="line">            default:</span><br><span class="line">                throw new AssertionError(&quot;Unexpected value: &quot; + config.getFileFragmentationLevel());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void writeSuiteToFile(File suiteFile, ISuite suite) &#123;</span><br><span class="line">        XMLStringBuffer xmlBuffer = new XMLStringBuffer();</span><br><span class="line">        writeSuiteToBuffer(xmlBuffer, suite);</span><br><span class="line">        File parentDir = suiteFile.getParentFile();</span><br><span class="line">        suiteFile.getParentFile().mkdirs();</span><br><span class="line">        if (parentDir.exists() || suiteFile.getParentFile().exists()) &#123;</span><br><span class="line">            Utils.writeUtf8File(parentDir.getAbsolutePath(), fileName(), xmlBuffer.toXML());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private File referenceSuite(XMLStringBuffer xmlBuffer, ISuite suite) &#123;</span><br><span class="line">        String relativePath = suite.getName() + File.separatorChar + fileName();</span><br><span class="line">        File suiteFile = new File(config.getOutputDirectory(), relativePath);</span><br><span class="line">        Properties attrs = new Properties();</span><br><span class="line">        attrs.setProperty(XMLReporterConfig.ATTR_URL, relativePath);</span><br><span class="line">        xmlBuffer.addEmptyElement(XMLReporterConfig.TAG_SUITE, attrs);</span><br><span class="line">        return suiteFile;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void writeSuiteToBuffer(XMLStringBuffer xmlBuffer, ISuite suite) &#123;</span><br><span class="line">        xmlBuffer.push(XMLReporterConfig.TAG_SUITE, getSuiteAttributes(suite));</span><br><span class="line">        writeSuiteGroups(xmlBuffer, suite);</span><br><span class="line"></span><br><span class="line">        Map&lt;String, ISuiteResult&gt; results = suite.getResults();</span><br><span class="line">        XMLSuiteResultWriter suiteResultWriter = new XMLSuiteResultWriter(config);</span><br><span class="line">        for (Map.Entry&lt;String, ISuiteResult&gt; result : results.entrySet()) &#123;</span><br><span class="line">            suiteResultWriter.writeSuiteResult(xmlBuffer, result.getValue());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        xmlBuffer.pop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void writeSuiteGroups(XMLStringBuffer xmlBuffer, ISuite suite) &#123;</span><br><span class="line">        xmlBuffer.push(XMLReporterConfig.TAG_GROUPS);</span><br><span class="line">        Map&lt;String, Collection&lt;ITestNGMethod&gt;&gt; methodsByGroups = suite.getMethodsByGroups();</span><br><span class="line">        for (Map.Entry&lt;String, Collection&lt;ITestNGMethod&gt;&gt; entry : methodsByGroups.entrySet()) &#123;</span><br><span class="line">            Properties groupAttrs = new Properties();</span><br><span class="line">            groupAttrs.setProperty(XMLReporterConfig.ATTR_NAME, entry.getKey());</span><br><span class="line">            xmlBuffer.push(XMLReporterConfig.TAG_GROUP, groupAttrs);</span><br><span class="line">            Set&lt;ITestNGMethod&gt; groupMethods = getUniqueMethodSet(entry.getValue());</span><br><span class="line">            for (ITestNGMethod groupMethod : groupMethods) &#123;</span><br><span class="line">                Properties methodAttrs = new Properties();</span><br><span class="line">                methodAttrs.setProperty(XMLReporterConfig.ATTR_NAME, groupMethod.getMethodName());</span><br><span class="line">                methodAttrs.setProperty(XMLReporterConfig.ATTR_METHOD_SIG, groupMethod.toString());</span><br><span class="line">                methodAttrs.setProperty(XMLReporterConfig.ATTR_CLASS, groupMethod.getRealClass().getName());</span><br><span class="line">                xmlBuffer.addEmptyElement(XMLReporterConfig.TAG_METHOD, methodAttrs);</span><br><span class="line">            &#125;</span><br><span class="line">            xmlBuffer.pop();</span><br><span class="line">        &#125;</span><br><span class="line">        xmlBuffer.pop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private Properties getSuiteAttributes(ISuite suite) &#123;</span><br><span class="line">        Properties props = new Properties();</span><br><span class="line">        props.setProperty(XMLReporterConfig.ATTR_NAME, suite.getName());</span><br><span class="line"></span><br><span class="line">        // Calculate the duration</span><br><span class="line">        Map&lt;String, ISuiteResult&gt; results = suite.getResults();</span><br><span class="line">        Date minStartDate = new Date();</span><br><span class="line">        Date maxEndDate = null;</span><br><span class="line">        // TODO: We could probably optimize this in order not to traverse this twice</span><br><span class="line">        for (Map.Entry&lt;String, ISuiteResult&gt; result : results.entrySet()) &#123;</span><br><span class="line">            ITestContext testContext = result.getValue().getTestContext();</span><br><span class="line">            Date startDate = testContext.getStartDate();</span><br><span class="line">            Date endDate = testContext.getEndDate();</span><br><span class="line">            if (minStartDate.after(startDate)) &#123;</span><br><span class="line">                minStartDate = startDate;</span><br><span class="line">            &#125;</span><br><span class="line">            if (maxEndDate == null || maxEndDate.before(endDate)) &#123;</span><br><span class="line">                maxEndDate = endDate != null ? endDate : startDate;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        // The suite could be completely empty</span><br><span class="line">        if (maxEndDate == null) &#123;</span><br><span class="line">            maxEndDate = minStartDate;</span><br><span class="line">        &#125;</span><br><span class="line">        addDurationAttributes(config, props, minStartDate, maxEndDate);</span><br><span class="line">        return props;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Add started-at, finished-at and duration-ms attributes to the &lt;suite&gt; tag</span><br><span class="line">     */</span><br><span class="line">    public static void addDurationAttributes(</span><br><span class="line">            XMLReporterConfig config, Properties attributes, Date minStartDate, Date maxEndDate) &#123;</span><br><span class="line"></span><br><span class="line">        String startTime = DateUtils.formatDate(minStartDate.getTime());</span><br><span class="line"></span><br><span class="line">        String endTime = DateUtils.formatDate(maxEndDate.getTime());</span><br><span class="line">        long duration = maxEndDate.getTime() - minStartDate.getTime();</span><br><span class="line"></span><br><span class="line">        attributes.setProperty(XMLReporterConfig.ATTR_STARTED_AT, startTime);</span><br><span class="line">        attributes.setProperty(XMLReporterConfig.ATTR_FINISHED_AT, endTime);</span><br><span class="line">        attributes.setProperty(XMLReporterConfig.ATTR_DURATION_MS, Long.toString(duration));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private Set&lt;ITestNGMethod&gt; getUniqueMethodSet(Collection&lt;ITestNGMethod&gt; methods) &#123;</span><br><span class="line">        return new LinkedHashSet&lt;&gt;(methods);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="html报告监听器"><a href="#html报告监听器" class="headerlink" title="html报告监听器"></a><font color="#049E94">html报告监听器</font></h3><p>HtmlReporter，使用开源框架extentreports生成html报告。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class HtmlReporter implements IReporter &#123;</span><br><span class="line"></span><br><span class="line">    //生成的路径以及文件名</span><br><span class="line">    private static final String OUTPUT_FOLDER = &quot;test-output/&quot;;</span><br><span class="line">    private static final String FILE_NAME = &quot;report.html&quot;;</span><br><span class="line"></span><br><span class="line">    private ExtentReports extent;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void generateReport(List&lt;XmlSuite&gt; suites, List&lt;ISuite&gt; list1, String s) &#123;</span><br><span class="line"></span><br><span class="line">        init();</span><br><span class="line"></span><br><span class="line">        //统计suite下的成功、失败、跳过的总用例数</span><br><span class="line">        int suiteFailSize = 0;</span><br><span class="line">        int suitePassSize = 0;</span><br><span class="line">        int suiteSkipSize = 0;</span><br><span class="line">        ExtentTest suiteTest = null;</span><br><span class="line"></span><br><span class="line">        ExtentTest resultNode;</span><br><span class="line">        ITestContext context = TestRetryConfig.testContext;</span><br><span class="line"></span><br><span class="line">        boolean createSuiteResultNode = false;</span><br><span class="line"></span><br><span class="line">        if (createSuiteResultNode) &#123;</span><br><span class="line">            //没有创建suite的情况下，将在SuiteResult的创建为一级节点，否则创建为suite的一个子节点。</span><br><span class="line">            if (null == suiteTest) &#123;</span><br><span class="line">                resultNode = extent.createTest(context.getName());</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                resultNode = suiteTest.createNode(context.getName());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            resultNode = suiteTest;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (resultNode != null) &#123;</span><br><span class="line">            resultNode.getModel().setName(context.getSuite().getName() + &quot; : &quot; + context.getName());</span><br><span class="line">            if (resultNode.getModel().hasCategory()) &#123;</span><br><span class="line">                resultNode.assignCategory(context.getName());</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                resultNode.assignCategory(context.getSuite().getName(), context.getName());</span><br><span class="line">            &#125;</span><br><span class="line">            resultNode.getModel().setStartTime(context.getStartDate());</span><br><span class="line">            resultNode.getModel().setEndTime(context.getEndDate());</span><br><span class="line">            //统计SuiteResult下的数据</span><br><span class="line">            int passSize = context.getPassedTests().size();</span><br><span class="line">            int failSize = context.getFailedTests().size();</span><br><span class="line">            int skipSize = context.getSkippedTests().size();</span><br><span class="line">            suitePassSize += passSize;</span><br><span class="line">            suiteFailSize += failSize;</span><br><span class="line">            suiteSkipSize += skipSize;</span><br><span class="line">            if (failSize &gt; 0) &#123;</span><br><span class="line">                resultNode.getModel().setStatus(Status.FAIL);</span><br><span class="line">            &#125;</span><br><span class="line">            resultNode.getModel().setDescription(String.format(&quot;Pass: %s ; Fail: %s ; Skip: %s ;&quot;, passSize, failSize, skipSize));</span><br><span class="line">        &#125;</span><br><span class="line">        buildTestNodes(resultNode, context.getFailedTests(), Status.FAIL);</span><br><span class="line">        buildTestNodes(resultNode, context.getSkippedTests(), Status.SKIP);</span><br><span class="line">        buildTestNodes(resultNode, context.getPassedTests(), Status.PASS);</span><br><span class="line">        if (suiteTest != null) &#123;</span><br><span class="line">            suiteTest.getModel().setDescription(String.format(&quot;Pass: %s ; Fail: %s ; Skip: %s ;&quot;, suitePassSize, suiteFailSize, suiteSkipSize));</span><br><span class="line">            if (suiteFailSize &gt; 0) &#123;</span><br><span class="line">                suiteTest.getModel().setStatus(Status.FAIL);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        extent.flush();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void init() &#123;</span><br><span class="line">        //文件夹不存在的话进行创建</span><br><span class="line">        File reportDir = new File(OUTPUT_FOLDER);</span><br><span class="line">        if (!reportDir.exists() &amp;&amp; !reportDir.isDirectory()) &#123;</span><br><span class="line">            reportDir.mkdir();</span><br><span class="line">        &#125;</span><br><span class="line">        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(OUTPUT_FOLDER + FILE_NAME);</span><br><span class="line">        // 设置静态文件的DNS</span><br><span class="line">        htmlReporter.config().setResourceCDN(ResourceCDN.EXTENTREPORTS);</span><br><span class="line"></span><br><span class="line">        htmlReporter.config().setDocumentTitle(&quot;TEST RESULT&quot;);</span><br><span class="line">        htmlReporter.config().setReportName(&quot;TEST RESULT&quot;);</span><br><span class="line">        htmlReporter.config().setChartVisibilityOnOpen(true);</span><br><span class="line">        htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);</span><br><span class="line">        htmlReporter.config().setTheme(Theme.STANDARD);</span><br><span class="line">        htmlReporter.config().setCSS(&quot;.node.level-1  ul&#123; display:none;&#125; .node.level-1.active ul&#123;display:block;&#125;&quot;);</span><br><span class="line">        htmlReporter.config().setEncoding(&quot;gbk&quot;);</span><br><span class="line">        extent = new ExtentReports();</span><br><span class="line">        extent.attachReporter(htmlReporter);</span><br><span class="line">        extent.setReportUsesManualConfiguration(true);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void buildTestNodes(ExtentTest extenttest, IResultMap tests, Status status) &#123;</span><br><span class="line">        //存在父节点时，获取父节点的标签</span><br><span class="line">        String[] categories = new String[0];</span><br><span class="line">        if (extenttest != null) &#123;</span><br><span class="line">            List&lt;TestAttribute&gt; categoryList = extenttest.getModel().getCategoryContext().getAll();</span><br><span class="line">            categories = new String[categoryList.size()];</span><br><span class="line">            for (int index = 0; index &lt; categoryList.size(); index++) &#123;</span><br><span class="line">                categories[index] = categoryList.get(index).getName();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ExtentTest test;</span><br><span class="line"></span><br><span class="line">        if (tests.size() &gt; 0) &#123;</span><br><span class="line">            //调整用例排序，按时间排序</span><br><span class="line">            Set&lt;ITestResult&gt; treeSet = new TreeSet&lt;ITestResult&gt;(new Comparator&lt;ITestResult&gt;() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public int compare(ITestResult o1, ITestResult o2) &#123;</span><br><span class="line">                    return o1.getStartMillis() &lt; o2.getStartMillis() ? -1 : 1;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            treeSet.addAll(tests.getAllResults());</span><br><span class="line">            for (ITestResult result : treeSet) &#123;</span><br><span class="line">                Object[] parameters = result.getParameters();</span><br><span class="line">                String name = &quot;&quot;;</span><br><span class="line">                //如果有参数，则使用参数的toString组合代替报告中的name</span><br><span class="line">                for (Object param : parameters) &#123;</span><br><span class="line">                    name += param.toString();</span><br><span class="line">                &#125;</span><br><span class="line">                if (name.length() &gt; 50) &#123;</span><br><span class="line">                    name = name.substring(0, 49) + &quot;...&quot;;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    name = result.getTestClass().getName().replace(TestRetryConfig.TEST_PACKAGE_PATH, &quot;&quot;) + &quot;.&quot; + result.getMethod().getMethodName();</span><br><span class="line">                &#125;</span><br><span class="line">                if (extenttest == null) &#123;</span><br><span class="line">                    test = extent.createTest(name);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    //作为子节点进行创建时，设置同父节点的标签一致，便于报告检索。</span><br><span class="line">                    test = extenttest.createNode(name).assignCategory(categories);</span><br><span class="line">                &#125;</span><br><span class="line">                for (String group : result.getMethod().getGroups())</span><br><span class="line">                    test.assignCategory(group);</span><br><span class="line"></span><br><span class="line">                List&lt;String&gt; outputList = Reporter.getOutput(result);</span><br><span class="line">                for (String output : outputList) &#123;</span><br><span class="line">                    //将用例的log输出报告中</span><br><span class="line">                    test.debug(output);</span><br><span class="line">                &#125;</span><br><span class="line">                if (result.getThrowable() != null) &#123;</span><br><span class="line">                    test.log(status, result.getThrowable());</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    test.log(status, &quot;Test &quot; + status.toString().toLowerCase() + &quot;ed&quot;);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                test.getModel().setStartTime(getTime(result.getStartMillis()));</span><br><span class="line">                test.getModel().setEndTime(getTime(result.getEndMillis()));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private Date getTime(long millis) &#123;</span><br><span class="line">        Calendar calendar = Calendar.getInstance();</span><br><span class="line">        calendar.setTimeInMillis(millis);</span><br><span class="line">        return calendar.getTime();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a><font color="#049E94">测试类</font></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class Test1 &#123;</span><br><span class="line"></span><br><span class="line">    static int n = 0;</span><br><span class="line">    static int i = 0;</span><br><span class="line">    static int j = 0;</span><br><span class="line">    static int k = 0;</span><br><span class="line"></span><br><span class="line">    @Test(description = &quot;重试3次会成功&quot;)</span><br><span class="line">    public void test4() &#123;</span><br><span class="line">        k++;</span><br><span class="line">        assertEquals(4, k);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test(description = &quot;重试2次会成功&quot;)</span><br><span class="line">    public void test3() &#123;</span><br><span class="line">        j++;</span><br><span class="line">        assertEquals(3, j);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test(description = &quot;重试1次会成功&quot;)</span><br><span class="line">    public void test2() &#123;</span><br><span class="line">        i++;</span><br><span class="line">        assertEquals(2, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test(description = &quot;首次成功&quot;)</span><br><span class="line">    public void test1() &#123;</span><br><span class="line">        n++;</span><br><span class="line">        assertEquals(1, n);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class Test2 &#123;</span><br><span class="line"></span><br><span class="line">    static int n = 0;</span><br><span class="line">    static int i = 0;</span><br><span class="line"></span><br><span class="line">    @Test(description = &quot;重试1次会成功&quot;)</span><br><span class="line">    public void test2() &#123;</span><br><span class="line">        i++;</span><br><span class="line">        assertEquals(2, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test(description = &quot;首次成功&quot;)</span><br><span class="line">    public void test1() &#123;</span><br><span class="line">        n++;</span><br><span class="line">        assertEquals(1, n);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="xmlsuit"><a href="#xmlsuit" class="headerlink" title="xmlsuit"></a><font color="#049E94">xmlsuit</font></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">  &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE suite SYSTEM &quot;http://testng.org/testng-1.0.dtd&quot;&gt;</span><br><span class="line">&lt;suite name=&quot;Surefire_suite&quot; verbose=&quot;1&quot; configfailurepolicy=&quot;continue&quot;&gt;</span><br><span class="line">   &lt;listeners&gt;</span><br><span class="line">      &lt;listener class-name=&quot;com.xxx.xxx.testcases.test.TestListener&quot;/&gt;</span><br><span class="line">      &lt;listener class-name=&quot;com.xxx.xxx..testcases.test.HtmlReporter&quot;/&gt;</span><br><span class="line">      &lt;listener class-name=&quot;com.xxx.xxx..testcases.test.XMLReporter&quot;/&gt;</span><br><span class="line">   &lt;/listeners&gt;</span><br><span class="line">   &lt;test name=&quot;test&quot;&gt;</span><br><span class="line">      &lt;packages&gt;</span><br><span class="line">         &lt;package name=&quot;com.xxx.xxx..testcases.test.*&quot;/&gt;</span><br><span class="line">      &lt;/packages&gt;</span><br><span class="line">   &lt;/test&gt;</span><br><span class="line">&lt;/suite&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="Jenkins相关配置"><a href="#Jenkins相关配置" class="headerlink" title="Jenkins相关配置"></a><font color="#049E94">Jenkins相关配置</font></h2><h3 id="pom-xml配置"><a href="#pom-xml配置" class="headerlink" title="pom.xml配置"></a><font color="#049E94">pom.xml配置</font></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">   &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;</span><br><span class="line">   &lt;version&gt;3.0.0-M3&lt;/version&gt;</span><br><span class="line">   &lt;configuration&gt;</span><br><span class="line">      &lt;properties&gt;</span><br><span class="line">         &lt;property&gt;</span><br><span class="line">            &lt;name&gt;usedefaultlisteners&lt;/name&gt;</span><br><span class="line">            &lt;value&gt;false&lt;/value&gt; &lt;!-- disabling default listeners is optional --&gt;</span><br><span class="line">         &lt;/property&gt;</span><br><span class="line">      &lt;/properties&gt;</span><br><span class="line">      &lt;testFailureIgnore&gt;true&lt;/testFailureIgnore&gt;</span><br><span class="line">                 &lt;suiteXmlFiles&gt;$&#123;suiteXmlFile&#125;&lt;/suiteXmlFiles&gt;</span><br><span class="line">   &lt;/configuration&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="构建命令"><a href="#构建命令" class="headerlink" title="构建命令"></a><font color="#049E94">构建命令</font></h3><p><img src="/imgs/testng1/command.png" alt="Git Parameter"></p>
+<h3 id="增加构建后操作"><a href="#增加构建后操作" class="headerlink" title="增加构建后操作"></a><font color="#049E94">增加构建后操作</font></h3><p>生成TestNG报告，报告pattern：“target/surefire-reports/testng-results.xml”</p>
+<p><img src="/imgs/testng1/build.png" alt="Git Parameter"></p>
+<h3 id="执行日志"><a href="#执行日志" class="headerlink" title="执行日志"></a><font color="#049E94">执行日志</font></h3><p><img src="/imgs/testng1/log.png" alt="Git Parameter"></p>
+<h3 id="构建报告结果对比"><a href="#构建报告结果对比" class="headerlink" title="构建报告结果对比"></a><font color="#049E94">构建报告结果对比</font></h3><p><img src="/imgs/testng1/result1.png" alt="Git Parameter"></p>
+<p><img src="/imgs/testng1/result2.png" alt="Git Parameter"></p>
+<h3 id="Html报告"><a href="#Html报告" class="headerlink" title="Html报告"></a><font color="#049E94">Html报告</font></h3><p><img src="/imgs/testng1/html.png" alt="Git Parameter"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/工具/" rel="tag">#工具</a>
+          
+            <a href="/tags/jmeter/" rel="tag">#jmeter</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/11/JMeter自带函数与自定义函数/" rel="next" title="解锁JMeter（三）——JMeter自带函数与自定义函数">
+                <i class="fa fa-chevron-left"></i> 解锁JMeter（三）——JMeter自带函数与自定义函数
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="yoyo_zyx" />
+          <p class="site-author-name" itemprop="name">yoyo_zyx</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码解读"><span class="nav-number">2.</span> <span class="nav-text">源码解读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#执行入口"><span class="nav-number">2.1.</span> <span class="nav-text">执行入口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#失败结果重置"><span class="nav-number">2.2.</span> <span class="nav-text">失败结果重置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#报告修改"><span class="nav-number">2.3.</span> <span class="nav-text">报告修改</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#批量重试关键代码"><span class="nav-number">3.</span> <span class="nav-text">批量重试关键代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重试配置类"><span class="nav-number">3.1.</span> <span class="nav-text">重试配置类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行指定用例类"><span class="nav-number">3.2.</span> <span class="nav-text">执行指定用例类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果监听器"><span class="nav-number">3.3.</span> <span class="nav-text">结果监听器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xml报告监听器"><span class="nav-number">3.4.</span> <span class="nav-text">xml报告监听器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#html报告监听器"><span class="nav-number">3.5.</span> <span class="nav-text">html报告监听器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试类"><span class="nav-number">3.6.</span> <span class="nav-text">测试类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xmlsuit"><span class="nav-number">3.7.</span> <span class="nav-text">xmlsuit</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jenkins相关配置"><span class="nav-number">4.</span> <span class="nav-text">Jenkins相关配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pom-xml配置"><span class="nav-number">4.1.</span> <span class="nav-text">pom.xml配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建命令"><span class="nav-number">4.2.</span> <span class="nav-text">构建命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加构建后操作"><span class="nav-number">4.3.</span> <span class="nav-text">增加构建后操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行日志"><span class="nav-number">4.4.</span> <span class="nav-text">执行日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建报告结果对比"><span class="nav-number">4.5.</span> <span class="nav-text">构建报告结果对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Html报告"><span class="nav-number">4.6.</span> <span class="nav-text">Html报告</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yoyo_zyx</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
