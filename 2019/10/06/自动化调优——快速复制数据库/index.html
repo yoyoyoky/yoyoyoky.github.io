@@ -1,0 +1,604 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="自动化,数据库," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="阅读本文大约需要3分钟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自动化调优——快速复制数据库">
+<meta property="og:url" content="http://yoursite.com/2019/10/06/自动化调优——快速复制数据库/index.html">
+<meta property="og:site_name" content="You's blog">
+<meta property="og:description" content="阅读本文大约需要3分钟">
+<meta property="og:image" content="http://yoursite.com/imgs/database1/first.png">
+<meta property="og:updated_time" content="2019-10-06T15:03:43.401Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自动化调优——快速复制数据库">
+<meta name="twitter:description" content="阅读本文大约需要3分钟">
+<meta name="twitter:image" content="http://yoursite.com/imgs/database1/first.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/10/06/自动化调优——快速复制数据库/"/>
+
+  <title> 自动化调优——快速复制数据库 | You's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">You's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                自动化调优——快速复制数据库
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-10-06T22:02:28+08:00" content="2019-10-06">
+              2019-10-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/自动化测试/" itemprop="url" rel="index">
+                    <span itemprop="name">自动化测试</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/imgs/database1/first.png" alt="Git Parameter"></p>
+<blockquote class="blockquote-center">阅读本文大约需要3分钟</blockquote>
+
+<a id="more"></a>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a><font color="#049E94">背景</font></h2><p>随着自动化用例的积累，自动化回归用例耗时越来越长。</p>
+<p>为提高自动化回归效率，有的团队开始做减法，结合精准测试思想，只回归被影响的用例；这依赖于精准算法的准确度，而由于开发代码百花齐放，业界的精准算法也只是在趋于精准的道路上努力着，谁也不敢保证百分百精准，采用这种方案，有一定的技术难度。</p>
+<p>而有的团队，则采用一分为二的方法，采用资源换时间。相信很多团队的自动化用例即使在单线程情况下都难以保证永远稳定，更别说在多线程的情况下了。那么就采取多套独立环境来执行自动化回归吧，我们称之为“伪并发”。“伪并发”需要多套互不干扰的独立环境（数据库、mc、redis、配置……），<strong><em><font color="#049E94">此文我们仅介绍独立环境所需要的数据库如何快速初始化。</font></em></strong></p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a><font color="#049E94">原理</font></h2><p>1.如原自动化的数据库：10.100.199.101:3306,账号/密码:root/old;<br>被复制的数据库:10.100.199.102:3306,账号/密码:root/new;新旧数据库均包含information_schema库,链接该库执行以下sql;</p>
+<p>2.执行sql,获取旧数据库中的所有库: <font color="#049E94">SHOW DATABASES;</font></p>
+<p>3.遍历所有的database(黑名单排除部分不需要的库),执行sql,获取所有表: <font color="#049E94">SHOW TABLES;</font></p>
+<p>4.遍历所有的table,执行sql，获取所有建表语句: <font color="#049E94">SHOW CREATE TABLE 库名.表名;</font></p>
+<p>5.建库，若数据库不存在，则新建数据库: <font color="#049E94">CREATE DATABASE IF NOT EXISTS 库名;</font></p>
+<p>6.建表，若表存在，则销毁后重建: <font color="#049E94">USE 库名;DROP TABLE IF EXISTS 表名; 执行建表语句;</font></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a><font color="#049E94">代码实现</font></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@Slf4j</span><br><span class="line">@Service</span><br><span class="line">public class DataBaseService &#123;</span><br><span class="line">    </span><br><span class="line">    static final String DB_URL_SUFFIX = &quot;?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true&quot;;</span><br><span class="line"></span><br><span class="line">    Connection connection = null;</span><br><span class="line">    Statement statement = null;</span><br><span class="line">    String defaultDatabase = &quot;information_schema&quot;;</span><br><span class="line">    List&lt;String&gt; ignoreDatabases = Arrays.asList(&quot;information_schema&quot;, &quot;log&quot;, &quot;mysql&quot;, &quot;performance_schema&quot;, &quot;sys&quot;);</span><br><span class="line"></span><br><span class="line">    public void connect() throws Exception &#123;</span><br><span class="line">        close();</span><br><span class="line">        //默认从STAGING环境复制</span><br><span class="line">        connection = MyDataSource.getConnection(&quot;STAGING&quot;, defaultDatabase);</span><br><span class="line"></span><br><span class="line">        // 获取数据库连接失败，直接抛出异常</span><br><span class="line">        if (connection == null) &#123;</span><br><span class="line">            throw new Exception(&quot;获取数据库连接失败&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        statement = connection.createStatement();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void connect(String hostPort, String user, String pass) throws Exception &#123;</span><br><span class="line">        close();</span><br><span class="line">        connection = DriverManager.getConnection(String.format(&quot;jdbc:mysql://%s/&quot;, hostPort) + defaultDatabase + DB_URL_SUFFIX, user, pass);</span><br><span class="line"></span><br><span class="line">        // 获取数据库连接失败，直接抛出异常</span><br><span class="line">        if (connection == null) &#123;</span><br><span class="line">            throw new Exception(&quot;获取数据库连接失败&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        statement = connection.createStatement();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void close() &#123;</span><br><span class="line">        new AutoCloseUtils(connection, statement);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public List&lt;Map&lt;String, String&gt;&gt; showDatabases() &#123;</span><br><span class="line">        String sql = &quot;SHOW DATABASES;&quot;;</span><br><span class="line"></span><br><span class="line">        ResultSet resultSet = null;</span><br><span class="line">        resultSet = execute(sql);</span><br><span class="line"></span><br><span class="line">        List list = DataBaseUtils.convertToObjectList(resultSet);</span><br><span class="line">        if (list != null &amp;&amp; list.size() &gt; 0) &#123;</span><br><span class="line">            return list;</span><br><span class="line">        &#125;</span><br><span class="line">        return Collections.EMPTY_LIST;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public List&lt;Map&lt;String, String&gt;&gt; showTables(String database) &#123;</span><br><span class="line">        List list = null;</span><br><span class="line">        execute(&quot;USE &quot; + database + &quot; ;&quot;);</span><br><span class="line">        ResultSet resultSet = execute(&quot;SHOW TABLES;&quot;);</span><br><span class="line">        list = DataBaseUtils.convertToObjectList(resultSet);</span><br><span class="line"></span><br><span class="line">        if (list != null &amp;&amp; list.size() &gt; 0) &#123;</span><br><span class="line">            return list;</span><br><span class="line">        &#125;</span><br><span class="line">        return Collections.EMPTY_LIST;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public List&lt;Map&lt;String, String&gt;&gt; showCreateTable(String database, String tableName) &#123;</span><br><span class="line">        String sql = &quot;SHOW CREATE TABLE &quot; + database + &quot;.&quot; + tableName + &quot; ;&quot;;</span><br><span class="line"></span><br><span class="line">        ResultSet resultSet = null;</span><br><span class="line">        resultSet = execute(sql);</span><br><span class="line"></span><br><span class="line">        List list = DataBaseUtils.convertToObjectList(resultSet);</span><br><span class="line">        if (list != null &amp;&amp; list.size() &gt; 0) &#123;</span><br><span class="line">            return list;</span><br><span class="line">        &#125;</span><br><span class="line">        return Collections.EMPTY_LIST;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public ResultSet execute(String sql) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            ResultSet resultSet = statement.executeQuery(sql);</span><br><span class="line">            return resultSet;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public List&lt;String&gt; getCreateSql(String hostPort, String user, String pass) &#123;</span><br><span class="line"></span><br><span class="line">        List&lt;String&gt; sqlList = new ArrayList&lt;&gt;();</span><br><span class="line">        try &#123;</span><br><span class="line">            if(StringUtils.isEmpty(hostPort) || StringUtils.isEmpty(user) || StringUtils.isEmpty(pass))&#123;</span><br><span class="line">                connect();</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                connect(hostPort, user, pass);</span><br><span class="line">            &#125;</span><br><span class="line">            List&lt;Map&lt;String, String&gt;&gt; databases = showDatabases();</span><br><span class="line">            for (Map&lt;String, String&gt; database : databases) &#123;</span><br><span class="line">                Set&lt;String&gt; databaseKeySet = database.keySet();</span><br><span class="line">                for (String databaseKey : databaseKeySet) &#123;</span><br><span class="line">                    String databaseName = database.get(databaseKey);</span><br><span class="line">                    if(ignoreDatabases.contains(databaseName))&#123;</span><br><span class="line">                        continue;</span><br><span class="line">                    &#125;</span><br><span class="line">                    sqlList.add(&quot;CREATE DATABASE IF NOT EXISTS &quot; + databaseName + &quot;;&quot;);</span><br><span class="line">                    sqlList.add(&quot;USE &quot; + databaseName + &quot;;&quot;);</span><br><span class="line">                    List&lt;Map&lt;String, String&gt;&gt; tables = showTables(databaseName);</span><br><span class="line">                    for (Map&lt;String, String&gt; table : tables) &#123;</span><br><span class="line">                        Set&lt;String&gt; tableKeySet = table.keySet();</span><br><span class="line">                        for (String tableKey : tableKeySet) &#123;</span><br><span class="line">                            String tableName = table.get(tableKey);</span><br><span class="line">                            List&lt;Map&lt;String, String&gt;&gt; createTable = showCreateTable(databaseName, tableName);</span><br><span class="line">                            if (CollectionUtils.isNotEmpty(createTable) &amp;&amp; StringUtils.isNotEmpty(createTable.get(0).get(&quot;Create Table&quot;))) &#123;</span><br><span class="line">                                sqlList.add(&quot;DROP TABLE IF EXISTS &quot; + tableName + &quot;;&quot;);</span><br><span class="line">                                sqlList.add(createTable.get(0).get(&quot;Create Table&quot;).replace(&quot;\&quot;&quot;, &quot;&quot;) + &quot;;&quot;);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            close();</span><br><span class="line">        &#125;</span><br><span class="line">        return sqlList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void execute(String hostPort, String user, String pass, List&lt;String&gt; sqlList) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            connect(hostPort, user, pass);</span><br><span class="line">            log.info(&quot;开始复制……&quot;);</span><br><span class="line">            for (String sql : sqlList) &#123;</span><br><span class="line">                try&#123;</span><br><span class="line">                    statement.executeUpdate(sql);</span><br><span class="line">                &#125;catch (Exception e)&#123;</span><br><span class="line">                    log.error(sql);</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            log.info(&quot;复制结束！！！&quot;);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String... args) &#123;</span><br><span class="line">        DataBaseService dataBaseService = new DataBaseService();</span><br><span class="line">        List&lt;String&gt; sqlList = dataBaseService.getCreateSql(&quot;10.100.199.101&quot;, &quot;root&quot;, &quot;old&quot;);</span><br><span class="line">        dataBaseService.execute(&quot;10.100.199.102&quot;, &quot;root&quot;, &quot;new&quot;, sqlList);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/自动化/" rel="tag">#自动化</a>
+          
+            <a href="/tags/数据库/" rel="tag">#数据库</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/08/自动化调优——TestNG失败用力批量重试/" rel="next" title="自动化调优——TestNG失败用力批量重试">
+                <i class="fa fa-chevron-left"></i> 自动化调优——TestNG失败用力批量重试
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="yoyo_zyx" />
+          <p class="site-author-name" itemprop="name">yoyo_zyx</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码实现"><span class="nav-number">3.</span> <span class="nav-text">代码实现</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yoyo_zyx</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
